@@ -7,7 +7,7 @@ exports.getGames = function (request, response) {
     var query = client.query('SELECT logo, game, steamid, playtime ' +
                               'FROM games ' +
                               'WHERE steamid is not null ' +
-                              'AND owned = \'true\'' +
+                              'AND owned IN (\'owned\', \'borrowed\')' +
                               'ORDER BY playtime DESC, added DESC');
 
     query.on('row', function(row) {
