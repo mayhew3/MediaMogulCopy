@@ -4,7 +4,10 @@ exports.getGames = function (request, response) {
   var results = [];
 
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    var query = client.query('SELECT logo, game, steamid FROM games WHERE logo is not null ORDER BY playtime DESC');
+    var query = client.query('SELECT logo, game, steamid, playtime ' +
+                              'FROM games ' +
+                              'WHERE steamid is not null ' +
+                              'ORDER BY playtime DESC, added DESC');
 
     query.on('row', function(row) {
       results.push(row);
