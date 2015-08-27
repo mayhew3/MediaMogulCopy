@@ -14,11 +14,11 @@
         <div id="gamesContainer">
           <table class="table table-striped table-hover">
             <thead>
-            <th>ID</th>
+            <th>Icon</th>
             <th>Game</th>
             </thead>
             <tr data-ng-repeat="game in ctrl.games">
-              <td ng-bind="game.id"></td>
+              <td><img ng-src="{{game.imageUrl}}"></td>
               <td ng-bind="game.game"></td>
             </tr>
           </table>

@@ -8,6 +8,11 @@ angular.module('mediaMogulApp')
       GamesService.updateGamesList().then(function () {
         self.games = GamesService.getGamesList();
         $log.debug("Controller has " + self.games.length + " games.");
+
+        self.games.forEach(function (game) {
+          game.imageUrl = "http://media.steampowered.com/steamcommunity/public/images/apps/" + game.steamid + "/" + game.logo + ".jpg";
+          $log.debug(game.imageUrl);
+        });
       })
     } else {
       self.games = gamesList;
