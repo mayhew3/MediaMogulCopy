@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MediaMogul</title>
+  <link rel="stylesheet" type="text/css"
+        href="stylesheets/bootstrap.min.css" >
+</head>
+<body ng-app="mediaMogulApp">
+
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-collapse collapse" id="navbar-main">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="#/games">Games</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div ng-view></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular-route.js"></script>
+<script src="javascripts/ui-bootstrap-tpls-0.12.0.min.js"></script>
+
+
+<script src="javascripts/angular_app.js"></script>
+<script src="javascripts/gamesService.js"></script>
+<script src="javascripts/gamesController.js"></script>
+
+
+
+</body>
+</html>
