@@ -15,12 +15,12 @@
           <table class="table table-striped table-hover">
             <thead>
             <th></th>
-            <th>Title</th>
+            <th>MC</th>
             <th>Playtime</th>
             </thead>
             <tr data-ng-repeat="game in ctrl.games">
-              <td><img ng-src="{{game.imageUrl}}"></td>
-              <td ng-bind="game.game"></td>
+              <td width="300px"><img ng-src="{{game.imageUrl}}" ng-click="ctrl.open(game)"></td>
+              <td ng-bind="game.metacritic"></td>
               <td ng-bind="game.playtime"></td>
             </tr>
           </table>

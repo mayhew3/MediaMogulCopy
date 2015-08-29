@@ -4,7 +4,7 @@ exports.getGames = function (request, response) {
   var results = [];
 
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    var query = client.query('SELECT logo, game, steamid, playtime ' +
+    var query = client.query('SELECT logo, game, steamid, playtime, metacritic ' +
                               'FROM games ' +
                               'WHERE steamid is not null ' +
                               'AND owned IN (\'owned\', \'borrowed\')' +
