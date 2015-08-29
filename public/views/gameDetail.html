@@ -1,4 +1,4 @@
-<div class="modal-body">
+<div class="modal-body clearfix">
 
   <form class="bs-component"
         id="gameFields"
@@ -11,13 +11,100 @@
            ng-src="{{'http://media.steampowered.com/steamcommunity/public/images/apps/'+ctrl.game.steamid+'/'+ctrl.game.logo+'.jpg'}}"
            width="100%"/>
     </div>
+
+    <div class="form-group col-lg-3">
+      <label class="control-label" for="platformInput">Platform</label>
+      <input type="text"
+             class="form-control"
+             id="platformInput"
+             name="platformInput"
+             ng-model="ctrl.interfaceFields.Platform"/>
+    </div>
+
+    <div class="form-group col-lg-3">
+      <label class="control-label" for="ownedInput">Owned</label>
+      <input type="text"
+             class="form-control"
+             id="ownedInput"
+             name="ownedInput"
+             ng-model="ctrl.interfaceFields.Owned"/>
+    </div>
+
     <div class="form-group col-lg-3">
       <label class="control-label" for="metacriticInput">Metacritic</label>
       <input type="number"
              class="form-control"
              id="metacriticInput"
              name="metacriticInput"
+             ng-readonly="true"
              ng-model="ctrl.interfaceFields.Metacritic"/>
+    </div>
+
+    <div class="form-group col-lg-3">
+      <label class="control-label" for="metacriticHintInput">Metacritic Hint</label>
+      <input type="text"
+             class="form-control"
+             id="metacriticHintInput"
+             name="metacriticHintInput"
+             ng-model="ctrl.interfaceFields.MetacriticHint"/>
+    </div>
+
+    <div class="form-group col-lg-3">
+      <label class="control-label" for="timePlayedInput">Time Played</label>
+      <input type="number"
+             class="form-control"
+             id="timePlayedInput"
+             name="timePlayedInput"
+             ng-model="ctrl.interfaceFields.TimePlayed"/>
+    </div>
+
+    <div class="form-group col-lg-3">
+      <label class="control-label" for="timePlayedInput">Time Total</label>
+      <input type="number"
+             contenteditable="false"
+             class="form-control"
+             id="timeTotalInput"
+             name="timeTotalInput"
+             ng-model="ctrl.interfaceFields.TimeTotal"/>
+    </div>
+
+
+    <div class="form-group col-lg-3">
+      <label class="control-label" for="mayhewInput">Mayhew</label>
+      <input type="number"
+             class="form-control"
+             id="mayhewInput"
+             name="mayhewInput"
+             ng-model="ctrl.interfaceFields.Mayhew"/>
+    </div>
+
+    <div class="form-group col-lg-3">
+      <label class="control-label" for="finishedInput">Finished</label>
+      <input type="text"
+             class="form-control"
+             id="finishedInput"
+             name="finishedInput"
+             ng-model="ctrl.interfaceFields.Finished"/>
+    </div>
+
+    <div class="form-group col-lg-3">
+      <label class="control-label" for="finalScoreInput">Final Score</label>
+      <input type="number"
+             class="form-control"
+             id="finalScoreInput"
+             name="finalScoreInput"
+             ng-show="(ctrl.interfaceFields.Finished == 'true')"
+             ng-model="ctrl.interfaceFields.FinalScore"/>
+    </div>
+
+    <div class="form-group col-lg-3">
+      <label class="control-label" for="replayInput">Replay?</label>
+      <input type="number"
+             class="form-control"
+             id="replayInput"
+             name="replayInput"
+             ng-show="(ctrl.interfaceFields.Finished == 'true')"
+             ng-model="ctrl.interfaceFields.Replay"/>
     </div>
 
   </form>

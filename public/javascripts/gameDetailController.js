@@ -7,11 +7,29 @@ angular.module('mediaMogulApp')
 
 
     self.originalFields = {
-      Metacritic: self.game.metacritic
+      Platform: self.game.platform,
+      Owned: self.game.owned,
+      Metacritic: self.game.metacritic,
+      MetacriticHint: self.game.metacritic_hint,
+      Mayhew: self.game.mayhew,
+      TimePlayed: self.game.timeplayed,
+      TimeTotal: self.game.timetotal,
+      Finished: self.game.finished,
+      FinalScore: self.game.finalscore,
+      Replay: self.game.replay
     };
 
     self.interfaceFields = {
-      Metacritic: self.game.metacritic
+      Platform: self.game.platform,
+      Owned: self.game.owned,
+      Metacritic: self.game.metacritic,
+      MetacriticHint: self.game.metacritic_hint,
+      Mayhew: self.game.mayhew,
+      TimePlayed: self.game.timeplayed,
+      TimeTotal: self.game.timetotal,
+      Finished: self.game.finished,
+      FinalScore: self.game.finalscore,
+      Replay: self.game.replay
     };
 
     $log.debug("Game opened: " + game.game + ", Meta: " + (typeof self.interfaceFields.Metacritic));
