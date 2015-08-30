@@ -8,7 +8,7 @@
 
     <div class="col-lg-3">
       <img class="img-rounded"
-           ng-src="{{'http://media.steampowered.com/steamcommunity/public/images/apps/'+ctrl.game.steamid+'/'+ctrl.game.logo+'.jpg'}}"
+           ng-src="{{game.imageUrl}}"
            width="100%"/>
     </div>
 
@@ -108,5 +108,13 @@
              ng-model="ctrl.interfaceFields.Replay"/>
     </div>
 
+    <div class="form-group col-lg-3">
+      <span class="input-group-btn">
+        <input class="btn btn-default"
+               type="submit"
+               value="Update"
+               ng-disabled="gameFields.$invalid">
+      </span>
+    </div>
   </form>
 </div>
