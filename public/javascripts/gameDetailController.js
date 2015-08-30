@@ -57,7 +57,10 @@ angular.module('mediaMogulApp')
 
       if (Object.getOwnPropertyNames(changedFields).length > 0) {
         $log.debug("Changed fields has a length!");
+
+        /*
         GamesService.updateGame(game.id, changedFields).then(function() {
+        */
           self.game.platform = self.interfaceFields.platform;
           self.game.owned = self.interfaceFields.owned;
           self.game.metacritic = self.interfaceFields.metacritic;
@@ -79,7 +82,9 @@ angular.module('mediaMogulApp')
           self.originalFields.replay = self.interfaceFields.replay;
 
           $log.debug("Finished resetting. Original values: " + self.originalFields);
+        /*
         });
+        */
       }
     };
 
