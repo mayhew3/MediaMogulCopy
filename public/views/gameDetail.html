@@ -14,20 +14,32 @@
 
     <div class="form-group col-lg-3">
       <label class="control-label" for="platformInput">Platform</label>
-      <input type="text"
-             class="form-control"
+      <select class="form-control"
              id="platformInput"
              name="platformInput"
-             ng-model="ctrl.interfaceFields.Platform"/>
+          ng-model="ctrl.interfaceFields.Platform">
+        <option value="Steam">Steam</option>
+        <option value="PC">PC</option>
+        <option value="Xbox One">Xbox One</option>
+        <option value="Wii U">Wii U</option>
+        <option value="Xbox 360">Xbox 360</option>
+        <option value="PS3">PS3</option>
+        <option value="Wii">Wii</option>
+        <option value="DS">DS</option>
+        <option value="Xbox">Xbox</option>
+      </select>
     </div>
 
     <div class="form-group col-lg-3">
       <label class="control-label" for="ownedInput">Owned</label>
-      <input type="text"
-             class="form-control"
+      <select class="form-control"
              id="ownedInput"
              name="ownedInput"
-             ng-model="ctrl.interfaceFields.Owned"/>
+             ng-model="ctrl.interfaceFields.Owned">
+        <option value="owned">Owned</option>
+        <option value="not owned">Not Owned</option>
+        <option value="borrowed">Borrowed</option>
+      </select>
     </div>
 
     <div class="form-group col-lg-3">
@@ -78,32 +90,21 @@
              ng-model="ctrl.interfaceFields.Mayhew"/>
     </div>
 
-    <div class="form-group col-lg-3">
-      <label class="control-label" for="finishedInput">Finished</label>
-      <input type="text"
-             class="form-control"
-             id="finishedInput"
-             name="finishedInput"
-             ng-model="ctrl.interfaceFields.Finished"/>
-    </div>
-
-    <div class="form-group col-lg-3">
+    <div class="form-group col-lg-3" ng-hide="ctrl.game.finished == null">
       <label class="control-label" for="finalScoreInput">Final Score</label>
       <input type="number"
              class="form-control"
              id="finalScoreInput"
              name="finalScoreInput"
-             ng-show="(ctrl.interfaceFields.Finished == 'true')"
              ng-model="ctrl.interfaceFields.FinalScore"/>
     </div>
 
-    <div class="form-group col-lg-3">
+    <div class="form-group col-lg-3" ng-show="(ctrl.game.finished != null)">
       <label class="control-label" for="replayInput">Replay?</label>
       <input type="number"
              class="form-control"
              id="replayInput"
              name="replayInput"
-             ng-show="(ctrl.interfaceFields.Finished == 'true')"
              ng-model="ctrl.interfaceFields.Replay"/>
     </div>
 

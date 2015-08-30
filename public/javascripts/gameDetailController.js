@@ -6,6 +6,7 @@ angular.module('mediaMogulApp')
     self.game = game;
 
 
+
     self.originalFields = {
       Platform: self.game.platform,
       Owned: self.game.owned,
@@ -32,7 +33,7 @@ angular.module('mediaMogulApp')
       Replay: self.game.replay
     };
 
-    $log.debug("Game opened: " + game.game + ", Meta: " + (typeof self.interfaceFields.Metacritic));
+    $log.debug("Game opened: " + game.game + ", Finished: " + self.interfaceFields.Finished);
 
     self.changeValues = function() {
 
