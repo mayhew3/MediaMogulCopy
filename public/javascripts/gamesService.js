@@ -12,7 +12,13 @@ function GamesService($log, $http) {
 
   this.getGamesList = function() {
     return games;
-  }
+  };
+
+
+  this.updateGame = function(GameId, ChangedFields) {
+    $log.debug('Received update for Game ' + GameId + " with data " + JSON.stringify(ChangedFields));
+    return $http.post('/api/updategame', {GameId: GameId, ChangedFields: ChangedFields});
+  };
 }
 
 angular.module('mediaMogulApp')

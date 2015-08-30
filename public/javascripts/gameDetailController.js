@@ -12,41 +12,75 @@ angular.module('mediaMogulApp')
     }
 
     self.originalFields = {
-      Platform: self.game.platform,
-      Owned: self.game.owned,
-      Metacritic: self.game.metacritic,
-      MetacriticHint: self.game.metacritic_hint,
-      Mayhew: self.game.mayhew,
-      TimePlayed: self.game.timeplayed,
-      TimeTotal: self.game.timetotal,
-      FinalScore: self.game.finalscore,
-      Replay: self.game.replay
+      platform: self.game.platform,
+      owned: self.game.owned,
+      metacritic: self.game.metacritic,
+      metacritic_hint: self.game.metacritic_hint,
+      mayhew: self.game.mayhew,
+      timeplayed: self.game.timeplayed,
+      timetotal: self.game.timetotal,
+      finalscore: self.game.finalscore,
+      replay: self.game.replay
     };
 
     self.interfaceFields = {
-      Platform: self.game.platform,
-      Owned: self.game.owned,
-      Metacritic: self.game.metacritic,
-      MetacriticHint: self.game.metacritic_hint,
-      Mayhew: self.game.mayhew,
-      TimePlayed: self.game.timeplayed,
-      TimeTotal: self.game.timetotal,
-      FinalScore: self.game.finalscore,
-      Replay: self.game.replay
+      platform: self.game.platform,
+      owned: self.game.owned,
+      metacritic: self.game.metacritic,
+      metacritic_hint: self.game.metacritic_hint,
+      mayhew: self.game.mayhew,
+      timeplayed: self.game.timeplayed,
+      timetotal: self.game.timetotal,
+      finalscore: self.game.finalscore,
+      replay: self.game.replay
     };
 
-    $log.debug("Game opened: " + game.game + ", Finished: " + self.game.finished);
+    $log.debug("Game opened: " + game.title + ", Finished: " + self.game.finished);
 
     self.changeValues = function() {
-      self.game.platform = self.interfaceFields.Platform;
-      self.game.owned = self.interfaceFields.Owned;
-      self.game.metacritic = self.interfaceFields.Metacritic;
-      self.game.metacritic_hint = self.interfaceFields.MetacriticHint;
-      self.game.mayhew = self.interfaceFields.Mayhew;
-      self.game.timeplayed = self.interfaceFields.TimePlayed;
-      self.game.timetotal = self.interfaceFields.TimeTotal;
-      self.game.finalscore = self.interfaceFields.FinalScore;
-      self.game.replay = self.interfaceFields.Replay;
+
+      var changedFields = {};
+      for (var key in self.interfaceFields) {
+        if (self.interfaceFields.hasOwnProperty(key)) {
+          var value = self.interfaceFields[key];
+
+          $log.debug("In loop, key: " + key + ", value: " + value + ", old value: " + self.originalFields[key]);
+
+          if (value != self.originalFields[key]) {
+            $log.debug("Changed detected... ");
+            changedFields[key] = value;
+          }
+        }
+      }
+
+      $log.debug("Changed fields: " + JSON.stringify(changedFields));
+
+      if (Object.getOwnPropertyNames(changedFields).length > 0) {
+        $log.debug("Changed fields has a length!");
+        GamesService.updateGame(game.id, changedFields).then(function() {
+          self.game.platform = self.interfaceFields.platform;
+          self.game.owned = self.interfaceFields.owned;
+          self.game.metacritic = self.interfaceFields.metacritic;
+          self.game.metacritic_hint = self.interfaceFields.metacritic_hint;
+          self.game.mayhew = self.interfaceFields.mayhew;
+          self.game.timeplayed = self.interfaceFields.timeplayed;
+          self.game.timetotal = self.interfaceFields.timetotal;
+          self.game.finalscore = self.interfaceFields.finalscore;
+          self.game.replay = self.interfaceFields.replay;
+
+          self.originalFields.platform = self.interfaceFields.platform;
+          self.originalFields.owned = self.interfaceFields.owned;
+          self.originalFields.metacritic = self.interfaceFields.metacritic;
+          self.originalFields.metacritic_hint = self.interfaceFields.metacritic_hint;
+          self.originalFields.mayhew = self.interfaceFields.mayhew;
+          self.originalFields.timeplayed = self.interfaceFields.timeplayed;
+          self.originalFields.timetotal = self.interfaceFields.timetotal;
+          self.originalFields.finalscore = self.interfaceFields.finalscore;
+          self.originalFields.replay = self.interfaceFields.replay;
+
+          $log.debug("Finished resetting. Original values: " + self.originalFields);
+        });
+      }
     };
 
     self.ok = function() {

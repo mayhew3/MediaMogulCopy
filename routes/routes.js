@@ -4,14 +4,17 @@ module.exports = function(app) {
 
   app.get('/api/games', games.getGames);
 
+  app.post('/api/updategame', games.updateGame);
+
   // error handlers
 
   // development error handler
   // will print stacktrace
   if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
-      res.status(err.status || 500);
-      res.render('error', {
+      console.log(err.message);
+      console.log(err.stack);
+      res.status(err.status || 500).json('error', {
         message: err.message,
         error: err
       });
@@ -21,8 +24,7 @@ module.exports = function(app) {
   // production error handler
   // no stacktraces leaked to user
   app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
+    res.status(err.status || 500).json('error', {
       message: err.message,
       error: {}
     });
