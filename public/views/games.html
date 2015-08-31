@@ -14,8 +14,7 @@
         <div id="gamesContainer">
           <table class="table table-striped table-hover">
             <thead>
-            <th></th>
-            <th>Title</th>
+            <th>Game</th>
             <th>Platform</th>
             <th>MC</th>
             <th>Mayhew</th>
@@ -23,8 +22,10 @@
             <th>Total</th>
             </thead>
             <tr data-ng-repeat="game in ctrl.games">
-              <td width="300px"><img ng-src="{{game.imageUrl}}" ng-click="ctrl.open(game)"></td>
-              <td ng-bind="game.title" ng-click="ctrl.open(game)"></td>
+              <td width="300px" ng-click="ctrl.open(game)">
+                <img ng-src="{{game.imageUrl}}" ng-hide="game.imageUrl == null">
+                <strong><span class="h4" ng-show="game.imageUrl == null" ng-bind="game.title"></span></strong>
+              </td>
               <td ng-bind="game.platform"></td>
               <td ng-bind="game.metacritic"></td>
               <td ng-bind="game.mayhew"></td>

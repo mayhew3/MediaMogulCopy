@@ -5,12 +5,6 @@ angular.module('mediaMogulApp')
 
     self.game = game;
 
-    if (game.logo == null || game.logo == '') {
-      game.imageUrl = "images/trans.gif";
-    } else {
-      game.imageUrl = "http://media.steampowered.com/steamcommunity/public/images/apps/" + game.steamid + "/" + game.logo + ".jpg";
-    }
-
     self.originalFields = {
       platform: self.game.platform,
       owned: self.game.owned,

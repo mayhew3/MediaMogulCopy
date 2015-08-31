@@ -9,7 +9,9 @@
     <div class="col-lg-3">
       <img class="img-rounded"
            ng-src="{{ctrl.game.imageUrl}}"
-           width="100%"/>
+           width="100%"
+          ng-hide="ctrl.game.imageUrl == null"/>
+      <span class="h3" ng-show="ctrl.game.imageUrl == null" ng-bind="ctrl.game.title"></span>
     </div>
 
     <div class="form-group col-lg-3">

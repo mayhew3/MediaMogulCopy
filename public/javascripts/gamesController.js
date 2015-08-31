@@ -29,7 +29,7 @@ angular.module('mediaMogulApp')
             game.finalscore = parseFloat(game.finalscore);
           }
           if (game.logo == null || game.logo == '') {
-            game.imageUrl = "images/trans.gif";
+            game.imageUrl = null;
           } else {
             game.imageUrl = "http://media.steampowered.com/steamcommunity/public/images/apps/" + game.steamid + "/" + game.logo + ".jpg";
           }
