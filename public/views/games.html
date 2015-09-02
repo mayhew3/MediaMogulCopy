@@ -16,20 +16,28 @@
             <thead>
             <th>Game</th>
             <th>Platform</th>
+            <th>Rating</th>
             <th>MC</th>
+            <th>Guess</th>
             <th>Mayhew</th>
+            <th>Agg</th>
             <th>Time Played</th>
             <th>Total</th>
             </thead>
-            <tr data-ng-repeat="game in ctrl.games">
+            <tr data-ng-repeat="game in ctrl.games |
+                filter:ctrl.gamesFilter |
+                orderBy:[ctrl.orderByRating].concat('-FullRating')">
               <td width="300px" ng-click="ctrl.open(game)">
                 <img ng-src="{{game.imageUrl}}" ng-hide="game.imageUrl == null">
                 <strong><span class="h4" ng-show="game.imageUrl == null" ng-bind="game.title"></span></strong>
               </td>
               <td ng-bind="game.platform"></td>
+              <td ng-bind="game.FullRating|number:2"></td>
               <td ng-bind="game.metacritic"></td>
+              <td ng-bind="game.guess"></td>
               <td ng-bind="game.mayhew"></td>
-              <td ng-bind="game.timeplayed"></td>
+              <td ng-bind="game.myAggregate"></td>
+              <td ng-bind="game.aggPlaytime|number:1"></td>
               <td ng-bind="game.timetotal"></td>
             </tr>
           </table>
