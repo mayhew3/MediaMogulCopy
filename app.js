@@ -14,7 +14,7 @@ var sessionMiddleware = session({
   resave: true,
   saveUninitialized: true,
   cookie:{maxAge:1000*3600*24*7}, //remember for 7 days
-  secret: '$uper$ecret$e$$ionKey'
+  secret: process.env.MEDIAMOGULSECRET
 });
 app.use(sessionMiddleware);
 app.use('/', express.static(path.join(__dirname, 'public')));
