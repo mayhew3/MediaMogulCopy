@@ -11,8 +11,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 var sessionMiddleware = session({
-  resave: true,
-  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: false,
   cookie:{maxAge:1000*3600*24*7}, //remember for 7 days
   secret: process.env.MEDIAMOGULSECRET
 });
