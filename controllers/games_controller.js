@@ -168,8 +168,8 @@ exports.updateGame = function(request, response) {
 
   console.log("SQL: " + sql);
   console.log("Values: " + values);
-/*
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+
+  pg.connect(process.env.DATABASE_URL, function(err, client) {
     var queryConfig = {
       text: sql,
       values: values
@@ -186,6 +186,5 @@ exports.updateGame = function(request, response) {
       console.error(err); response.send("Error " + err);
     }
   });
-  */
-  return response.json({msg: "Success"});
+
 };
