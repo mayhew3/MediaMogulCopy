@@ -92,6 +92,15 @@
              ng-model="ctrl.interfaceFields.mayhew"/>
     </div>
 
+    <div class="form-group col-lg-3">
+      <label class="control-label" for="guessInput">Guess</label>
+      <input type="number"
+             class="form-control"
+             id="guessInput"
+             name="guessInput"
+             ng-model="ctrl.interfaceFields.guess"/>
+    </div>
+
     <div class="form-group col-lg-3" ng-hide="ctrl.game.finished == null">
       <label class="control-label" for="finalScoreInput">Final Score</label>
       <input type="number"

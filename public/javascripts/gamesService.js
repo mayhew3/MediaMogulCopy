@@ -25,9 +25,13 @@ function GamesService($log, $http) {
     var myRating = game.mayhew;
     var myGuess = game.guess;
 
+    if (myRating == null) {
+      myRating = myGuess;
+    }
+
     if (metacritic == null) {
       game.FullRating = myRating;
-    } else if (myRating == null && myGuess == null) {
+    } else if (myRating == null) {
       game.FullRating = metacritic;
     } else {
       var playedOverall = (game.playtime == null) ? game.timeplayed : (game.playtime / 60);
@@ -38,10 +42,6 @@ function GamesService($log, $http) {
         relevantPlaytime = 3;
       }
       game.aggPlaytime = playedOverall;
-
-      if (relevantPlaytime == 0 && myRating == null) {
-        myRating = myGuess;
-      }
 
       game.myAggregate = myRating;
 

@@ -40,6 +40,9 @@ angular.module('mediaMogulApp')
       if (game.mayhew != null) {
         game.mayhew = parseFloat(game.mayhew);
       }
+      if (game.guess != null) {
+        game.guess = parseFloat(game.guess);
+      }
       if (game.timeplayed != null) {
         game.timeplayed = parseFloat(game.timeplayed);
       }

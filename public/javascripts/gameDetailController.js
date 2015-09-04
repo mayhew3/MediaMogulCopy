@@ -10,6 +10,7 @@ angular.module('mediaMogulApp')
       owned: self.game.owned,
       metacritic: self.game.metacritic,
       metacritic_hint: self.game.metacritic_hint,
+      guess: self.game.guess,
       mayhew: self.game.mayhew,
       timeplayed: self.game.timeplayed,
       timetotal: self.game.timetotal,
@@ -22,6 +23,7 @@ angular.module('mediaMogulApp')
       owned: self.game.owned,
       metacritic: self.game.metacritic,
       metacritic_hint: self.game.metacritic_hint,
+      guess: self.game.guess,
       mayhew: self.game.mayhew,
       timeplayed: self.game.timeplayed,
       timetotal: self.game.timetotal,
@@ -57,6 +59,7 @@ angular.module('mediaMogulApp')
           self.game.owned = self.interfaceFields.owned;
           self.game.metacritic = self.interfaceFields.metacritic;
           self.game.metacritic_hint = self.interfaceFields.metacritic_hint;
+          self.game.guess = self.interfaceFields.guess;
           self.game.mayhew = self.interfaceFields.mayhew;
           self.game.timeplayed = self.interfaceFields.timeplayed;
           self.game.timetotal = self.interfaceFields.timetotal;
@@ -67,6 +70,7 @@ angular.module('mediaMogulApp')
           self.originalFields.owned = self.interfaceFields.owned;
           self.originalFields.metacritic = self.interfaceFields.metacritic;
           self.originalFields.metacritic_hint = self.interfaceFields.metacritic_hint;
+          self.originalFields.guess = self.interfaceFields.guess;
           self.originalFields.mayhew = self.interfaceFields.mayhew;
           self.originalFields.timeplayed = self.interfaceFields.timeplayed;
           self.originalFields.timetotal = self.interfaceFields.timetotal;
