@@ -118,7 +118,8 @@ exports.getGames = function (request, response) {
 
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     var query = client.query('SELECT id, logo, title, steamid, playtime, metacritic, platform, owned, metacritic_hint, mayhew, ' +
-                                      'timeplayed, timetotal, finished, finalscore, replay, guess ' +
+                                      'timeplayed, timetotal, finished, finalscore, replay, guess, ' +
+                                      'giantbomb_icon_url, giantbomb_medium_url, giantbomb_screen_url, giantbomb_small_url, giantbomb_super_url, giantbomb_thumb_url, giantbomb_tiny_url ' +
                               'FROM games ' +
                               'WHERE metacritic is not null AND owned IN (\'owned\', \'borrowed\')' +
                               'ORDER BY metacritic DESC, playtime DESC, added DESC');

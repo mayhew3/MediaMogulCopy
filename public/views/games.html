@@ -28,8 +28,8 @@
                 filter:ctrl.gamesFilter |
                 orderBy:[ctrl.orderByRating].concat('-FullRating')">
               <td width="300px" ng-click="ctrl.open(game)">
-                <img ng-src="{{game.imageUrl}}" ng-hide="game.imageUrl == null">
-                <strong><span class="h4" ng-show="game.imageUrl == null" ng-bind="game.title"></span></strong>
+                <img ng-src="{{game.giantbomb_thumb_url}}" ng-hide="game.giantbomb_thumb_url == null">
+                <strong><span class="h4" ng-show="game.giantbomb_thumb_url == null" ng-bind="game.title"></span></strong>
               </td>
               <td ng-bind="game.platform"></td>
               <td ng-bind="game.FullRating|number:2"></td>

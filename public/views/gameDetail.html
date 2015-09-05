@@ -6,12 +6,12 @@
         ng-submit="ctrl.changeValues()"
         novalidate>
 
-    <div class="col-lg-3">
+    <div class="col-lg-6">
       <img class="img-rounded"
-           ng-src="{{ctrl.game.imageUrl}}"
+           ng-src="{{ctrl.game.giantbomb_small_url}}"
            width="100%"
-          ng-hide="ctrl.game.imageUrl == null"/>
-      <span class="h3" ng-show="ctrl.game.imageUrl == null" ng-bind="ctrl.game.title"></span>
+          ng-hide="ctrl.game.giantbomb_small_url == null"/>
+      <span class="h3" ng-show="ctrl.game.giantbomb_small_url == null" ng-bind="ctrl.game.title"></span>
     </div>
 
     <div class="form-group col-lg-3">
