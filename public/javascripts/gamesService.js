@@ -1,13 +1,48 @@
 function GamesService($log, $http) {
   var games = [];
+  var self = this;
 
   this.updateGamesList = function() {
     return $http.get('/api/games').then(function (gamesResponse) {
       $log.debug("Games returned " + gamesResponse.data.length + " items.");
-      games = gamesResponse.data;
+      var tempGames = gamesResponse.data;
+      tempGames.forEach(function (game) {
+        self.updateNumericFields(game);
+        //self.updateImages(game);
+        self.updatePlaytimes(game);
+        self.updateRating(game);
+      });
+      $log.debug("Finished updating.");
+      games = tempGames;
     }, function (errResponse) {
       console.error('Error while fetching games list: ' + errResponse);
     });
+  };
+
+
+
+  this.updateNumericFields = function(game) {
+    if (game.metacritic != null) {
+      game.metacritic = parseFloat(game.metacritic);
+    }
+    if (game.mayhew != null) {
+      game.mayhew = parseFloat(game.mayhew);
+    }
+    if (game.guess != null) {
+      game.guess = parseFloat(game.guess);
+    }
+    if (game.timeplayed != null) {
+      game.timeplayed = parseFloat(game.timeplayed);
+    }
+    if (game.timetotal != null) {
+      game.timetotal = parseFloat(game.timetotal);
+    }
+    if (game.replay != null) {
+      game.replay = parseFloat(game.replay);
+    }
+    if (game.finalscore != null) {
+      game.finalscore = parseFloat(game.finalscore);
+    }
   };
 
   this.getGamesList = function() {
@@ -34,14 +69,12 @@ function GamesService($log, $http) {
     } else if (myRating == null) {
       game.FullRating = metacritic;
     } else {
-      var playedOverall = (game.playtime == null) ? game.timeplayed : (game.playtime / 60);
-      var relevantPlaytime = playedOverall;
-      if (playedOverall == null) {
+      var relevantPlaytime = game.aggPlaytime;
+      if (relevantPlaytime == null) {
         relevantPlaytime = 0;
-      } else if (playedOverall > 3) {
+      } else if (relevantPlaytime > 3) {
         relevantPlaytime = 3;
       }
-      game.aggPlaytime = playedOverall;
 
       game.myAggregate = myRating;
 
@@ -50,6 +83,27 @@ function GamesService($log, $http) {
 
       game.FullRating = (myRating * myWeight) + (metacritic * metaWeight);
     }
+  };
+
+  this.updateImages = function(game) {
+    $log.debug("Image: " + game.logo);
+    if (game.logo == null || game.logo == '') {
+      game.imageUrl = null;
+    } else {
+      game.imageUrl = "http://media.steampowered.com/steamcommunity/public/images/apps/" + game.steamid + "/" + game.logo + ".jpg";
+    }
+  };
+
+  this.updatePlaytimes = function(game) {
+    var timeplayed = game.timeplayed;
+    var playtime = game.playtime;
+
+    game.aggPlaytime = playtime == null ? timeplayed : playtime / 60;
+
+    var timetotal = game.timetotal;
+    var howlong_time = game.howlong_main;
+
+    game.aggTimetotal = timetotal == null ? howlong_time : timetotal;
   };
 }
 

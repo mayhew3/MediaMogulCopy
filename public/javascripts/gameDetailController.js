@@ -55,6 +55,7 @@ angular.module('mediaMogulApp')
         $log.debug("Changed fields has a length!");
 
         GamesService.updateGame(game.id, changedFields).then(function() {
+          // todo: loop?
           self.game.platform = self.interfaceFields.platform;
           self.game.owned = self.interfaceFields.owned;
           self.game.metacritic = self.interfaceFields.metacritic;
