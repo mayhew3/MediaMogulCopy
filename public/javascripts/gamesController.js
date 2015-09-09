@@ -9,7 +9,7 @@ angular.module('mediaMogulApp')
 
 
     self.gamesFilter = function(game) {
-      return !game.finished && !game.finalscore && game.FullRating != null;
+      return !game.finished && !game.finalscore;
     };
 
 
