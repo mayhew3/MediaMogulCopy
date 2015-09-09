@@ -121,7 +121,7 @@ exports.getGames = function (request, response) {
                                       'timeplayed, timetotal, finished, finalscore, replay, guess, ' +
                                       'giantbomb_small_url, giantbomb_thumb_url, howlong_main ' +
                               'FROM games ' +
-                              'WHERE metacritic is not null AND owned IN (\'owned\', \'borrowed\')' +
+                              'WHERE owned IN (\'owned\', \'borrowed\') ' +
                               'ORDER BY metacritic DESC, playtime DESC, added DESC');
 
     query.on('row', function(row) {
