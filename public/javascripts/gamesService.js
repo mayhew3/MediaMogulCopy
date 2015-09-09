@@ -49,6 +49,22 @@ function GamesService($log, $http) {
     return games;
   };
 
+  this.getGameWithTitleAndPlatform = function(title, platform) {
+    var filtered = games.filter(function(gameElement) {
+      return (gameElement.title == title && gameElement.platform == platform);
+    });
+    return filtered[0];
+  };
+
+  this.addGame = function(game) {
+    $log.debug("Adding game " + JSON.stringify(game));
+    $http.post('/api/addgame', {game: game}).then(function() {
+      return null;
+    }, function(errResponse) {
+      return errResponse;
+    });
+  };
+
 
   this.updateGame = function(GameId, ChangedFields) {
     $log.debug('Received update for Game ' + GameId + " with data " + JSON.stringify(ChangedFields));

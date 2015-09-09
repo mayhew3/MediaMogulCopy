@@ -37,6 +37,17 @@ angular.module('mediaMogulApp')
       });
     };
 
+    self.addGame = function() {
+      $log.debug("Adding window.");
+      $modal.open({
+        templateUrl: 'views/addGame.html',
+        controller: 'addGameController as ctrl',
+        size: 'lg',
+        resolve: {
+
+        }
+      });
+    };
   }
 
   ]);

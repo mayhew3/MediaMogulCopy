@@ -189,3 +189,38 @@ exports.updateGame = function(request, response) {
   });
 
 };
+
+exports.addGame = function(request, response) {
+  var game = request.body.game;
+  console.log("Adding game with " + JSON.stringify(game));
+  console.log("User: " + request.user);
+
+  var sql = "INSERT INTO games (title, platform, mayhew, owned, added) VALUES ($1, $2, $3, $4, $5)";
+  var values =
+    [game.title,
+    game.platform,
+    game.mayhew,
+    game.owned,
+    game.added];
+
+  console.log("SQL: " + sql);
+  console.log("Values: " + values);
+
+  pg.connect(process.env.DATABASE_URL, function(err, client) {
+    var queryConfig = {
+      text: sql,
+      values: values
+    };
+
+    var query = client.query(queryConfig);
+
+    query.on('end', function() {
+      client.end();
+      return response.json({msg: "Success"});
+    });
+
+    if (err) {
+      console.error(err); response.send("Error " + err);
+    }
+  });
+};

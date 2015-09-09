@@ -10,6 +10,7 @@ module.exports = function(app) {
   app.get('/signout', games.signout);
 
   app.post('/api/updategame', games.requiresLogin, games.updateGame);
+  app.post('/api/addgame', games.requiresLogin, games.addGame);
   app.post('/login', function(req, res, next) {
 
     passport.authenticate('local',
