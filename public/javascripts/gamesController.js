@@ -6,7 +6,7 @@ angular.module('mediaMogulApp')
     self.steamCloud = false;
 
     self.orderByRating = function(game) {
-      return (angular.isDefined(game.FullRating) ? -1: 0);
+      return ((angular.isDefined(game.FullRating) && game.FullRating != null) ? -1: 0);
     };
 
     self.isCloudFiltered = function(game) {
@@ -17,21 +17,37 @@ angular.module('mediaMogulApp')
       return game.finished || game.finalscore;
     };
 
-
+    self.hasValidPlatform = function(game) {
+      var platform = game.platform;
+      return self.platformFilters[platform];
+    };
 
     self.gamesFilter = function(game) {
-      return self.isCloudFiltered(game) && !self.isFinished(game);
+      return self.isCloudFiltered(game) &&
+        !self.isFinished(game) &&
+        self.hasValidPlatform(game);
     };
 
     var gamesList = GamesService.getGamesList();
+    var platformList = GamesService.getPlatformList();
     if (gamesList.length == 0) {
       GamesService.updateGamesList().then(function () {
         self.games = GamesService.getGamesList();
+        self.platforms = GamesService.getPlatformList();
+        self.initPlatformFilters();
         $log.debug("Controller has " + self.games.length + " games.");
       })
     } else {
       self.games = gamesList;
+      self.platforms = platformList;
     }
+
+    self.initPlatformFilters = function () {
+      self.platformFilters = [];
+      self.platforms.forEach(function (platform) {
+        self.platformFilters[platform] = true;
+      });
+    };
 
 
     self.open = function(game) {

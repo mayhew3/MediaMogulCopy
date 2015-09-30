@@ -1,5 +1,6 @@
 function GamesService($log, $http) {
   var games = [];
+  var platforms = [];
   var self = this;
 
   this.updateGamesList = function() {
@@ -11,6 +12,7 @@ function GamesService($log, $http) {
         //self.updateImages(game);
         self.updatePlaytimes(game);
         self.updateRating(game);
+        self.updatePlatforms(game);
       });
       $log.debug("Finished updating.");
       games = tempGames;
@@ -47,6 +49,10 @@ function GamesService($log, $http) {
 
   this.getGamesList = function() {
     return games;
+  };
+
+  this.getPlatformList = function() {
+    return platforms;
   };
 
   this.getGameWithTitleAndPlatform = function(title, platform) {
@@ -123,6 +129,15 @@ function GamesService($log, $http) {
     var howlong_time = game.howlong_main;
 
     game.aggTimetotal = timetotal == null ? howlong_time : timetotal;
+  };
+
+  this.updatePlatforms = function(game) {
+    var found = platforms.some(function (g1) {
+      return g1 === game.platform;
+    });
+    if (!found) {
+      platforms.push(game.platform);
+    }
   };
 }
 
