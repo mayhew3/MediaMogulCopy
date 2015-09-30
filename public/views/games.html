@@ -17,8 +17,8 @@
           <!-- Platform filters -->
           <div class="btn-group" role="group">
             <button type="button"
-                    class="btn btn-primary"
                     ng-repeat="platform in ctrl.platforms"
+                    ng-class="ctrl.getButtonClass(ctrl.platformFilters[platform])"
                     btn-checkbox
                     btn-checkbox-true="true"
                     btn-checkbox-false="false"
@@ -29,7 +29,7 @@
 
           <!-- Steam Cloud filter -->
           <button type="button"
-                  class="btn btn-primary"
+                  ng-class="ctrl.getButtonClass(ctrl.steamCloud)"
                   btn-checkbox
                   btn-checkbox-true="true"
                   btn-checkbox-false="false"
@@ -37,7 +37,7 @@
 
           <!-- Many Hours Played filter -->
           <button type="button"
-                  class="btn btn-primary"
+                  ng-class="ctrl.getButtonClass(ctrl.manyHours)"
                   btn-checkbox
                   btn-checkbox-true="true"
                   btn-checkbox-false="false"

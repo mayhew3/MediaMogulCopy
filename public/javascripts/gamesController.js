@@ -34,6 +34,10 @@ angular.module('mediaMogulApp')
         self.hasValidPlatform(game);
     };
 
+    self.getButtonClass = function(uiField) {
+      return uiField ? "btn btn-warning" : "btn btn-default";
+    };
+
     var gamesList = GamesService.getGamesList();
     var platformList = GamesService.getPlatformList();
     if (gamesList.length == 0) {
