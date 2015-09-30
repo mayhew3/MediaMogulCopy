@@ -5,6 +5,8 @@ var passport = require('passport'), LocalStrategy = require('passport-local').St
 passport.use(new LocalStrategy(
   function(username, password, done) {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
+
+
       var queryConfig = {
         text: 'SELECT id, password FROM users WHERE username = $1',
         values: [username]
@@ -119,6 +121,7 @@ exports.getGames = function (request, response) {
   pg.connect(process.env.DATABASE_URL, function(err, client) {
     var query = client.query('SELECT id, logo, title, steamid, playtime, metacritic, platform, owned, metacritic_hint, mayhew, ' +
                                       'timeplayed, timetotal, finished, finalscore, replay, guess, ' +
+                                      'steam_cloud, ' +
                                       'giantbomb_small_url, giantbomb_thumb_url, howlong_main ' +
                               'FROM games ' +
                               'WHERE owned IN (\'owned\', \'borrowed\') ' +

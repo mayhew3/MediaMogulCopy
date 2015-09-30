@@ -3,15 +3,25 @@ angular.module('mediaMogulApp')
   function($log, $modal, GamesService) {
     var self = this;
 
+    self.steamCloud = false;
+
     self.orderByRating = function(game) {
       return (angular.isDefined(game.FullRating) ? -1: 0);
     };
 
-
-    self.gamesFilter = function(game) {
-      return !game.finished && !game.finalscore;
+    self.isCloudFiltered = function(game) {
+      return !self.steamCloud || game.steam_cloud;
     };
 
+    self.isFinished = function(game) {
+      return game.finished || game.finalscore;
+    };
+
+
+
+    self.gamesFilter = function(game) {
+      return self.isCloudFiltered(game) && !self.isFinished(game);
+    };
 
     var gamesList = GamesService.getGamesList();
     if (gamesList.length == 0) {
