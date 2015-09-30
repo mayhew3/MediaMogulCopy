@@ -4,6 +4,7 @@ angular.module('mediaMogulApp')
     var self = this;
 
     self.steamCloud = false;
+    self.manyHours = false;
 
     self.orderByRating = function(game) {
       return ((angular.isDefined(game.FullRating) && game.FullRating != null) ? -1: 0);
@@ -11,6 +12,10 @@ angular.module('mediaMogulApp')
 
     self.isCloudFiltered = function(game) {
       return !self.steamCloud || game.steam_cloud;
+    };
+
+    self.isTimeFiltered = function(game) {
+      return !self.manyHours || game.aggPlaytime > 4;
     };
 
     self.isFinished = function(game) {
@@ -24,6 +29,7 @@ angular.module('mediaMogulApp')
 
     self.gamesFilter = function(game) {
       return self.isCloudFiltered(game) &&
+          self.isTimeFiltered(game) &&
         !self.isFinished(game) &&
         self.hasValidPlatform(game);
     };
