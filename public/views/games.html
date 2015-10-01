@@ -43,6 +43,14 @@
                   btn-checkbox-false="false"
                   ng-model="ctrl.manyHours">Playtime</button>
 
+          <!-- Nearly Done filter -->
+          <button type="button"
+                  ng-class="ctrl.getButtonClass(ctrl.nearlyDoneFilter)"
+                  btn-checkbox
+                  btn-checkbox-true="true"
+                  btn-checkbox-false="false"
+                  ng-model="ctrl.nearlyDoneFilter">Nearly Done</button>
+
           <!-- Add Game button -->
           <button type="button"
                   class="btn btn-success"

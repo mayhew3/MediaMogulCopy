@@ -5,6 +5,7 @@ angular.module('mediaMogulApp')
 
     self.steamCloud = false;
     self.manyHours = false;
+    self.nearlyDoneFilter = false;
 
     self.orderByRating = function(game) {
       return ((angular.isDefined(game.FullRating) && game.FullRating != null) ? -1: 0);
@@ -16,6 +17,13 @@ angular.module('mediaMogulApp')
 
     self.isTimeFiltered = function(game) {
       return !self.manyHours || game.aggPlaytime > 4;
+    };
+
+    self.nearlyDone = function(game) {
+      return !self.nearlyDoneFilter ||
+      (game.timetotal != null &&
+        game.aggPlaytime != null &&
+        (100*game.aggPlaytime/game.timetotal > 66));
     };
 
     self.isFinished = function(game) {
@@ -31,7 +39,9 @@ angular.module('mediaMogulApp')
       return self.isCloudFiltered(game) &&
           self.isTimeFiltered(game) &&
         !self.isFinished(game) &&
-        self.hasValidPlatform(game);
+        self.hasValidPlatform(game) &&
+        self.nearlyDone(game)
+        ;
     };
 
     self.getButtonClass = function(uiField) {
