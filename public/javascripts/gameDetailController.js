@@ -78,6 +78,7 @@ angular.module('mediaMogulApp')
           self.originalFields.finalscore = self.interfaceFields.finalscore;
           self.originalFields.replay = self.interfaceFields.replay;
 
+          GamesService.updatePlaytimes(game);
           GamesService.updateRating(game);
 
           $log.debug("Finished resetting. Original values: " + self.originalFields);
