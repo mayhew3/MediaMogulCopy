@@ -22,8 +22,39 @@
                     btn-checkbox
                     btn-checkbox-true="true"
                     btn-checkbox-false="false"
-                    ng-model="ctrl.platformFilters[platform]">
+                    ng-model="ctrl.platformFilters[platform]"
+                    ng-change="ctrl.updatePlatformFilter(platform)">
               <span ng-bind="platform"></span>
+            </button>
+          </div>
+
+          <div class="btn-group" role="group">
+            <button type="button"
+                    ng-class="ctrl.getButtonClass(ctrl.consoleFilter)"
+                    btn-checkbox
+                    btn-checkbox-true="true"
+                    btn-checkbox-false="false"
+                    ng-model="ctrl.consoleFilter"
+                    ng-change="ctrl.updateConsoleFilter()">
+              Console
+            </button>
+            <button type="button"
+                    ng-class="ctrl.getButtonClass(ctrl.computerFilter)"
+                    btn-checkbox
+                    btn-checkbox-true="true"
+                    btn-checkbox-false="false"
+                    ng-model="ctrl.computerFilter"
+                    ng-change="ctrl.updateComputerFilter()">
+              Computer
+            </button>
+            <button type="button"
+                    ng-class="ctrl.getButtonClass(ctrl.noneFilter)"
+                    btn-checkbox
+                    btn-checkbox-true="true"
+                    btn-checkbox-false="false"
+                    ng-model="ctrl.noneFilter"
+                    ng-change="ctrl.updateNoneFilter()">
+              None
             </button>
           </div>
 
