@@ -11,7 +11,7 @@ angular.module('mediaMogulApp')
     self.computerFilter = true;
     self.noneFilter = false;
 
-    var consoles = ["PS3", "Wii", "Xbox 360", "Xbox", "DS", "Wii U", "Xbox One"];
+    var consoles = ["PS3", "Wii", "Xbox 360", "Xbox", "DS", "Wii U", "Xbox One", "PS4"];
     var computers = ["Steam", "PC"];
 
     self.orderByRating = function(game) {
