@@ -125,7 +125,7 @@ exports.getGames = function (request, response) {
                                       'giantbomb_small_url, giantbomb_thumb_url, howlong_main ' +
                               'FROM games ' +
                               'WHERE owned IN (\'owned\', \'borrowed\') ' +
-                              'ORDER BY metacritic DESC, playtime DESC, added DESC');
+                              'ORDER BY metacritic DESC, playtime DESC, date_added DESC');
 
     query.on('row', function(row) {
       results.push(row);
@@ -198,13 +198,13 @@ exports.addGame = function(request, response) {
   console.log("Adding game with " + JSON.stringify(game));
   console.log("User: " + request.user);
 
-  var sql = "INSERT INTO games (title, platform, mayhew, owned, added) VALUES ($1, $2, $3, $4, $5)";
+  var sql = "INSERT INTO games (title, platform, mayhew, owned, date_added) VALUES ($1, $2, $3, $4, $5)";
   var values =
     [game.title,
     game.platform,
     game.mayhew,
     game.owned,
-    game.added];
+    game.date_added];
 
   console.log("SQL: " + sql);
   console.log("Values: " + values);

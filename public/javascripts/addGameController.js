@@ -17,7 +17,7 @@ angular.module('mediaMogulApp')
 
 
       self.ok = function() {
-        self.game.added = new Date;
+        self.game.date_added = new Date;
         var errorResponse = GamesService.addGame(self.game);
         if (errorResponse) {
           $log.debug("Error adding Game. Response: " + errorResponse);
