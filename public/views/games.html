@@ -82,6 +82,26 @@
                   btn-checkbox-false="false"
                   ng-model="ctrl.nearlyDoneFilter">Nearly Done</button>
 
+
+          <!-- Unplayed filter -->
+          <button type="button"
+                  ng-class="ctrl.getButtonClass(ctrl.unplayedFilter)"
+                  btn-checkbox
+                  btn-checkbox-true="true"
+                  btn-checkbox-false="false"
+                  ng-model="ctrl.unplayedFilter">Unplayed</button>
+
+
+          <!-- Newly Added filter -->
+          <button type="button"
+                  ng-class="ctrl.getButtonClass(ctrl.newlyAddedFilter)"
+                  btn-checkbox
+                  btn-checkbox-true="true"
+                  btn-checkbox-false="false"
+                  ng-model="ctrl.newlyAddedFilter">Newly Added</button>
+
+
+
           <!-- Add Game button -->
           <button type="button"
                   class="btn btn-success"

@@ -6,6 +6,8 @@ angular.module('mediaMogulApp')
     self.steamCloud = false;
     self.manyHours = false;
     self.nearlyDoneFilter = false;
+    self.unplayedFilter = false;
+    self.newlyAddedFilter = false;
 
     self.consoleFilter = true;
     self.computerFilter = true;
@@ -73,6 +75,14 @@ angular.module('mediaMogulApp')
       }
     };
 
+    self.isUnplayed = function(game) {
+      return !self.unplayedFilter || game.aggPlaytime < 1;
+    };
+
+    self.isNewlyAdded = function(game) {
+      return !self.newlyAddedFilter || addedInLastXDays(game.date_added, 180);
+    };
+
     self.isFinished = function(game) {
       return game.finished || game.finalscore;
     };
@@ -87,9 +97,22 @@ angular.module('mediaMogulApp')
           self.isTimeFiltered(game) &&
         !self.isFinished(game) &&
         self.hasValidPlatform(game) &&
-        self.nearlyDone(game)
+        self.nearlyDone(game) &&
+          self.isUnplayed(game) &&
+          self.isNewlyAdded(game)
         ;
     };
+
+    function addedInLastXDays(dateAdded, days) {
+      var notNull = dateAdded != null;
+      var diff = (new Date(dateAdded) - new Date + (1000 * 60 * 60 * 24 * days));
+      var withinDiff = (diff > 0);
+
+      $log.debug("AirDate: " + dateAdded + ", diff: " + diff);
+
+      return notNull && withinDiff;
+    }
+
 
     self.getButtonClass = function(uiField) {
       return uiField ? "btn btn-warning" : "btn btn-default";
