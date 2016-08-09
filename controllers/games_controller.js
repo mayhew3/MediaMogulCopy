@@ -99,7 +99,7 @@ exports.requiresLogin = function(req, res, next) {
   console.log("User variable: " + req.user);
   if (!req.isAuthenticated()) {
     console.log("Not logged in!");
-    return res.send(401, 'User is not authorized');
+    return res.status(401).send('User is not authorized');
   }
   console.log("Logged in!");
   next();
