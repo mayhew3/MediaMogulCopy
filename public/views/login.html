@@ -7,17 +7,11 @@
     </div>
   </div>
 
-  <form action="/login" method="post">
-    <div>
-      <label>Username:</label>
-      <input type="text" name="username"/>
-    </div>
-    <div>
-      <label>Password:</label>
-      <input type="password" name="password"/>
-    </div>
-    <div>
-      <input type="submit" value="Log In"/>
-    </div>
-  </form>
+  <div class="container">
+    <a href="" ng-click="doGoogleAuthWithPopup()">Login with Google</a><br/>
+  </div>
+
+  <div class="container">
+    <div>{{message.text}}</div>
+  </div>
 </div>
