@@ -16,6 +16,8 @@ angular.module('mediaMogulApp')
     var consoles = ["PS3", "Wii", "Xbox 360", "Xbox", "DS", "Wii U", "Xbox One", "PS4"];
     var computers = ["Steam", "PC"];
 
+    self.platformFilters = [];
+
     self.orderByRating = function(game) {
       return ((angular.isDefined(game.FullRating) && game.FullRating != null) ? -1: 0);
     };
@@ -118,6 +120,17 @@ angular.module('mediaMogulApp')
       return uiField ? "btn btn-warning" : "btn btn-default";
     };
 
+    self.initPlatformFilters = function () {
+      self.platforms.forEach(function (platform) {
+        self.platformFilters[platform] = true;
+      });
+      if (self.platformFilters.hasOwnProperty("Xbox")) {
+        self.platformFilters["Xbox"] = false;
+      }
+    };
+
+
+
     var gamesList = GamesService.getGamesList();
     var platformList = GamesService.getPlatformList();
     if (gamesList.length == 0) {
@@ -130,18 +143,8 @@ angular.module('mediaMogulApp')
     } else {
       self.games = gamesList;
       self.platforms = platformList;
+      self.initPlatformFilters();
     }
-
-    self.initPlatformFilters = function () {
-      self.platformFilters = [];
-      self.platforms.forEach(function (platform) {
-        self.platformFilters[platform] = true;
-      });
-      if (self.platformFilters.hasOwnProperty("Xbox")) {
-        self.platformFilters["Xbox"] = false;
-      }
-    };
-
 
     function contains(myArray, myValue) {
       return myArray.some(function (g1) {

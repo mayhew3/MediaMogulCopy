@@ -1,0 +1,17 @@
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-collapse collapse" id="navbar-main">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="#">Games</a>
+        </li>
+        <li ng-show="!toolbar.auth.isAuthenticated">
+          <a href="#" ng-click="toolbar.login()">Sign In</a>
+        </li>
+        <li ng-show="toolbar.auth.isAuthenticated">
+          <a href="#" ng-click="toolbar.logout()">Sign Out</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

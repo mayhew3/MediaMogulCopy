@@ -3,13 +3,10 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
     function($routeProvider, authProvider, $httpProvider, $locationProvider, jwtInterceptorProvider) {
       $routeProvider
         .when('/', {
-          controller: 'gamesController as ctrl',
-          templateUrl: 'views/games.html'
-        })
-        .when('/login', {
-          controller: 'LoginCtrl',
-          templateUrl: 'views/login.html',
-          pageTitle: 'Login'
+          controller: 'gamesController',
+          controllerAs: 'ctrl',
+          templateUrl: 'views/games.html',
+          requiresLogin: true
         })
       ;
       $routeProvider.otherwise({
@@ -18,26 +15,7 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
 
       authProvider.init({
         domain: '',
-        clientID: '',
-        loginUrl: '/login'
-      });
-
-      //Called when login is successful
-      authProvider.on('loginSuccess', ['$location', 'profilePromise', 'idToken', 'store',
-        function($location, profilePromise, idToken, store) {
-
-          console.log("Login Success");
-          profilePromise.then(function(profile) {
-            store.set('profile', profile);
-            store.set('token', idToken);
-          });
-
-          $location.path('/');
-        }]);
-
-      //Called when login fails
-      authProvider.on('loginFailure', function() {
-        alert("Error");
+        clientID: ''
       });
 
       //Angular HTTP Interceptor function
