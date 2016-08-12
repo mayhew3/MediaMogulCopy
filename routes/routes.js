@@ -7,7 +7,7 @@ module.exports = function(app) {
     audience: process.env.AUTH0_CLIENT_ID
   });
 
-  app.get('/api/games', games.getGames);
+  app.get('/api/games', authCheck, games.getGames);
 
   app.get('/api/public', function(req, res) {
     res.json({ message: "Hello from a public endpoint! You don't need to be authenticated to see this." });
@@ -17,8 +17,8 @@ module.exports = function(app) {
     res.json({ message: "Hello from a private endpoint! You DO need to be authenticated to see this." });
   });
 
-  app.post('/api/updategame', games.updateGame);
-  app.post('/api/addgame', games.addGame);
+  app.post('/api/updategame', authCheck, games.updateGame);
+  app.post('/api/addgame', authCheck, games.addGame);
 
   // error handlers
 

@@ -26,7 +26,7 @@
       auth.signin({}, function(profile, token) {
         store.set('profile', profile);
         store.set('token', token);
-        $location.path('/games');
+        $location.path('/');
       }, function(error) {
         console.log(error);
       })
@@ -40,7 +40,7 @@
       auth.signout();
       store.remove('profile');
       store.remove('token');
-      $location.path('/games');
+      $location.path('/');
     }
   }
 })();
