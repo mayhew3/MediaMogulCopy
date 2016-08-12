@@ -13,6 +13,7 @@
     <button ng-click="user.getSecretMessage()">Get Secret Message</button>
     <span class="md-headline">{{user.profile.nickname}}</span>
     <span class="md-subhead">{{user.profile.email}}</span>
+    Role: {{user.profile.app_metadata.roles[0]}}
     <h3>{{user.message}}</h3>
   </div>
 </div>
