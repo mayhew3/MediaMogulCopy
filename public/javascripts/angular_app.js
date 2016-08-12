@@ -5,8 +5,12 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
         .when('/', {
           controller: 'gamesController',
           controllerAs: 'ctrl',
-          templateUrl: 'views/games.html',
-          requiresLogin: true
+          templateUrl: 'views/games.html'
+        })
+        .when('/profile', {
+          controller: 'profileController',
+          controllerAs: 'user',
+          templateUrl: 'views/profile.html'
         })
       ;
       $routeProvider.otherwise({
