@@ -14,10 +14,6 @@ function EpisodeService($log, $http, $q, $filter) {
   };
 
   this.updateSeriesList = function() {
-    var d = new Date();
-
-    $log.debug("TIME ZONE: " + d.getTimezoneOffset());
-
     return $http.get('/seriesList').then(function (showresponse) {
       $log.debug("Shows returned " + showresponse.data.length + " items.");
       var tempShows = showresponse.data;
@@ -86,10 +82,11 @@ function EpisodeService($log, $http, $q, $filter) {
     var series_id = resultObj.series_id;
     shows.forEach(function (series) {
       if (series.id == series_id && series.nextAirDate == undefined) {
-        var stringified = resultObj.air_date.toString();
-        var utcStringified = new Date(Date.parse(resultObj.air_date)).toUTCString();
+        var splits = resultObj.air_date.split("T");
+        var dateOnly = splits[0];
+        var utcStringified = new Date(Date.parse(resultObj.air_date)).toString();
 
-        $log.debug("Updating series " + series.title + " next air date " + resultObj.air_date + ", STR: " + stringified + ", UTC: " + utcStringified);
+        $log.debug("Updating series " + series.title + " next air date " + resultObj.air_date + ", Split: " + dateOnly + ", UTC: " + utcStringified);
         series.nextAirDate = resultObj.air_date;
 
         var combinedStr = $filter('date')(series.nextAirDate, 'shortDate') + " " + series.airs_time;
@@ -137,6 +134,10 @@ function EpisodeService($log, $http, $q, $filter) {
           // it is a timestamp, and Date.parse() removes the time from it, making it just a Date.
           // episode.air_date = episode.air_date == null ? null : new Date(Date.parse(episode.air_date));
 
+          if (episode.air_date != null) {
+            var splits = episode.air_date.split("T");
+            episode.air_date = new Date(Date.parse(splits[0]+"T08:00:00.000Z"));
+          }
 
           episode.colorStyle = function() {
             if (episode.rating_value == null) {
