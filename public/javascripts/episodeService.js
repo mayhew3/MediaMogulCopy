@@ -101,7 +101,7 @@ function EpisodeService($log, $http, $q, $filter) {
         var minutesPart = $filter('date')(combinedDate, 'mm');
         var timeFormat = (minutesPart == '00') ? 'EEEE ha' : 'EEEE h:mm a';
 
-        series.nextAirDateFormatted = $filter('date')(combinedDate, timeFormat);
+        series.nextAirDateFormatted = $filter('date')(combinedDate, timeFormat, '+0000');
         series.nextEpisode = {
           title: resultObj.title,
           season: resultObj.season,
