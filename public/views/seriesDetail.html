@@ -136,7 +136,7 @@
       ng-click="ctrl.openEpisodeDetail(episode)">
       <td ng-bind="episode.tvdb_episode_number"></td>
       <td ng-bind="episode.tvdb_episode_name" class="episodeDescription"></td>
-      <td ng-bind="episode.air_date|date:'EEE MM/d'"></td>
+      <td ng-bind="episode.air_date|date:'EEE MM/d Z'"></td>
       <td>
               <span ng-class="ctrl.getLabelInfo(episode).labelClass"
                     ng-hide="ctrl.getLabelInfo(episode) == null"

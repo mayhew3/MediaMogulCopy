@@ -83,7 +83,7 @@ function EpisodeService($log, $http, $q, $filter) {
     shows.forEach(function (series) {
       if (series.id == series_id && series.nextAirDate == undefined) {
         var stringified = resultObj.air_date.toString();
-        var utcStringified = new Date(resultObj.air_date).toUTCString();
+        var utcStringified = new Date(Date.parse(resultObj.air_date)).toUTCString();
 
         $log.debug("Updating series " + series.title + " next air date " + resultObj.air_date + ", STR: " + stringified + ", UTC: " + utcStringified);
         series.nextAirDate = resultObj.air_date;
