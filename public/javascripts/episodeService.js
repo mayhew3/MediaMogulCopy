@@ -82,12 +82,14 @@ function EpisodeService($log, $http, $q, $filter) {
     var series_id = resultObj.series_id;
     shows.forEach(function (series) {
       if (series.id == series_id && series.nextAirDate == undefined) {
+/*
 
         // Don't love this. But it's applying a time zone no matter what, so I have to fool it.
         if (resultObj.air_date != null) {
           var splits = resultObj.air_date.split("T");
           resultObj.air_date = new Date(Date.parse(splits[0]+"T08:00:00.000Z"));
         }
+*/
 
         $log.debug("Updating series " + series.title + " next air date " + resultObj.air_date);
 
@@ -133,12 +135,14 @@ function EpisodeService($log, $http, $q, $filter) {
 
         episodes.forEach( function(episode) {
           episode.imageResolved = episode.tvdb_filename ? 'http://thetvdb.com/banners/'+episode.tvdb_filename : 'images/GenericEpisode.gif';
+/*
 
           // Don't love this. But it's applying a time zone no matter what, so I have to fool it.
           if (episode.air_date != null) {
             var splits = episode.air_date.split("T");
             episode.air_date = new Date(Date.parse(splits[0]+"T08:00:00.000Z"));
           }
+*/
 
           episode.colorStyle = function() {
             if (episode.rating_value == null) {
