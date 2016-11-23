@@ -125,6 +125,11 @@ function EpisodeService($log, $http, $q, $filter) {
 
         episodes.forEach( function(episode) {
           episode.imageResolved = episode.tvdb_filename ? 'http://thetvdb.com/banners/'+episode.tvdb_filename : 'images/GenericEpisode.gif';
+
+          // this is to fix issue where time zone was making dates appear on the previous day. I think this works because
+          // it is a timestamp, and Date.parse() removes the time from it, making it just a Date.
+          episode.air_date = episode.air_date == null ? null : new Date(Date.parse(episode.air_date));
+
           episode.colorStyle = function() {
             if (episode.rating_value == null) {
               return {};
