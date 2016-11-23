@@ -82,7 +82,10 @@ function EpisodeService($log, $http, $q, $filter) {
     var series_id = resultObj.series_id;
     shows.forEach(function (series) {
       if (series.id == series_id && series.nextAirDate == undefined) {
-        $log.debug("Updating series " + series.title + " next air date " + resultObj.air_date);
+        var stringified = resultObj.air_date.toString();
+        var utcStringified = new Date(resultObj.air_date).toUTCString();
+
+        $log.debug("Updating series " + series.title + " next air date " + resultObj.air_date + ", STR: " + stringified + ", UTC: " + utcStringified);
         series.nextAirDate = resultObj.air_date;
 
         var combinedStr = $filter('date')(series.nextAirDate, 'shortDate') + " " + series.airs_time;
@@ -128,7 +131,8 @@ function EpisodeService($log, $http, $q, $filter) {
 
           // this is to fix issue where time zone was making dates appear on the previous day. I think this works because
           // it is a timestamp, and Date.parse() removes the time from it, making it just a Date.
-          episode.air_date = episode.air_date == null ? null : new Date(Date.parse(episode.air_date));
+          // episode.air_date = episode.air_date == null ? null : new Date(Date.parse(episode.air_date));
+
 
           episode.colorStyle = function() {
             if (episode.rating_value == null) {
