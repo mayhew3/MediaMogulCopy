@@ -1,9 +1,10 @@
 var pg = require('pg');
+const config = process.env.DATABASE_URL;
 
 exports.getGames = function (request, response) {
   var results = [];
 
-  pg.connect(process.env.DATABASE_URL, function(err, client) {
+  pg.connect(config, function(err, client) {
     var query = client.query('SELECT id, logo, title, steamid, playtime, metacritic, platform, owned, metacritic_hint, mayhew, ' +
                                       'timeplayed, timetotal, finished, finalscore, replay, guess, date_added, ' +
                                       'steam_cloud, ' +
@@ -58,7 +59,7 @@ exports.updateGame = function(request, response) {
   console.log("SQL: " + sql);
   console.log("Values: " + values);
 
-  pg.connect(process.env.DATABASE_URL, function(err, client) {
+  pg.connect(config, function(err, client) {
     var queryConfig = {
       text: sql,
       values: values
@@ -94,7 +95,7 @@ exports.addGame = function(request, response) {
   console.log("SQL: " + sql);
   console.log("Values: " + values);
 
-  pg.connect(process.env.DATABASE_URL, function(err, client) {
+  pg.connect(config, function(err, client) {
     var queryConfig = {
       text: sql,
       values: values
