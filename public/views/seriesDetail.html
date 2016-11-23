@@ -143,7 +143,7 @@
                     ng-bind="ctrl.getLabelInfo(episode).labelText"></span>
       </td>
       <td>
-        <span ng-bind="episode.watched_date|date:'shortDate':'+0000'"
+        <span ng-bind="episode.watched_date|date:'shortDate':'+0100'"
               ng-show="episode.watched_date != null"></span>
       </td>
       <td ng-style="episode.colorStyle()" width="70">

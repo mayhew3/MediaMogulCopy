@@ -26,7 +26,7 @@ angular.module('mediaMogulApp')
 
     function updateSeasonLabels() {
       self.episodes.forEach(function (episode) {
-
+        $log.debug("AIR DATE: " + episode.air_date);
         var season = episode.season;
         if (season != null && !(self.seasonLabels.indexOf(season) > -1)) {
           self.seasonLabels.push(season);
