@@ -95,13 +95,13 @@ function EpisodeService($log, $http, $q, $filter) {
 
         series.nextAirDate = resultObj.air_date;
 
-        var combinedStr = $filter('date')(series.nextAirDate, 'shortDate') + " " + series.airs_time;
+        var combinedStr = $filter('date')(series.nextAirDate, 'shortDate', '+0000') + " " + series.airs_time;
         var combinedDate = new Date(combinedStr);
 
         var minutesPart = $filter('date')(combinedDate, 'mm');
         var timeFormat = (minutesPart == '00') ? 'EEEE ha' : 'EEEE h:mm a';
 
-        series.nextAirDateFormatted = $filter('date')(combinedDate, timeFormat, '+0000');
+        series.nextAirDateFormatted = $filter('date')(combinedDate, timeFormat);
         series.nextEpisode = {
           title: resultObj.title,
           season: resultObj.season,
