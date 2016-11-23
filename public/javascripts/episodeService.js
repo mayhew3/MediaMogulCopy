@@ -82,11 +82,15 @@ function EpisodeService($log, $http, $q, $filter) {
     var series_id = resultObj.series_id;
     shows.forEach(function (series) {
       if (series.id == series_id && series.nextAirDate == undefined) {
-        var splits = resultObj.air_date.split("T");
-        var dateOnly = splits[0];
-        var utcStringified = new Date(Date.parse(resultObj.air_date)).toString();
 
-        $log.debug("Updating series " + series.title + " next air date " + resultObj.air_date + ", Split: " + dateOnly + ", UTC: " + utcStringified);
+        // Don't love this. But it's applying a time zone no matter what, so I have to fool it.
+        if (resultObj.air_date != null) {
+          var splits = resultObj.air_date.split("T");
+          resultObj.air_date = new Date(Date.parse(splits[0]+"T08:00:00.000Z"));
+        }
+
+        $log.debug("Updating series " + series.title + " next air date " + resultObj.air_date);
+
         series.nextAirDate = resultObj.air_date;
 
         var combinedStr = $filter('date')(series.nextAirDate, 'shortDate') + " " + series.airs_time;
@@ -130,10 +134,7 @@ function EpisodeService($log, $http, $q, $filter) {
         episodes.forEach( function(episode) {
           episode.imageResolved = episode.tvdb_filename ? 'http://thetvdb.com/banners/'+episode.tvdb_filename : 'images/GenericEpisode.gif';
 
-          // this is to fix issue where time zone was making dates appear on the previous day. I think this works because
-          // it is a timestamp, and Date.parse() removes the time from it, making it just a Date.
-          // episode.air_date = episode.air_date == null ? null : new Date(Date.parse(episode.air_date));
-
+          // Don't love this. But it's applying a time zone no matter what, so I have to fool it.
           if (episode.air_date != null) {
             var splits = episode.air_date.split("T");
             episode.air_date = new Date(Date.parse(splits[0]+"T08:00:00.000Z"));
