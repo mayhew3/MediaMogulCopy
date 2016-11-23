@@ -18,6 +18,9 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
           controllerAs: 'user',
           templateUrl: 'views/profile.html'
         })
+        .when('/tv', {
+            templateUrl: 'views/tv.html'
+        })
         .when('/tvbacklog', {
           templateUrl: 'views/tvbacklog.html'
         })
