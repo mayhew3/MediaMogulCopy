@@ -14,6 +14,10 @@ function EpisodeService($log, $http, $q, $filter) {
   };
 
   this.updateSeriesList = function() {
+    var d = new Date();
+
+    $log.debug("TIME ZONE: " + d.getTimezoneOffset());
+
     return $http.get('/seriesList').then(function (showresponse) {
       $log.debug("Shows returned " + showresponse.data.length + " items.");
       var tempShows = showresponse.data;
