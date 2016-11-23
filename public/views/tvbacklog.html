@@ -1,0 +1,80 @@
+<div class="container">
+  <div ng-controller="seriesController as ctrl">
+
+    <div class="page-header" id="banner">
+      <div class="row">
+        <div class="col-lg-12">
+          <h1>Series List</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="bs-docs-section clearfix">
+      <div class="col-lg-12">
+
+        <div id="episodeFilters">
+          <button type="button"
+                  class="btn btn-primary"
+                  btn-checkbox
+                  btn-checkbox-true="true"
+                  btn-checkbox-false="false"
+                  ng-model="ctrl.unwatchedOnly">Unwatched Only</button>
+          <button type="button"
+                  class="btn btn-success"
+                  ng-click="ctrl.addSeries()"
+              >Add Show</button>
+        </div>
+
+        <div id="seriesContainer">
+          <table class="table table-striped table-hover">
+            <thead>
+              <th>Title</th>
+              <th>Episodes</th>
+              <th>Last Episode</th>
+              <th>Metacritic</th>
+              <th>My Rating</th>
+              <th>Total</th>
+            </thead>
+            <tr data-ng-repeat="series in ctrl.series |
+                filter:ctrl.seriesFilter |
+                orderBy:[ctrl.orderByRating].concat('-FullRating')">
+              <td ng-bind="series.title" ng-click="ctrl.open(series)"></td>
+              <td>
+                 <span class="label label-success"
+                       ng-hide="(series.unwatched_episodes + series.unwatched_streaming) == 0"
+                       ng-bind="(series.unwatched_episodes + series.unwatched_streaming)"
+                       title="New"></span>
+                 <span class="label label-info"
+                       ng-hide="(series.active_episodes + series.streaming_episodes) == 0"
+                       ng-bind="(series.active_episodes + series.streaming_episodes)"
+                       title="Recorded"></span>
+                 <span class="label label-warning"
+                       ng-hide="series.suggestion_episodes == 0"
+                       ng-bind="series.suggestion_episodes"
+                       title="Suggestions"></span>
+                 <span class="label label-default"
+                       ng-bind="series.active_episodes+series.deleted_episodes+series.tvdb_only_episodes"
+                       title="Total"
+                       ng-click="ctrl.tryToMatch(series)"></span>
+                <span class="label label-primary"
+                      ng-hide="series.unwatched_unrecorded == 0"
+                      ng-bind="series.unwatched_unrecorded"
+                      title="UnwatchedUnrecorded"></span>
+                 <span class="label label-danger"
+                       ng-hide="series.unmatched_episodes == 0"
+                       ng-bind="series.unmatched_episodes"
+                       title="Unmatched"
+                       ng-click="ctrl.tryToMatch(series)"></span>
+
+              </td>
+              <td ng-bind="series.most_recent|date:'MM.dd.yy'"></td>
+              <td ng-bind="series.metacritic"></td>
+              <td ng-bind="series.my_rating"></td>
+              <td ng-style="series.colorStyle()" ng-bind="series.FullRating|number: 0" width="70" align="center"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
