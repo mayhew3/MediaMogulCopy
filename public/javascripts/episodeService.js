@@ -45,6 +45,7 @@ function EpisodeService($log, $http, $q, $filter) {
       show.metacritic = parseInt(show.metacritic);
     }
     show.posterResolved = show.poster ? 'http://thetvdb.com/banners/'+show.poster : 'images/GenericSeries.gif';
+    show.unwatched_all = show.unwatched_episodes + show.unwatched_streaming;
   };
   
   this.updateNextUp = function() {

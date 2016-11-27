@@ -38,7 +38,7 @@ angular.module('mediaMogulApp')
     };
 
     self.showInQueue = function(series) {
-      return self.firstTier(series) && (series.unwatched_episodes + series.unwatched_streaming) < 3 && airedInLastDays(series.last_unwatched, 8);
+      return self.firstTier(series) && (series.unwatched_all) < 3 && airedInLastDays(series.last_unwatched, 8);
     };
 
     self.otherActive = function(series) {
@@ -58,7 +58,7 @@ angular.module('mediaMogulApp')
     };
 
     function hasUnwatchedEpisodes(series) {
-      return (series.unwatched_episodes + series.unwatched_streaming + series.unmatched_episodes) > 0;
+      return (series.unwatched_all + series.unmatched_episodes) > 0;
     }
 
     function airedInLastDays(airDate, days) {
@@ -150,10 +150,13 @@ angular.module('mediaMogulApp')
       EpisodeService.markAllWatched(series.id).then(function() {
         $log.debug("Finished update, adjusting denorms.");
         series.unwatched_episodes = 0;
+        series.unwatched_streaming = 0;
+        series.unwatched_all = 0;
         series.last_unwatched = null;
 
         var changedFields = {
           unwatched_episodes: 0,
+          unwatched_streaming: 0,
           last_unwatched: null
         };
 

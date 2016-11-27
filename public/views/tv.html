@@ -57,7 +57,9 @@
                         ng-style="ctrl.posterStyle(show)"
                         ng-src="{{show.posterResolved}}"
                          width="100%"/>
-
+                    <div class="posterBadge">
+                      <span ng-bind="show.unwatched_all"></span>
+                    </div>
 
                   </a>
                 </div>
@@ -80,7 +82,9 @@
                         ng-style="ctrl.posterStyle(show)"
                         ng-src="{{show.posterResolved}}"
                          width="100%"/>
-
+                    <div class="posterBadge">
+                      <span ng-bind="show.unwatched_all"></span>
+                    </div>
 
                   </a>
                 </div>
@@ -130,6 +134,9 @@
                     <img class="img-rounded"
                          ng-src="{{show.posterResolved}}"
                          width="100%"/>
+                    <div class="posterBadge">
+                      <span ng-bind="show.unwatched_all"></span>
+                    </div>
                   </a>
                 </div>
               </div>
