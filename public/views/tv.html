@@ -23,6 +23,11 @@
             New<span class="badge" ng-show="ctrl.countWhere(ctrl.newlyAdded) > 0" ng-bind="ctrl.countWhere(ctrl.newlyAdded)"></span>
           </a>
         </li>
+        <li role="tv" ng-class="ctrl.isActive('Unmatched')">
+          <a href ng-click="ctrl.selectedPill='Unmatched'">
+            Unmatched<span class="badge" ng-show="ctrl.countWhere(ctrl.hasUnmatched) > 0" ng-bind="ctrl.countWhere(ctrl.hasUnmatched)">
+          </a>
+        </li>
       </ul>
 
       <ul class="nav nav-pills nav-stacked btn-sm">
@@ -116,6 +121,7 @@
               </div>
             </div>
           </div>
+
         </div>
 
         <!-- BACKLOG pill -->
@@ -172,7 +178,35 @@
           </div>
         </div>
 
+        <!-- UNMATCHED pill -->
+        <div ng-switch-when="Unmatched">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3>Unmatched Episodes</h3>
+            </div>
+            <div class="panel-body">
+              <div class="row show-list">
+                <div class="fade-repeat col-xs-4 col-md-3 posterRow" ng-repeat="show in ctrl.series |
+                filter:ctrl.hasUnmatched |
+                orderBy:[ctrl.orderByRating].concat('-FullRating')">
+                  <a ng-click="ctrl.tryToMatch(show)" href="">
+                    <img class="img-rounded"
+                         ng-style="ctrl.posterStyle(show)"
+                         ng-src="{{show.posterResolved}}"
+                         width="100%"/>
+                    <div class="posterBadgeRed">
+                      <span ng-bind="show.unmatched_episodes"></span>
+                    </div>
+
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
+
 
 
     </div>

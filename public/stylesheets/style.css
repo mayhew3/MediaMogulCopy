@@ -37,3 +37,17 @@ td {
   padding: 0 5pt;
   border-radius: 3pt;
 }
+
+.posterBadgeRed {
+  bottom: 0;
+  right: 11pt;
+  font-size: 18pt;
+  font-weight: bolder;
+  vertical-align: bottom;
+  text-align: right;
+  position: absolute;
+  background-color: darkred;
+  margin-top: 0;
+  padding: 0 5pt;
+  border-radius: 3pt;
+}

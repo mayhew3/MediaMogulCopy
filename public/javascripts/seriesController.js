@@ -49,6 +49,10 @@ angular.module('mediaMogulApp')
       return series.tier == null;
     };
 
+    self.hasUnmatched = function(series) {
+      return hasUnmatchedEpisodes(series);
+    };
+
     self.countWhere = function(filter) {
       return self.series.filter(filter).length;
     };
@@ -58,7 +62,11 @@ angular.module('mediaMogulApp')
     };
 
     function hasUnwatchedEpisodes(series) {
-      return (series.unwatched_all + series.unmatched_episodes) > 0;
+      return series.unwatched_all > 0;
+    }
+
+    function hasUnmatchedEpisodes(series) {
+      return series.unmatched_episodes > 0;
     }
 
     function airedInLastDays(airDate, days) {
