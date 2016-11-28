@@ -112,6 +112,7 @@
         <div id="gamesContainer">
           <table class="table table-striped table-hover">
             <thead>
+            <th></th>
             <th>Game</th>
             <th>Platform</th>
             <th>Rating</th>
@@ -125,12 +126,12 @@
             <tr data-ng-repeat="game in ctrl.games |
                 filter:ctrl.gamesFilter |
                 orderBy:[ctrl.orderByRating].concat('-FullRating')">
-              <td width="300px" ng-click="ctrl.open(game)">
+              <td width="250px" ng-click="ctrl.open(game)">
                 <img ng-src="{{game.giantbomb_thumb_url}}" ng-hide="game.giantbomb_thumb_url == null">
-                <strong><span class="h4" ng-show="game.giantbomb_thumb_url == null" ng-bind="game.title"></span></strong>
               </td>
+              <td ng-bind="game.title"></td>
               <td ng-bind="game.platform"></td>
-              <td ng-bind="game.FullRating|number:2"></td>
+              <td ng-bind="game.FullRating|number:1"></td>
               <td ng-bind="game.metacritic"></td>
               <td ng-bind="game.guess"></td>
               <td ng-bind="game.mayhew"></td>
