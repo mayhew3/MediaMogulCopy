@@ -72,6 +72,25 @@ angular.module('mediaMogulApp')
       return episode.air_date == null || ((episode.air_date - new Date + (1000*60*60*24)) > 0);
     }
 
+    self.getDateFormat = function(date) {
+      $log.debug("Air Date: " + date);
+
+      var thisYear = (new Date).getFullYear();
+
+      if (date != null) {
+        var year = new Date(date).getFullYear();
+
+        $log.debug("Year: " + year + ", This Year: " + thisYear);
+
+        if (year === thisYear) {
+          return 'EEE M/d';
+        } else {
+          return 'yyyy.M.d';
+        }
+      }
+      return 'yyyy.M.d';
+    };
+
     function removeUnmatched(episode) {
       var index = self.unmatchedEpisodes.indexOf(episode);
       if (index > -1) {

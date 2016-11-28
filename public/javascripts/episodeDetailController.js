@@ -89,6 +89,25 @@ angular.module('mediaMogulApp')
       return changedFields;
     };
 
+    self.getDateFormat = function(date) {
+      $log.debug("Air Date: " + date);
+
+      var thisYear = (new Date).getFullYear();
+
+      if (date != null) {
+        var year = new Date(date).getFullYear();
+
+        $log.debug("Year: " + year + ", This Year: " + thisYear);
+
+        if (year === thisYear) {
+          return 'EEE M/d';
+        } else {
+          return 'yyyy.M.d';
+        }
+      }
+      return 'yyyy.M.d';
+    };
+
 
     function updateWatchedStatus() {
       self.watched_date = formatDate(self.watched_date);

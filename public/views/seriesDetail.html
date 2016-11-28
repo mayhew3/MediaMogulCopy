@@ -136,14 +136,14 @@
       ng-click="ctrl.openEpisodeDetail(episode)">
       <td ng-bind="episode.tvdb_episode_number"></td>
       <td ng-bind="episode.tvdb_episode_name" class="episodeDescription"></td>
-      <td ng-bind="episode.air_date|date:'EEE MM/d':'+0000'"></td>
+      <td ng-bind="episode.air_date|date:ctrl.getDateFormat(episode.air_date):'+0000'"></td>
       <td>
               <span ng-class="ctrl.getLabelInfo(episode).labelClass"
                     ng-hide="ctrl.getLabelInfo(episode) == null"
                     ng-bind="ctrl.getLabelInfo(episode).labelText"></span>
       </td>
       <td>
-        <span ng-bind="episode.watched_date|date:'shortDate'"
+        <span ng-bind="episode.watched_date|date:ctrl.getDateFormat(episode.watched_date):'+0000'"
               ng-show="episode.watched_date != null"></span>
       </td>
       <td ng-style="episode.colorStyle()" width="70">
