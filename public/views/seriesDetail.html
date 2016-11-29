@@ -146,8 +146,7 @@
         <span ng-bind="ctrl.getWatchedDateOrWatched(episode)"></span>
       </td>
       <td ng-style="episode.colorStyle()" width="70">
-        <span ng-bind="episode.rating_value"
-              ng-show="!ctrl.shouldShowRate(episode)"></span>
+        <span ng-bind="ctrl.getRating(episode)"></span>
       </td>
     </tr>
   </table>

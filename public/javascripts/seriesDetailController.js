@@ -26,7 +26,7 @@ angular.module('mediaMogulApp')
 
     function updateSeasonLabels() {
       self.episodes.forEach(function (episode) {
-        $log.debug("AIR DATE: " + episode.air_date);
+        // $log.debug("AIR DATE: " + episode.air_date);
         var season = episode.season;
         if (season != null && !(self.seasonLabels.indexOf(season) > -1)) {
           self.seasonLabels.push(season);
@@ -147,12 +147,20 @@ angular.module('mediaMogulApp')
     };
 
     self.getWatchedDateOrWatched = function(episode) {
-      $log.debug("In getWatchedDateOrWatched. WatchedDate: " + episode.watched_date);
+      // $log.debug("In getWatchedDateOrWatched. WatchedDate: " + episode.watched_date);
       if (episode.watched_date == null) {
         return episode.watched ? "----.--.--" : "";
       } else {
         return $filter('date')(episode.watched_date, self.getDateFormat(episode.watched_date), '+0000');
       }
+    };
+
+    self.getRating = function(episode) {
+      var rating = episode.rating_value;
+      if (rating != null) {
+        return rating;
+      }
+      return episode.watched === true ? "--" : "";
     };
 
     function isStreamingAvailable(episode) {

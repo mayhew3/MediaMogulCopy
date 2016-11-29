@@ -58,10 +58,10 @@ function EpisodeService($log, $http, $q, $filter) {
   };
 
   this.updateRecordingNow = function() {
-    $log.debug("Updating Recording Now.");
+    // $log.debug("Updating Recording Now.");
     return $http.get('recordingNow').then(function(recordingNowResults) {
       recordingNowResults.data.forEach(function (episode) {
-        $log.debug("Found recording in progress for series id " + episode.series_id);
+        // $log.debug("Found recording in progress for series id " + episode.series_id);
         var series_id = episode.series_id;
         var series = findSeriesWithId(series_id);
         if (series == null) {
@@ -83,16 +83,7 @@ function EpisodeService($log, $http, $q, $filter) {
     var series_id = resultObj.series_id;
     shows.forEach(function (series) {
       if (series.id == series_id && series.nextAirDate == undefined) {
-/*
-
-        // Don't love this. But it's applying a time zone no matter what, so I have to fool it.
-        if (resultObj.air_date != null) {
-          var splits = resultObj.air_date.split("T");
-          resultObj.air_date = new Date(Date.parse(splits[0]+"T08:00:00.000Z"));
-        }
-*/
-
-        $log.debug("Updating series " + series.title + " next air date " + resultObj.air_date);
+        // $log.debug("Updating series " + series.title + " next air date " + resultObj.air_date);
 
         series.nextAirDate = resultObj.air_date;
 
@@ -136,23 +127,15 @@ function EpisodeService($log, $http, $q, $filter) {
 
         episodes.forEach( function(episode) {
           episode.imageResolved = episode.tvdb_filename ? 'http://thetvdb.com/banners/'+episode.tvdb_filename : 'images/GenericEpisode.gif';
-/*
-
-          // Don't love this. But it's applying a time zone no matter what, so I have to fool it.
-          if (episode.air_date != null) {
-            var splits = episode.air_date.split("T");
-            episode.air_date = new Date(Date.parse(splits[0]+"T08:00:00.000Z"));
-          }
-*/
 
           episode.colorStyle = function() {
-            if (episode.rating_value == null) {
+            if (episode.watched !== true) {
               return {};
             } else {
               var hue = (episode.rating_value <= 50) ? episode.rating_value * 0.5 : (50 * 0.5 + (episode.rating_value - 50) * 4.5);
-              // $log.debug("Rating " + episode.rating_value + ": Hue " + hue);
+              var saturation = episode.rating_value == null ? "0%" : "50%";
               return {
-                'background-color': 'hsla(' + hue + ', 50%, 42%, 1)',
+                'background-color': 'hsla(' + hue + ', ' + saturation + ', 42%, 1)',
                 'font-size': '1.6em',
                 'text-align': 'center',
                 'font-weight': '800',

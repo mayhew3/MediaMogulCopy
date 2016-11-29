@@ -73,14 +73,14 @@ angular.module('mediaMogulApp')
     }
 
     self.getDateFormat = function(date) {
-      $log.debug("Air Date: " + date);
+      // $log.debug("Air Date: " + date);
 
       var thisYear = (new Date).getFullYear();
 
       if (date != null) {
         var year = new Date(date).getFullYear();
 
-        $log.debug("Year: " + year + ", This Year: " + thisYear);
+        // $log.debug("Year: " + year + ", This Year: " + thisYear);
 
         if (year === thisYear) {
           return 'EEE M/d';
