@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-  .controller('seriesDetailController', ['$log', 'EpisodeService', '$modalInstance', 'series', '$modal',
-  function($log, EpisodeService, $modalInstance, series, $modal) {
+  .controller('seriesDetailController', ['$log', 'EpisodeService', '$modalInstance', 'series', '$modal', '$filter',
+  function($log, EpisodeService, $modalInstance, series, $modal, $filter) {
     var self = this;
 
     self.series = series;
@@ -146,6 +146,15 @@ angular.module('mediaMogulApp')
       return episode.rating_value == null && (isTiVoAvailable(episode) || isStreamingAvailable(episode));
     };
 
+    self.getWatchedDateOrWatched = function(episode) {
+      $log.debug("In getWatchedDateOrWatched. WatchedDate: " + episode.watched_date);
+      if (episode.watched_date == null) {
+        return episode.watched ? "----.--.--" : "";
+      } else {
+        return $filter('date')(episode.watched_date, self.getDateFormat(episode.watched_date), '+0000');
+      }
+    };
+
     function isStreamingAvailable(episode) {
       return episode.streaming && !airsInTheNextXDays(episode, 0);
     }
@@ -199,14 +208,10 @@ angular.module('mediaMogulApp')
     };
 
     self.getDateFormat = function(date) {
-      $log.debug("Air Date: " + date);
-
       var thisYear = (new Date).getFullYear();
 
       if (date != null) {
         var year = new Date(date).getFullYear();
-
-        $log.debug("Year: " + year + ", This Year: " + thisYear);
 
         if (year === thisYear) {
           return 'EEE M/d';
