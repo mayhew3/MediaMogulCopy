@@ -114,131 +114,13 @@ exports.changeTier = function(req, response) {
   executeQueryNoResults(response, sql, [tier, seriesId]);
 };
 
-exports.addSeries = function(req, res, next) {
+exports.addSeries = function(req, res) {
   console.log("Entered addSeries server call.");
 
   var seriesObj = req.body.series;
 
-  var seriesName = seriesObj.title
-      .toLowerCase()
-      .replace(/ /g, '_')
-      .replace(/[^\w-]+/g, '');
-  var apiKey = '04DBA547465DC136';
-
-  console.log("Entering start of method for series " + seriesName);
-
-  var parser = xml2js.Parser({
-    explicitArray: false,
-    normalizeTags: true
-  });
-
-  async.waterfall([
-    function(callback) {
-      request.get('http://thetvdb.com/api/GetSeries.php?seriesname=' + seriesName, function (error, response, body) {
-        if (error) return next(error);
-        parser.parseString(body, function(err, result) {
-          if (!result.data.series) {
-            seriesObj.tvdb_series_id = null;
-            return insertSeries(seriesObj, res);
-          }
-          var tvdbId = result.data.series.seriesid || result.data.series[0].seriesid;
-          console.log("Found ID on TVDB! Id is " + tvdbId);
-          callback(err, seriesObj, tvdbId);
-        });
-      });
-    },
-    function (existingSeries, tvdbId, callback) {
-      request.get('http://thetvdb.com/api/' + apiKey + '/series/' + tvdbId + '/all/en.xml', function (error, response, body) {
-        if (error) return next(error);
-
-        parser.parseString(body, function (err, result) {
-          var series = result.data.series;
-
-          existingSeries.tvdb_series_ext_id = series.id;
-          existingSeries.tvdbName = series.seriesname;
-          existingSeries.tvdbAirsDayOfWeek = series.airs_dayofweek;
-          existingSeries.tvdbAirsTime = series.airs_time;
-          existingSeries.tvdbFirstAired = series.firstaired;
-          existingSeries.tvdbGenre = series.genre.split('|').filter(Boolean);
-          existingSeries.tvdbNetwork = series.network;
-          existingSeries.tvdbOverview = series.overview;
-          existingSeries.tvdbRating = series.rating;
-          existingSeries.tvdbRatingCount = series.ratingcount;
-          existingSeries.tvdbRuntime = series.runtime;
-          existingSeries.tvdbStatus = series.status;
-          existingSeries.tvdbPoster = series.poster;
-
-          callback(err, existingSeries);
-        });
-      });
-    }
-  ], function (err, series) {
-    if (err) return next(err);
-
-    if (series.tvdb_series_ext_id == null) {
-      console.log("tvdb_series_ext_id is null, so not inserting into tvdb_series.");
-      return insertSeries(series, res);
-    }
-
-    var sql = "INSERT INTO tvdb_series (" +
-        "tvdb_series_ext_id, name, airs_day_of_week, airs_time, first_aired, network, overview, " +
-        "rating, rating_count, runtime, status, poster, date_added) " +
-        "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) " +
-        "RETURNING id";
-
-    console.log(sql);
-
-    var values = [
-      series.tvdb_series_ext_id,
-      series.tvdbName,
-      series.tvdbAirsDayOfWeek,
-      series.tvdbAirsTime,
-      series.tvdbFirstAired,
-      series.tvdbNetwork,
-      series.tvdbOverview,
-      (series.tvdbRating == "") ? null : series.tvdbRating,
-      series.tvdbRatingCount,
-      series.tvdbRuntime,
-      series.tvdbStatus,
-      series.tvdbPoster,
-      new Date
-    ];
-
-    var queryConfig = {
-      text: sql,
-      values: values
-    };
-
-    var client = new pg.Client(config);
-    if (client == null) {
-      return console.error('null client');
-    }
-
-    client.connect(function(err) {
-      if (err) {
-        return console.error('could not connect to postgres', err);
-      }
-
-      client.query(queryConfig, function(err, result) {
-        if (err) {
-          console.error(err);
-          response.send("Error " + err);
-        }
-        console.log("tvdb_series insert successful.");
-
-        // NOTE: This only works because the query has "RETURNING id" at the end.
-        series.tvdb_series_id = result.rows[0].id;
-
-        console.log("tvdb_series_id found: " + series.tvdb_series_id);
-        return insertSeries(series, res);
-      });
-
-    });
-
-
-  });
-
-
+  seriesObj.tvdb_series_id = null;
+  return insertSeries(seriesObj, res);
 };
 
 var insertSeries = function(series, response) {
