@@ -56,9 +56,10 @@ exports.getEpisodes = function(req, response) {
       ' ON er.episode_id = e.id ' +
       'WHERE e.series_id = $1 ' +
       'AND e.retired = $2 ' +
+      'AND te.retired = $3 ' +
       'ORDER BY e.season, te.episode_number, ti.id';
 
-  return executeQueryWithResults(response, sql, [req.query.SeriesId, 0]);
+  return executeQueryWithResults(response, sql, [req.query.SeriesId, 0, 0]);
 };
 
 exports.getRecordingNow = function(req, response) {
