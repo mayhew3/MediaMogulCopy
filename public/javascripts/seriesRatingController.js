@@ -76,17 +76,13 @@ angular.module('mediaMogulApp')
     }
 
     self.originalFields = {
-      metacritic: self.episodeGroup.metacritic,
-      my_rating: self.episodeGroup.my_rating,
-      tvdb_hint: self.episodeGroup.tvdb_hint,
-      metacritic_hint: self.episodeGroup.metacritic_hint
+      rating: self.episodeGroup.rating,
+      review: self.episodeGroup.review
     };
 
     self.interfaceFields = {
-      metacritic: self.episodeGroup.metacritic,
-      my_rating: self.episodeGroup.my_rating,
-      tvdb_hint: self.episodeGroup.tvdb_hint,
-      metacritic_hint: self.episodeGroup.metacritic_hint
+      rating: self.episodeGroup.rating,
+      review: self.episodeGroup.review
     };
 
 
@@ -149,8 +145,46 @@ angular.module('mediaMogulApp')
       });
     };
 
+    self.updateRating = function() {
+      episodeGroup.rating = self.interfaceFields.rating;
+      episodeGroup.review = self.interfaceFields.review;
 
-    self.ok = function() {
-      $modalInstance.close();
+      var changedFields = self.getChangedFields();
+      if (Object.keys(changedFields).length > 0) {
+        return EpisodeService.updateEpisodeGroupRating(self.episodeGroup.id, changedFields);
+      }
+      return new Promise(function(resolve) {
+        resolve();
+      });
     };
+
+    self.getChangedFields = function() {
+      var changedFields = {};
+      for (var key in self.interfaceFields) {
+        if (self.interfaceFields.hasOwnProperty(key)) {
+          var value = self.interfaceFields[key];
+
+          $log.debug("In loop, key: " + key + ", value: " + value + ", old value: " + self.originalFields[key]);
+
+          if (value != self.originalFields[key]) {
+            $log.debug("Changed detected... ");
+            changedFields[key] = value;
+          }
+        }
+      }
+
+      return changedFields;
+    };
+
+
+    self.updateAndClose = function() {
+      self.updateRating()
+        .then(function () {
+          $modalInstance.close();
+        });
+    };
+
+    self.cancel = function() {
+      $modalInstance.dismiss();
+    }
   }]);

@@ -43,6 +43,7 @@ module.exports = function(app) {
   app.post('/changeTier', series.changeTier);
   app.post('/addSeries', series.addSeries);
   app.post('/updateSeries', series.updateSeries);
+  app.post('/updateEpisodeGroupRating', series.updateEpisodeGroupRating);
   app.post('/addViewingLocation', series.addViewingLocation);
   app.post('/removeViewingLocation', series.removeViewingLocation);
   app.post('/changeEpisodesStreaming', series.changeEpisodesStreaming);

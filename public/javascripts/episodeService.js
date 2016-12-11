@@ -290,6 +290,11 @@ function EpisodeService($log, $http, $q, $filter) {
     });
   };
 
+  this.updateEpisodeGroupRating = function(episodeGroupRatingId, changedFields) {
+    $log.debug('Received update for EpisodeGroupRating ' + episodeGroupRatingId + " with data " + JSON.stringify(changedFields));
+    return $http.post('/updateEpisodeGroupRating', {EpisodeGroupRatingId: episodeGroupRatingId, ChangedFields: changedFields});
+  };
+
   this.addViewingLocation = function(series, episodes, viewingLocation) {
     var wasStreamingBefore = self.isStreaming(series);
     var changedToStreaming = !wasStreamingBefore && viewingLocation.streaming;

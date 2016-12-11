@@ -264,6 +264,17 @@ exports.updateEpisode = function(req, response) {
   return executeQueryNoResults(response, queryConfig.text, queryConfig.values);
 };
 
+exports.updateEpisodeGroupRating = function(req, response) {
+  console.log("Update EpisodeGroupRating with " + JSON.stringify(req.body.ChangedFields));
+
+  var queryConfig = buildUpdateQueryConfig(req.body.ChangedFields, "episode_group_rating", req.body.EpisodeGroupRatingId);
+
+  console.log("SQL: " + queryConfig.text);
+  console.log("Values: " + queryConfig.values);
+
+  return executeQueryNoResults(response, queryConfig.text, queryConfig.values);
+};
+
 exports.updateMultipleEpisodes = function(req, response) {
   console.log("Update Multiple Episodes with " + JSON.stringify(req.body.ChangedFields));
 
