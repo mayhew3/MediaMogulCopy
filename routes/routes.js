@@ -17,7 +17,6 @@ module.exports = function(app) {
     res.json({ message: "Hello from a private endpoint! You DO need to be authenticated to see this." });
   });
 
-
   // GAMES
   app.get('/api/games', authCheck, games.getGames);
 
