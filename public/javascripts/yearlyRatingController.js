@@ -30,9 +30,11 @@ angular.module('mediaMogulApp')
       }
     };
 
-    self.episodeGroupFilter = function(episodeGroup) {
+    self.unratedGroupFilter = function(episodeGroup) {
       return (episodeGroup.num_episodes === episodeGroup.watched) && episodeGroup.rating == null;
     };
+
+    self.episodeGroupFilter = self.unratedGroupFilter;
 
     self.orderBySuggested = function(episodeGroup) {
       return ((episodeGroup.suggested_rating == null) ? 1 : 0);
