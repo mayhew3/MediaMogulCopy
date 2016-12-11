@@ -21,6 +21,43 @@
       </div>
 
       <div class="form-group col-lg-9">
+
+        <div class="form-group col-lg-3">
+          <label class="control-label" for="avgRating">Average</label>
+          <div ng-style="ctrl.colorStyle(ctrl.episodeGroup.avg_rating)">
+            <h3>
+              <strong>
+                <span id="avgRating" ng-bind="ctrl.episodeGroup.avg_rating"></span>
+              </strong>
+            </h3>
+          </div>
+        </div>
+
+        <div class="form-group col-lg-3">
+          <label class="control-label" for="maxRating">Max</label>
+          <div ng-style="ctrl.colorStyle(ctrl.episodeGroup.max_rating)">
+            <h3>
+              <strong>
+                <span id="maxRating" ng-bind="ctrl.episodeGroup.max_rating"></span>
+              </strong>
+            </h3>
+          </div>
+        </div>
+
+        <div class="form-group col-lg-3">
+          <label class="control-label" for="lastRating">Last</label>
+          <div ng-style="ctrl.colorStyle(ctrl.episodeGroup.last_rating)">
+            <h3>
+              <strong>
+                <span id="lastRating" ng-bind="ctrl.episodeGroup.last_rating"></span>
+              </strong>
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-lg-9">
+
         <div class="form-group col-lg-3">
           <label class="control-label" for="ratingValue">Rating</label>
           <input type="number"
