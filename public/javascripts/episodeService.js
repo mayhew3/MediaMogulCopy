@@ -1,6 +1,7 @@
 function EpisodeService($log, $http, $q, $filter) {
   var shows = [];
   var episodes = [];
+  var episodeGroupRatings = [];
   var unmatchedEpisodes = [];
   var possibleMatches = [];
   var viewingLocations = [];
@@ -34,6 +35,14 @@ function EpisodeService($log, $http, $q, $filter) {
 
     }, function (errResponse) {
       console.error('Error while fetching series list: ' + errResponse);
+    });
+  };
+
+  this.updateEpisodeGroupRatings = function(year) {
+    return $http.get('/episodeGroupRatings', {params: {Year: year}}).then(function (groupResponse) {
+      var tempShows = groupResponse.data;
+      $log.debug("Series returned for year " + year + ": " + tempShows.length);
+      episodeGroupRatings = tempShows;
     });
   };
 
@@ -215,6 +224,10 @@ function EpisodeService($log, $http, $q, $filter) {
 
   this.getSeriesList = function() {
     return shows;
+  };
+
+  this.getEpisodeGroupRatings = function() {
+    return episodeGroupRatings;
   };
 
   this.getViewingLocations = function() {

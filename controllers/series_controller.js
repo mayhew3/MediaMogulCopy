@@ -17,6 +17,18 @@ exports.getSeries = function(request, response) {
   return executeQueryWithResults(response, sql, [false]);
 };
 
+exports.getEpisodeGroupRatings = function(request, response) {
+  var year = request.query.Year;
+
+  var sql = 'SELECT s.title, egr.* ' +
+    'FROM episode_group_rating egr ' +
+    'INNER JOIN series s ' +
+    ' ON egr.series_id = s.id ' +
+    'WHERE year = $1 ';
+
+  return executeQueryWithResults(response, sql, [year]);
+};
+
 exports.getEpisodes = function(req, response) {
   console.log("Episode call received. Params: " + req.query.SeriesId);
 

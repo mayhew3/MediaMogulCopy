@@ -24,6 +24,9 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
         .when('/tvbacklog', {
           templateUrl: 'views/tvbacklog.html'
         })
+        .when('/tvyearly', {
+          templateUrl: 'views/tvyearly.html'
+        })
       ;
       $routeProvider.otherwise({
         redirectTo: '/'
