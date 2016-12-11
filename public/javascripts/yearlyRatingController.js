@@ -3,17 +3,17 @@ angular.module('mediaMogulApp')
   function($log, $modal, EpisodeService) {
     var self = this;
 
-    self.series = [];
+    self.episodeGroups = [];
 
     self.year = 2016;
 
-    self.refreshSeriesList = function(year) {
+    self.refreshEpisodeGroupList = function(year) {
       EpisodeService.updateEpisodeGroupRatings(year).then(function () {
-        self.series = EpisodeService.getEpisodeGroupRatings();
-        $log.debug("Controller has " + self.series.length + " shows.");
+        self.episodeGroups = EpisodeService.getEpisodeGroupRatings();
+        $log.debug("Controller has " + self.episodeGroups.length + " shows.");
       });
     };
-    self.refreshSeriesList(self.year);
+    self.refreshEpisodeGroupList(self.year);
 
     self.colorStyle = function(scaledValue) {
       if (scaledValue == null) {
@@ -30,12 +30,26 @@ angular.module('mediaMogulApp')
       }
     };
 
-    self.seriesFilter = function(series) {
-      return (series.num_episodes === series.watched) && series.rating == null;
+    self.episodeGroupFilter = function(episodeGroup) {
+      return (episodeGroup.num_episodes === episodeGroup.watched) && episodeGroup.rating == null;
     };
 
-    self.orderBySuggested = function(series) {
-      return ((series.suggested_rating == null) ? 1 : 0);
+    self.orderBySuggested = function(episodeGroup) {
+      return ((episodeGroup.suggested_rating == null) ? 1 : 0);
     };
+
+    self.openSeriesRating = function(episodeGroup) {
+      $modal.open({
+        templateUrl: 'views/seriesRating.html',
+        controller: 'seriesRatingController as ctrl',
+        size: 'lg',
+        resolve: {
+          episodeGroup: function() {
+            return episodeGroup;
+          }
+        }
+      });
+    };
+
   }
 ]);

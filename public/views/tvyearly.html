@@ -12,7 +12,7 @@
     <div class="bs-docs-section clearfix">
       <div class="col-lg-12">
 
-        <div id="seriesContainer">
+        <div id="episodeGroupContainer">
           <table class="table table-striped table-hover">
             <thead>
               <th>Title</th>
@@ -22,25 +22,26 @@
               <th>Unrated</th>
               <th>Suggested</th>
             </thead>
-            <tr data-ng-repeat="series in ctrl.series |
-                filter:ctrl.seriesFilter |
-                orderBy:[ctrl.orderBySuggested].concat('-suggested_rating')">
-              <td ng-bind="series.title"></td>
-              <td ng-style="ctrl.colorStyle(series.avg_rating)"  ng-bind="series.avg_rating|number: 1" width="70" align="center"></td>
-              <td ng-bind="series.max_rating" align="center"></td>
-              <td ng-bind="series.last_rating" align="center"></td>
+            <tr data-ng-repeat="episodeGroup in ctrl.episodeGroups |
+                filter:ctrl.episodeGroupFilter |
+                orderBy:[ctrl.orderBySuggested].concat('-suggested_rating')"
+            ng-click="ctrl.openSeriesRating(episodeGroup)">
+              <td ng-bind="episodeGroup.title"></td>
+              <td ng-style="ctrl.colorStyle(episodeGroup.avg_rating)"  ng-bind="episodeGroup.avg_rating|number: 1" width="70" align="center"></td>
+              <td ng-bind="episodeGroup.max_rating" align="center"></td>
+              <td ng-bind="episodeGroup.last_rating" align="center"></td>
               <td>
                 <span class="label label-danger"
-                      ng-hide="series.watched - series.rated == 0"
-                      ng-bind="series.watched - series.rated"
+                      ng-hide="episodeGroup.watched - episodeGroup.rated == 0"
+                      ng-bind="episodeGroup.watched - episodeGroup.rated"
                       title="Unrated"></span>
-                <span ng-hide="series.watched - series.rated == 0"> / </span>
+                <span ng-hide="episodeGroup.watched - episodeGroup.rated == 0"> / </span>
                 <span class="label label-info"
-                      ng-hide="series.watched - series.rated == 0"
-                      ng-bind="series.num_episodes"
+                      ng-hide="episodeGroup.watched - episodeGroup.rated == 0"
+                      ng-bind="episodeGroup.num_episodes"
                       title="Episodes"></span>
               </td>
-              <td ng-style="ctrl.colorStyle(series.suggested_rating)" ng-bind="series.suggested_rating|number: 1" width="70" align="center"></td>
+              <td ng-style="ctrl.colorStyle(episodeGroup.suggested_rating)" ng-bind="episodeGroup.suggested_rating|number: 1" width="70" align="center"></td>
             </tr>
           </table>
         </div>

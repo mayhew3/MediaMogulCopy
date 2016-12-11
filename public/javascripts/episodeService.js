@@ -112,6 +112,27 @@ function EpisodeService($log, $http, $q, $filter) {
     });
   }
 
+  this.updateEpisodeListForRating = function(episodeRatingGroup) {
+    return $http.get('/episodeList', {params: {SeriesId: episodeRatingGroup.series_id}}).then(function(episodeResponse) {
+      episodes = [];
+      var tempEpisodes = episodeResponse.data;
+      tempEpisodes.forEach(function(episode) {
+        var existing = self.findEpisodeWithId(episode.id);
+        if (existing) {
+          self.removeFromArray(episodes, existing);
+        }
+        episodes.push(episode);
+      });
+
+      $log.debug(episodes.length + " episodes found for series " + episodeRatingGroup.title);
+
+      episodes.forEach( function(episode) {
+        episode.imageResolved = episode.tvdb_filename ? 'http://thetvdb.com/banners/' + episode.tvdb_filename : 'images/GenericEpisode.gif';
+        self.updateNumericEpisodeFields(episode);
+      });
+    });
+  };
+
   this.updateEpisodeList = function(series) {
     var deferred = $q.defer();
     var urlCalls = [];
