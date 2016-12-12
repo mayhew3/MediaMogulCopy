@@ -20,14 +20,14 @@
               <th>Max</th>
               <th>Last</th>
               <th>Unrated</th>
-              <th>Suggested</th>
+              <th>Rating</th>
             </thead>
             <tr data-ng-repeat="episodeGroup in ctrl.episodeGroups |
                 filter:ctrl.episodeGroupFilter |
                 orderBy:[ctrl.orderBySuggested].concat('-suggested_rating')"
             ng-click="ctrl.openSeriesRating(episodeGroup)">
               <td ng-bind="episodeGroup.title"></td>
-              <td ng-style="ctrl.colorStyle(episodeGroup.avg_rating)"  ng-bind="episodeGroup.avg_rating|number: 1" width="70" align="center"></td>
+              <td ng-style="ctrl.colorStyleFull(episodeGroup.avg_rating)"  ng-bind="episodeGroup.avg_rating|number: 1" width="70" align="center"></td>
               <td ng-bind="episodeGroup.max_rating" align="center"></td>
               <td ng-bind="episodeGroup.last_rating" align="center"></td>
               <td>
@@ -41,7 +41,7 @@
                       ng-bind="episodeGroup.num_episodes"
                       title="Episodes"></span>
               </td>
-              <td ng-style="ctrl.colorStyle(episodeGroup.suggested_rating)" ng-bind="episodeGroup.suggested_rating|number: 1" width="70" align="center"></td>
+              <td ng-style="ctrl.getBestRatingColorStyle(episodeGroup)" ng-bind="ctrl.getBestRating(episodeGroup)|number: 1" width="70" align="center"></td>
             </tr>
           </table>
         </div>

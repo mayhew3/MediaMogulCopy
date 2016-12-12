@@ -15,26 +15,48 @@ angular.module('mediaMogulApp')
     };
     self.refreshEpisodeGroupList(self.year);
 
-    self.colorStyle = function(scaledValue) {
+    self.colorStyle = function(scaledValue, full) {
       if (scaledValue == null) {
         return {};
       } else {
+        var saturation = full ? "50%" : "20%";
+        var fontColor = full ? "white" : "light gray";
         var hue = (scaledValue <= 50) ? scaledValue * 0.5 : (50 * 0.5 + (scaledValue - 50) * 4.5);
         return {
-          'background-color': 'hsla(' + hue + ', 50%, 42%, 1)',
+          'background-color': 'hsla(' + hue + ', ' + saturation + ', 42%, 1)',
           'font-size': '1.6em',
           'text-align': 'center',
           'font-weight': '800',
-          'color': 'white'
+          'color': fontColor
         }
       }
+    };
+
+    self.colorStyleFull = function(scaledValue) {
+      return self.colorStyle(scaledValue, true);
+    };
+
+    self.colorStyleMuted = function(scaledValue) {
+      return self.colorStyle(scaledValue, false);
+    };
+
+    self.getBestRating = function(episodeGroup) {
+      return episodeGroup.rating == null ? episodeGroup.suggested_rating : episodeGroup.rating;
+    };
+
+    self.getBestRatingColorStyle = function(episodeGroup) {
+      return episodeGroup.rating == null ? self.colorStyleMuted(episodeGroup.suggested_rating) : self.colorStyleFull(episodeGroup.rating);
     };
 
     self.unratedGroupFilter = function(episodeGroup) {
       return (episodeGroup.num_episodes === episodeGroup.watched) && episodeGroup.rating == null;
     };
 
-    self.episodeGroupFilter = self.unratedGroupFilter;
+    self.fullyWatchedGroupFilter = function(episodeGroup) {
+      return (episodeGroup.num_episodes === episodeGroup.watched);
+    };
+
+    self.episodeGroupFilter = self.fullyWatchedGroupFilter;
 
     self.orderBySuggested = function(episodeGroup) {
       return ((episodeGroup.suggested_rating == null) ? 1 : 0);
