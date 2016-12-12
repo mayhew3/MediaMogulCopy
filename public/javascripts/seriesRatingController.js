@@ -4,6 +4,7 @@ angular.module('mediaMogulApp')
     var self = this;
 
     self.episodeGroup = episodeGroup;
+    self.episodeGroup.rating = self.episodeGroup.rating == null ? null : parseFloat(self.episodeGroup.rating);
 
     $log.debug("SeriesId: " + self.episodeGroup.series_id);
 

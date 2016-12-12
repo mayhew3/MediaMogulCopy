@@ -58,8 +58,11 @@ angular.module('mediaMogulApp')
 
     self.episodeGroupFilter = self.fullyWatchedGroupFilter;
 
-    self.orderBySuggested = function(episodeGroup) {
-      return ((episodeGroup.suggested_rating == null) ? 1 : 0);
+    self.orderByRating = function(episodeGroup) {
+      return episodeGroup.rating == null ?
+                (episodeGroup.suggested_rating == null ?
+                  101 : (100 - episodeGroup.suggested_rating)) :
+        (100 - episodeGroup.rating);
     };
 
     self.openSeriesRating = function(episodeGroup) {
