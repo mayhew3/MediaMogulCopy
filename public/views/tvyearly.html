@@ -20,6 +20,7 @@
               <th>Max</th>
               <th>Last</th>
               <th>Unrated</th>
+              <th>Needs</th>
               <th>Rating</th>
             </thead>
             <tr data-ng-repeat="episodeGroup in ctrl.episodeGroups |
@@ -40,6 +41,14 @@
                       ng-hide="episodeGroup.watched - episodeGroup.rated == 0"
                       ng-bind="episodeGroup.num_episodes"
                       title="Episodes"></span>
+              </td>
+              <td>
+                <span class="label label-danger"
+                      ng-show="episodeGroup.rating == null"
+                      title="Needs Rating">Rating</span>
+                <span class="label label-warning"
+                      ng-show="episodeGroup.rating != null && episodeGroup.review == null"
+                      title="Needs Review">Review</span>
               </td>
               <td ng-style="ctrl.getBestRatingColorStyle(episodeGroup)" ng-bind="ctrl.getBestRating(episodeGroup)|number: 1" width="70" align="center"></td>
             </tr>
