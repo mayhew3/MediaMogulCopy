@@ -13,19 +13,32 @@
       <div class="container col-lg-2">
         <ul class="nav nav-pills nav-stacked btn-sm">
           <li role="episodeGroup" ng-class="ctrl.isActive('Watched')">
-            <a href ng-click="ctrl.filterWatched()">Watched</a>
+            <a href ng-click="ctrl.filterWatched()">
+              Watched <span class="badge" ng-show="ctrl.countWhere(ctrl.fullyWatchedGroupFilter) > 0" ng-bind="ctrl.countWhere(ctrl.fullyWatchedGroupFilter)"></span>
+            </a>
+          </li>
+          <li role="episodeGroup" ng-class="ctrl.isActive('Rated')">
+            <a href ng-click="ctrl.filterRated()">
+              Rated <span class="badge" ng-show="ctrl.countWhere(ctrl.ratedGroupFilter) > 0" ng-bind="ctrl.countWhere(ctrl.ratedGroupFilter)"></span>
+            </a>
           </li>
           <li role="episodeGroup" ng-class="ctrl.isActive('To Rate')">
-            <a href ng-click="ctrl.filterToRate()">To Rate</a>
+            <a href ng-click="ctrl.filterToRate()">
+              To Rate <span class="badge" ng-show="ctrl.countWhere(ctrl.unratedGroupFilter) > 0" ng-bind="ctrl.countWhere(ctrl.unratedGroupFilter)"></span>
+            </a>
           </li>
           <li role="episodeGroup" ng-class="ctrl.isActive('To Review')">
-            <a href ng-click="ctrl.filterToReview()">To Review</a>
+            <a href ng-click="ctrl.filterToReview()">
+              To Review <span class="badge" ng-show="ctrl.countWhere(ctrl.unreviewedGroupFilter) > 0" ng-bind="ctrl.countWhere(ctrl.unreviewedGroupFilter)"></span>
+            </a>
+          </li>
+          <li role="episodeGroup" ng-class="ctrl.isActive('To Air')">
+            <a href ng-click="ctrl.filterToAir()">
+              To Air <span class="badge" ng-show="ctrl.countWhere(ctrl.unairedGroupFilter) > 0" ng-bind="ctrl.countWhere(ctrl.unairedGroupFilter)"></span>
+            </a>
           </li>
           <li role="episodeGroup" ng-class="ctrl.isActive('To Watch')">
             <a href ng-click="ctrl.filterToWatch()">To Watch</a>
-          </li>
-          <li role="episodeGroup" ng-class="ctrl.isActive('To Air')">
-            <a href ng-click="ctrl.filterToAir()">To Air</a>
           </li>
         </ul>
       </div>
