@@ -7,6 +7,13 @@ angular.module('mediaMogulApp')
 
     self.year = 2016;
 
+    self.selectedPill = 'Watched';
+
+    self.showNeeds = true;
+    self.showUnrated = true;
+    self.showUnwatched = false;
+    self.showUnaired = false;
+
     self.refreshEpisodeGroupList = function(year) {
       EpisodeService.updateEpisodeGroupRatings(year).then(function () {
         self.episodeGroups = EpisodeService.getEpisodeGroupRatings();
@@ -40,6 +47,22 @@ angular.module('mediaMogulApp')
       return self.colorStyle(scaledValue, false);
     };
 
+    self.isActive = function(pillName) {
+      return (pillName == self.selectedPill) ? "active" : null;
+    };
+
+    self.getUnrated = function(episodeGroup) {
+      return episodeGroup.watched - episodeGroup.rated;
+    };
+
+    self.getUnwatched = function(episodeGroup) {
+      return episodeGroup.aired - episodeGroup.watched;
+    };
+
+    self.getUnaired = function(episodeGroup) {
+      return episodeGroup.num_episodes - episodeGroup.aired;
+    };
+
     self.getBestRating = function(episodeGroup) {
       return episodeGroup.rating == null ? episodeGroup.suggested_rating : episodeGroup.rating;
     };
@@ -49,11 +72,24 @@ angular.module('mediaMogulApp')
     };
 
     self.unratedGroupFilter = function(episodeGroup) {
-      return (episodeGroup.num_episodes === episodeGroup.watched) && episodeGroup.rating == null;
+      return (self.getUnwatched(episodeGroup) == 0) && episodeGroup.rating == null;
+    };
+
+    self.unreviewedGroupFilter = function(episodeGroup) {
+      return (episodeGroup.rating != null && episodeGroup.review == null);
     };
 
     self.fullyWatchedGroupFilter = function(episodeGroup) {
-      return (episodeGroup.num_episodes === episodeGroup.watched);
+      return (self.getUnwatched(episodeGroup) == 0);
+    };
+
+    self.unairedGroupFilter = function(episodeGroup) {
+      var diff = new Date(episodeGroup.last_aired) - new Date + (1000 * 60 * 60 * 24);
+      return (diff > 0) && (self.getUnaired(episodeGroup) != 0);
+    };
+
+    self.unwatchedGroupFilter = function(episodeGroup) {
+      return (self.getUnwatched(episodeGroup) != 0);
     };
 
     self.episodeGroupFilter = self.fullyWatchedGroupFilter;
@@ -63,6 +99,76 @@ angular.module('mediaMogulApp')
                 (episodeGroup.suggested_rating == null ?
                   101 : (100 - episodeGroup.suggested_rating)) :
         (100 - episodeGroup.rating);
+    };
+
+    self.orderByUnwatched = function(episodeGroup) {
+      return self.getUnwatched(episodeGroup);
+    };
+
+    self.orderByUnaired = function(episodeGroup) {
+      return self.getUnaired(episodeGroup);
+    };
+
+    self.seriesOrdering = self.orderByRating;
+
+    self.filterWatched = function() {
+      self.selectedPill = 'Watched';
+
+      self.episodeGroupFilter = self.fullyWatchedGroupFilter;
+      self.seriesOrdering = self.orderByRating;
+
+      self.showNeeds = true;
+      self.showUnrated = true;
+      self.showUnwatched = false;
+      self.showUnaired = false;
+    };
+
+    self.filterToRate = function() {
+      self.selectedPill = 'To Rate';
+
+      self.episodeGroupFilter = self.unratedGroupFilter;
+      self.seriesOrdering = self.orderByRating;
+
+      self.showNeeds = false;
+      self.showUnrated = true;
+      self.showUnwatched = false;
+      self.showUnaired = false;
+    };
+
+    self.filterToReview = function() {
+      self.selectedPill = 'To Review';
+
+      self.episodeGroupFilter = self.unreviewedGroupFilter;
+      self.seriesOrdering = self.orderByRating;
+
+      self.showNeeds = false;
+      self.showUnrated = true;
+      self.showUnwatched = false;
+      self.showUnaired = false;
+    };
+
+    self.filterToWatch = function() {
+      self.selectedPill = 'To Watch';
+
+      self.episodeGroupFilter = self.unwatchedGroupFilter;
+      self.seriesOrdering = self.orderByUnwatched;
+
+      self.showNeeds = false;
+      self.showUnrated = false;
+      self.showUnwatched = true;
+      self.showUnaired = false;
+    };
+
+    self.filterToAir = function() {
+      self.selectedPill = 'To Air';
+
+      self.episodeGroupFilter = self.unairedGroupFilter;
+      self.seriesOrdering = self.orderByUnaired;
+
+      self.showNeeds = false;
+      self.showUnrated = false;
+      self.showUnwatched = false;
+      self.showUnaired = true;
     };
 
     self.openSeriesRating = function(episodeGroup) {
