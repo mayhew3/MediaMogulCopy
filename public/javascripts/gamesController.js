@@ -8,6 +8,9 @@ angular.module('mediaMogulApp')
     self.nearlyDoneFilter = false;
     self.unplayedFilter = false;
     self.newlyAddedFilter = false;
+    self.howlongUnmatchedFilter = false;
+    self.giantBombUnmatchedFilter = false;
+    self.metacriticUnmatchedFilter = false;
 
     self.consoleFilter = true;
     self.computerFilter = true;
@@ -85,6 +88,18 @@ angular.module('mediaMogulApp')
       return !self.newlyAddedFilter || addedInLastXDays(game.date_added, 180);
     };
 
+    self.isHowlongUnmatched = function(game) {
+      return !self.howlongUnmatchedFilter || game.howlong_id == null;
+    };
+
+    self.isGiantBombUnmatched = function (game) {
+      return !self.giantBombUnmatchedFilter || game.giantbomb_id == null;
+    };
+
+    self.isMetacriticUnmatched = function(game) {
+      return !self.metacriticUnmatchedFilter || game.metacritic == null;
+    };
+
     self.isFinished = function(game) {
       return game.finished || game.finalscore;
     };
@@ -96,12 +111,15 @@ angular.module('mediaMogulApp')
 
     self.gamesFilter = function(game) {
       return self.isCloudFiltered(game) &&
-          self.isTimeFiltered(game) &&
+        self.isTimeFiltered(game) &&
         !self.isFinished(game) &&
         self.hasValidPlatform(game) &&
         self.nearlyDone(game) &&
-          self.isUnplayed(game) &&
-          self.isNewlyAdded(game)
+        self.isUnplayed(game) &&
+        self.isNewlyAdded(game) &&
+        self.isHowlongUnmatched(game) &&
+        self.isGiantBombUnmatched(game) &&
+        self.isMetacriticUnmatched(game)
         ;
     };
 

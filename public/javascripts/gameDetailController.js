@@ -15,7 +15,10 @@ angular.module('mediaMogulApp')
       timeplayed: self.game.timeplayed,
       timetotal: self.game.timetotal,
       finalscore: self.game.finalscore,
-      replay: self.game.replay
+      replay: self.game.replay,
+      howlong_id: self.game.howlong_id,
+      giantbomb_manual_guess: self.giantbomb_manual_guess,
+      giantbomb_id: self.giantbomb_id
     };
 
     self.interfaceFields = {
@@ -28,7 +31,10 @@ angular.module('mediaMogulApp')
       timeplayed: self.game.timeplayed,
       timetotal: self.game.timetotal,
       finalscore: self.game.finalscore,
-      replay: self.game.replay
+      replay: self.game.replay,
+      howlong_id: self.game.howlong_id,
+      giantbomb_manual_guess: self.giantbomb_manual_guess,
+      giantbomb_id: self.giantbomb_id
     };
 
     $log.debug("Game opened: " + game.title + ", Finished: " + self.game.finished);
@@ -66,6 +72,9 @@ angular.module('mediaMogulApp')
           self.game.timetotal = self.interfaceFields.timetotal;
           self.game.finalscore = self.interfaceFields.finalscore;
           self.game.replay = self.interfaceFields.replay;
+          self.game.howlong_id = self.interfaceFields.howlong_id;
+          self.game.giantbomb_manual_guess = self.interfaceFields.giantbomb_manual_guess;
+          self.game.giantbomb_id = self.interfaceFields.giantbomb_id;
 
           self.originalFields.platform = self.interfaceFields.platform;
           self.originalFields.owned = self.interfaceFields.owned;
@@ -77,6 +86,9 @@ angular.module('mediaMogulApp')
           self.originalFields.timetotal = self.interfaceFields.timetotal;
           self.originalFields.finalscore = self.interfaceFields.finalscore;
           self.originalFields.replay = self.interfaceFields.replay;
+          self.originalFields.howlong_id = self.interfaceFields.howlong_id;
+          self.originalFields.giantbomb_id = self.interfaceFields.giantbomb_id;
+          self.originalFields.giantbomb_manual_guess = self.interfaceFields.giantbomb_manual_guess;
 
           GamesService.updatePlaytimes(game);
           GamesService.updateRating(game);

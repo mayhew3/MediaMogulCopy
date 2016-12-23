@@ -8,7 +8,8 @@ exports.getGames = function (request, response) {
     var query = client.query('SELECT id, logo, title, steamid, playtime, metacritic, platform, owned, metacritic_hint, mayhew, ' +
                                       'timeplayed, timetotal, finished, finalscore, replay, guess, date_added, ' +
                                       'steam_cloud, ' +
-                                      'giantbomb_small_url, giantbomb_thumb_url, howlong_main ' +
+                                      'giantbomb_small_url, giantbomb_thumb_url, howlong_main, ' +
+                                      'howlong_id, giantbomb_id, giantbomb_manual_guess ' +
                               'FROM games ' +
                               'WHERE owned IN (\'owned\', \'borrowed\') ' +
                               'ORDER BY metacritic DESC, playtime DESC, date_added DESC');

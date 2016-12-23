@@ -101,6 +101,33 @@
                   ng-model="ctrl.newlyAddedFilter">Newly Added</button>
 
 
+          <!-- HowLongToBeat Unmatched filter -->
+          <button type="button"
+                  ng-class="ctrl.getButtonClass(ctrl.howlongUnmatchedFilter)"
+                  btn-checkbox
+                  btn-checkbox-true="true"
+                  btn-checkbox-false="false"
+                  ng-model="ctrl.howlongUnmatchedFilter">How Long</button>
+
+
+          <!-- GiantBomb Unmatched filter -->
+          <button type="button"
+                  ng-class="ctrl.getButtonClass(ctrl.giantBombUnmatchedFilter)"
+                  btn-checkbox
+                  btn-checkbox-true="true"
+                  btn-checkbox-false="false"
+                  ng-model="ctrl.giantBombUnmatchedFilter">Giant Bomb</button>
+
+
+          <!-- HowLongToBeat Unmatched filter -->
+          <button type="button"
+                  ng-class="ctrl.getButtonClass(ctrl.metacriticUnmatchedFilter)"
+                  btn-checkbox
+                  btn-checkbox-true="true"
+                  btn-checkbox-false="false"
+                  ng-model="ctrl.metacriticUnmatchedFilter">Metacritic</button>
+
+
 
           <!-- Add Game button -->
           <button type="button"

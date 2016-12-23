@@ -94,12 +94,30 @@
     </div>
 
     <div class="form-group col-lg-3">
-      <label class="control-label" for="guessInput">Guess</label>
+      <label class="control-label" for="howlongInput">HowLongToBeat ID</label>
       <input type="number"
              class="form-control"
-             id="guessInput"
-             name="guessInput"
-             ng-model="ctrl.interfaceFields.guess"/>
+             id="howlongInput"
+             name="howlongInput"
+             ng-model="ctrl.interfaceFields.howlong_id"/>
+    </div>
+
+    <div class="form-group col-lg-3">
+      <label class="control-label" for="giantBombGuessInput">GiantBomb Guess</label>
+      <input type="number"
+             class="form-control"
+             id="giantBombGuessInput"
+             name="giantBombGuessInput"
+             ng-model="ctrl.interfaceFields.giantbomb_manual_guess"/>
+    </div>
+
+    <div class="form-group col-lg-3">
+      <label class="control-label" for="giantBombIdInput">GiantBomb ID</label>
+      <input type="number"
+             class="form-control"
+             id="giantBombIdInput"
+             name="giantBombIdInput"
+             ng-model="ctrl.interfaceFields.giantbomb_id"/>
     </div>
 
     <div class="form-group col-lg-3" ng-hide="ctrl.game.finished == null">
