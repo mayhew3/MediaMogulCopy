@@ -17,8 +17,8 @@ angular.module('mediaMogulApp')
       finalscore: self.game.finalscore,
       replay: self.game.replay,
       howlong_id: self.game.howlong_id,
-      giantbomb_manual_guess: self.giantbomb_manual_guess,
-      giantbomb_id: self.giantbomb_id
+      giantbomb_manual_guess: self.game.giantbomb_manual_guess,
+      giantbomb_id: self.game.giantbomb_id
     };
 
     self.interfaceFields = {
@@ -33,8 +33,8 @@ angular.module('mediaMogulApp')
       finalscore: self.game.finalscore,
       replay: self.game.replay,
       howlong_id: self.game.howlong_id,
-      giantbomb_manual_guess: self.giantbomb_manual_guess,
-      giantbomb_id: self.giantbomb_id
+      giantbomb_manual_guess: self.game.giantbomb_manual_guess,
+      giantbomb_id: self.game.giantbomb_id
     };
 
     $log.debug("Game opened: " + game.title + ", Finished: " + self.game.finished);

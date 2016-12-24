@@ -45,6 +45,12 @@ function GamesService($log, $http) {
     if (game.finalscore != null) {
       game.finalscore = parseFloat(game.finalscore);
     }
+    if (game.howlong_id != null) {
+      game.howlong_id = parseInt(game.howlong_id);
+    }
+    if (game.giantbomb_id != null) {
+      game.giantbomb_id = parseInt(game.giantbomb_id);
+    }
   };
 
   this.getGamesList = function() {
