@@ -22,6 +22,8 @@ angular.module('mediaMogulApp')
 
     self.inputViewingLocations = [];
 
+    self.showDetail = false;
+
     EpisodeService.updateEpisodeListForRating(self.episodeGroup).then(function() {
       self.episodes = EpisodeService.getEpisodes();
       $log.debug("Updated list with " + self.episodes.length + " episodes!");
@@ -40,12 +42,27 @@ angular.module('mediaMogulApp')
       }
     };
 
-    self.getRating = function(episode) {
-      var rating = episode.rating_value;
+    self.cleanUpRating = function(rating, watched) {
       if (rating != null) {
         return rating;
       }
-      return episode.watched === true ? "--" : "";
+      return watched === true ? "--" : "";
+    };
+
+    self.getRating = function(episode) {
+      return self.cleanUpRating(episode.rating_value, episode.watched);
+    };
+
+    self.getRatingFunny = function(episode) {
+      return self.cleanUpRating(episode.rating_funny, episode.watched);
+    };
+
+    self.getRatingCharacter = function(episode) {
+      return self.cleanUpRating(episode.rating_character, episode.watched);
+    };
+
+    self.getRatingStory = function(episode) {
+      return self.cleanUpRating(episode.rating_story, episode.watched);
     };
 
     function isStreamingAvailable(episode) {
@@ -108,6 +125,21 @@ angular.module('mediaMogulApp')
           'font-size': '1.6em',
           'text-align': 'center',
           'font-weight': '800',
+          'color': 'white'
+        }
+      }
+    };
+
+    self.colorStyleMinor = function(scaledValue) {
+      if (scaledValue == null) {
+        return {};
+      } else {
+        var hue = (scaledValue <= 50) ? scaledValue * 0.5 : (50 * 0.5 + (scaledValue - 50) * 4.5);
+        return {
+          'background-color': 'hsla(' + hue + ', 50%, 42%, 1)',
+          'font-size': '1.4em',
+          'text-align': 'center',
+          'font-weight': '600',
           'color': 'white'
         }
       }
