@@ -1,7 +1,9 @@
 angular.module('mediaMogulApp')
-  .controller('addGameController', ['$log', 'GamesService', '$modalInstance',
-    function($log, GamesService, $modalInstance) {
+  .controller('addGameController', ['$log', 'GamesService', '$modalInstance', 'auth',
+    function($log, GamesService, $modalInstance, auth) {
       var self = this;
+
+      self.auth = auth;
 
       self.game = {
         owned: 'owned'

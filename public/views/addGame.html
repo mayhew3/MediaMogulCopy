@@ -76,7 +76,7 @@
 <div class="modal-footer">
   <button class="btn btn-success"
           ng-click="ctrl.ok()"
-          ng-disabled="newGameFields.$invalid || ctrl.gameExists">Submit</button>
+          ng-disabled="newGameFields.$invalid || ctrl.gameExists || !ctrl.auth.isAuthenticated">Submit</button>
   <button class="btn btn-primary"
           ng-click="ctrl.cancel()">Cancel</button>
 </div>

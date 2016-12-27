@@ -1,7 +1,9 @@
 angular.module('mediaMogulApp')
-  .controller('seriesDetailController', ['$log', 'EpisodeService', '$modalInstance', 'series', '$modal', '$filter',
-  function($log, EpisodeService, $modalInstance, series, $modal, $filter) {
+  .controller('seriesDetailController', ['$log', 'EpisodeService', '$modalInstance', 'series', '$modal', '$filter', 'auth',
+  function($log, EpisodeService, $modalInstance, series, $modal, $filter, auth) {
     var self = this;
+
+    self.auth = auth;
 
     self.series = series;
     self.episodes = [];

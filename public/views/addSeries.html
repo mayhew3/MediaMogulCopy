@@ -80,7 +80,7 @@
   <div class="modal-footer">
     <button class="btn btn-success"
             ng-click="ctrl.ok()"
-            ng-disabled="newSeriesFields.$invalid">Submit</button>
+            ng-disabled="newSeriesFields.$invalid || !ctrl.auth.isAuthenticated">Submit</button>
     <button class="btn btn-primary"
             ng-click="ctrl.cancel()">Cancel</button>
   </div>

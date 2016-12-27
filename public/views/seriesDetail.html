@@ -58,7 +58,7 @@
                       <input class="btn btn-default"
                              type="submit"
                              value="Update"
-                             ng-disabled="seriesFields.$invalid">
+                             ng-disabled="seriesFields.$invalid || !ctrl.auth.isAuthenticated">
                     </span>
     </div>
 
@@ -91,14 +91,16 @@
   <div id="MarkingAllWatched" class="col-lg-12">
     <button type="button"
             class="btn btn-success"
-            ng-click="ctrl.markAllPastWatched()">All Past Watched</button>
+            ng-click="ctrl.markAllPastWatched()"
+            ng-disabled="!ctrl.auth.isAuthenticated">All Past Watched</button>
     <button type="button"
             class="btn btn-danger"
             btn-checkbox
             btn-checkbox-true="true"
             btn-checkbox-false="false"
             ng-model="ctrl.series.matched_wrong"
-            ng-change="ctrl.wrongMatch()">Matched Wrong</button>
+            ng-change="ctrl.wrongMatch()"
+            ng-disabled="!ctrl.auth.isAuthenticated">Matched Wrong</button>
   </div>
 
   <div id="possibleMatches" class="col-lg-12" ng-show="ctrl.series.matched_wrong">
@@ -107,6 +109,7 @@
             ng-bind="possibleMatch.tvdb_series_title"
             class="btn btn-info"
             ng-click="ctrl.useMatch(possibleMatch)"
+            ng-disabled="!ctrl.auth.isAuthenticated"
         ></button>
   </div>
 

@@ -22,6 +22,7 @@
           <button type="button"
                   class="btn btn-success"
                   ng-click="ctrl.addSeries()"
+                  ng-disabled="!ctrl.auth.isAuthenticated"
               >Add Show</button>
         </div>
 

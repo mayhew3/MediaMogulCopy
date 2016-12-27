@@ -1,8 +1,9 @@
 angular.module('mediaMogulApp')
-  .controller('episodeDetailController', ['$log', 'EpisodeService', '$modalInstance', 'episode', 'previousEpisodes',
-  function($log, EpisodeService, $modalInstance, episode, previousEpisodes) {
+  .controller('episodeDetailController', ['$log', 'EpisodeService', '$modalInstance', 'episode', 'previousEpisodes', 'auth',
+  function($log, EpisodeService, $modalInstance, episode, previousEpisodes, auth) {
     var self = this;
     self.rating_id = episode.rating_id;
+    self.auth = auth;
 
     var options = {
       year: "numeric", month: "2-digit",

@@ -1,7 +1,9 @@
 angular.module('mediaMogulApp')
-.controller('gameDetailController', ['$log', 'GamesService', '$modalInstance', 'game',
-  function($log, GamesService, $modalInstance, game) {
+.controller('gameDetailController', ['$log', 'GamesService', '$modalInstance', 'game', 'auth',
+  function($log, GamesService, $modalInstance, game, auth) {
     var self = this;
+
+    self.auth = auth;
 
     self.game = game;
 
