@@ -66,23 +66,8 @@ angular.module('mediaMogulApp')
       }
     };
 
-    self.rgbValue = function(scaledValue, full) {
-      var saturation = full ? 50 : 20;
-      var hue = (scaledValue <= 50) ? scaledValue * 0.5 : (50 * 0.5 + (scaledValue - 50) * 4.5);
-
-      $log.debug("Scaled " + scaledValue, " Hue " + hue);
-
-      var hsl = {
-        h: hue,
-        s: saturation,
-        l: 42
-      };
-
-      var rgb = Color.hslToRgb(hsl, false);
-
-      $log.debug(JSON.stringify(rgb));
-
-      return Color.rgbToHex(rgb);
+    self.rgbValue = function(scaledValue) {
+      return (scaledValue <= 50) ? scaledValue * 0.5 : (50 * 0.5 + (scaledValue - 50) * 4.5);
     };
 
     self.colorStyleFull = function(scaledValue) {
@@ -118,7 +103,7 @@ angular.module('mediaMogulApp')
     };
 
     self.getBestRatingRGB = function(episodeGroup) {
-      return episodeGroup.rating == null ? self.rgbValue(episodeGroup.suggested_rating, false) : self.rgbValue(episodeGroup.rating, true);
+      return episodeGroup.rating == null ? self.rgbValue(episodeGroup.suggested_rating) : self.rgbValue(episodeGroup.rating);
     };
 
     self.ratedGroupFilter = function(episodeGroup) {
