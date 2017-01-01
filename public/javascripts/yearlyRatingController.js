@@ -67,7 +67,8 @@ angular.module('mediaMogulApp')
     };
 
     self.rgbValue = function(scaledValue) {
-      return (scaledValue <= 50) ? scaledValue * 0.5 : (50 * 0.5 + (scaledValue - 50) * 4.5);
+      var hue = (scaledValue <= 50) ? scaledValue * 0.5 : (50 * 0.5 + (scaledValue - 50) * 4.5);
+      return hue.toFixed(1);
     };
 
     self.colorStyleFull = function(scaledValue) {

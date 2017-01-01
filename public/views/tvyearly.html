@@ -60,9 +60,8 @@
             </thead>
             <tr data-ng-repeat="episodeGroup in ctrl.episodeGroups |
                 filter:ctrl.episodeGroupFilter |
-                orderBy:[ctrl.seriesOrdering]"
-            ng-click="ctrl.openSeriesRating(episodeGroup)">
-              <td ng-bind="episodeGroup.title"></td>
+                orderBy:[ctrl.seriesOrdering]">
+              <td ng-bind="episodeGroup.title" ng-click="ctrl.openSeriesRating(episodeGroup)"></td>
               <td ng-style="ctrl.colorStyleFull(episodeGroup.avg_rating)"  ng-bind="episodeGroup.avg_rating|number: 1" width="70" align="center"></td>
               <td ng-bind="episodeGroup.max_rating" align="center"></td>
               <td ng-bind="episodeGroup.last_rating" align="center"></td>
