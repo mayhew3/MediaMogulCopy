@@ -56,6 +56,7 @@
               <th ng-show="ctrl.showUnaired">Unaired</th>
               <th ng-show="ctrl.showNeeds">Needs</th>
               <th>Rating</th>
+              <th>RGB</th>
             </thead>
             <tr data-ng-repeat="episodeGroup in ctrl.episodeGroups |
                 filter:ctrl.episodeGroupFilter |
@@ -109,6 +110,7 @@
                       title="Needs Review">Review</span>
               </td>
               <td ng-style="ctrl.getBestRatingColorStyle(episodeGroup)" ng-bind="ctrl.getBestRating(episodeGroup)|number: 1" width="70" align="center"></td>
+              <td><span ng-bind="ctrl.getBestRatingRGB(episodeGroup)"></span></td>
             </tr>
           </table>
         </div>

@@ -24,6 +24,31 @@ angular.module('mediaMogulApp')
     };
     self.refreshEpisodeGroupList(self.year);
 
+    function HSVtoRGB(h, s, v) {
+      var r, g, b, i, f, p, q, t;
+      if (arguments.length === 1) {
+        s = h.s, v = h.v, h = h.h;
+      }
+      i = Math.floor(h * 6);
+      f = h * 6 - i;
+      p = v * (1 - s);
+      q = v * (1 - f * s);
+      t = v * (1 - (1 - f) * s);
+      switch (i % 6) {
+        case 0: r = v, g = t, b = p; break;
+        case 1: r = q, g = v, b = p; break;
+        case 2: r = p, g = v, b = t; break;
+        case 3: r = p, g = q, b = v; break;
+        case 4: r = t, g = p, b = v; break;
+        case 5: r = v, g = p, b = q; break;
+      }
+      return {
+        r: Math.round(r * 255),
+        g: Math.round(g * 255),
+        b: Math.round(b * 255)
+      };
+    }
+
     self.colorStyle = function(scaledValue, full) {
       if (scaledValue == null) {
         return {};
@@ -39,6 +64,20 @@ angular.module('mediaMogulApp')
           'color': fontColor
         }
       }
+    };
+
+    self.rgbValue = function(scaledValue, full) {
+      var saturation = full ? 50 : 20;
+      var hue = (scaledValue <= 50) ? scaledValue * 0.5 : (50 * 0.5 + (scaledValue - 50) * 4.5);
+
+      var hsl = {
+        h: hue,
+        s: saturation,
+        l: 42
+      };
+
+      var rgb = Color.hslToRgb(hsl, false);
+      return Color.rgbToHex(rgb);
     };
 
     self.colorStyleFull = function(scaledValue) {
@@ -71,6 +110,10 @@ angular.module('mediaMogulApp')
 
     self.getBestRatingColorStyle = function(episodeGroup) {
       return episodeGroup.rating == null ? self.colorStyleMuted(episodeGroup.suggested_rating) : self.colorStyleFull(episodeGroup.rating);
+    };
+
+    self.getBestRatingRGB = function(episodeGroup) {
+      return episodeGroup.rating == null ? self.rgbValue(episodeGroup.suggested_rating, false) : self.colorStyleFull(episodeGroup.rating, true);
     };
 
     self.ratedGroupFilter = function(episodeGroup) {
