@@ -68,7 +68,7 @@ angular.module('mediaMogulApp')
 
     self.rgbValue = function(scaledValue) {
       var hue = (scaledValue <= 50) ? scaledValue * 0.5 : (50 * 0.5 + (scaledValue - 50) * 4.5);
-      return hue.toFixed(1);
+      return Math.round(hue);
     };
 
     self.colorStyleFull = function(scaledValue) {
