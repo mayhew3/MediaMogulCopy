@@ -26,11 +26,18 @@ angular.module('mediaMogulApp')
       updateViewingLocations();
     });
 
+    self.shouldHide = function(episode) {
+      return episode.retired ||
+        // todo: remove when MM-236 is resolved.
+        episode.air_date == null;
+    };
+
+
     function updateSeasonLabels() {
       self.episodes.forEach(function (episode) {
         // $log.debug("AIR DATE: " + episode.air_date);
         var season = episode.season;
-        if (season != null && !(self.seasonLabels.indexOf(season) > -1)) {
+        if (season != null && !(self.seasonLabels.indexOf(season) > -1) && !self.shouldHide(episode)) {
           self.seasonLabels.push(season);
         }
       });
@@ -38,8 +45,7 @@ angular.module('mediaMogulApp')
       var unwatchedEpisodes = self.episodes.filter(function (episode) {
         return episode.season != null && episode.season > 0 &&
                 episode.watched == false &&
-                // todo: remove when MM-236 is resolved.
-                episode.air_date != null;
+                !self.shouldHide(episode);
       });
 
       if (unwatchedEpisodes.length > 0) {
@@ -47,8 +53,7 @@ angular.module('mediaMogulApp')
       } else {
         var allEpisodes = self.episodes.filter(function (episode) {
           return episode.season != null && episode.season > 0 &&
-                  // todo: remove when MM-236 is resolved.
-                  episode.air_date != null;
+                  !self.shouldHide(episode);
         });
 
         if (allEpisodes.length > 0) {
@@ -207,9 +212,8 @@ angular.module('mediaMogulApp')
       metacritic_hint: self.series.metacritic_hint
     };
 
-
     self.episodeFilter = function(episode) {
-      return episode.season == self.selectedSeason && !episode.retired && episode.air_date != null;
+      return episode.season == self.selectedSeason && !self.shouldHide(episode);
     };
 
 
