@@ -28,6 +28,10 @@
         </td>
         <td>
           <button type="button"
+                  ng-click="ctrl.ignoreUnmatchedEpisode(episode)"
+                  class="btn btn-warning"
+                  ng-disabled="!ctrl.auth.isAuthenticated">Ignore</button>
+          <button type="button"
                   ng-click="ctrl.retireUnmatchedEpisode(episode)"
                   class="btn btn-danger"
                   ng-disabled="!ctrl.auth.isAuthenticated">Delete</button>

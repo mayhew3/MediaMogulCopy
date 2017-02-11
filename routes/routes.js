@@ -40,6 +40,7 @@ module.exports = function(app) {
   app.post('/matchTiVoEpisodes', series.matchTiVoEpisodes);
   app.post('/unlinkEpisode', series.unlinkEpisode);
   app.post('/retireTiVoEpisode', series.retireTiVoEpisode);
+  app.post('/ignoreTiVoEpisode', series.ignoreTiVoEpisode);
   app.post('/changeTier', series.changeTier);
   app.post('/addSeries', series.addSeries);
   app.post('/updateSeries', series.updateSeries);

@@ -148,6 +148,14 @@ angular.module('mediaMogulApp')
       });
     };
 
+    self.ignoreUnmatchedEpisode = function(episode) {
+      episode.ignore_matching = true;
+      EpisodeService.ignoreUnmatchedEpisode(episode.id).then(function() {
+        removeUnmatched(episode);
+        updateUnmatchedDenorm();
+      });
+    };
+
     self.unlinkEpisode = function(episode) {
       var createdUnmatched = {
         id: episode.tivo_episode_id,

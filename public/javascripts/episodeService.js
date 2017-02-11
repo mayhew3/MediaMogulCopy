@@ -384,6 +384,9 @@ function EpisodeService($log, $http, $q, $filter) {
   this.retireUnmatchedEpisode = function (episodeId) {
     return $http.post('/retireTiVoEpisode', {TiVoEpisodeId: episodeId});
   };
+  this.ignoreUnmatchedEpisode = function (episodeId) {
+    return $http.post('/ignoreTiVoEpisode', {TiVoEpisodeId: episodeId});
+  };
 
   this.addRating = function(episodeRating) {
     return $http.post('/addRating', {EpisodeRating: episodeRating});
