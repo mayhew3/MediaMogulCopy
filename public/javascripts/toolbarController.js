@@ -12,7 +12,7 @@
     }
   }
 
-  function toolbarController(auth, store, $location) {
+  function toolbarController(auth, store, $location, $state) {
     var vm = this;
     vm.login = login;
     vm.logout = logout;
@@ -26,7 +26,7 @@
       auth.signin({}, function(profile, token) {
         store.set('profile', profile);
         store.set('token', token);
-        $location.path('/');
+        $location.path('/tv/main');
       }, function(error) {
         console.log(error);
       })

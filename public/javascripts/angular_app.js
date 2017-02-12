@@ -1,36 +1,53 @@
-angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngRoute', 'ui.bootstrap'])
-  .config(['$routeProvider', 'authProvider', '$httpProvider', '$locationProvider', 'jwtInterceptorProvider', '$provide',
-    function($routeProvider, authProvider, $httpProvider, $locationProvider, jwtInterceptorProvider, $provide) {
-      $routeProvider
-        .when('/', {
+angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngRoute', 'ui.bootstrap', 'ui.router'])
+  .config(['authProvider', '$httpProvider', '$locationProvider', 'jwtInterceptorProvider', '$provide', '$stateProvider',
+    function(authProvider, $httpProvider, $locationProvider, jwtInterceptorProvider, $provide, $stateProvider) {
+
+      $stateProvider
+        .state('home', {
+          url: '/',
           templateUrl: 'views/home.html'
         })
-        .when('/home', {
-          templateUrl: 'views/home.html'
+        .state('tv', {
+          url: '/tv',
+          templateUrl: 'views/tv.html'
         })
-        .when('/games', {
-          controller: 'gamesController',
-          controllerAs: 'ctrl',
-          templateUrl: 'views/games.html'
+        .state('tv.main', {
+          url: '/main',
+          templateUrl: 'views/tv.main.html'
         })
-        .when('/profile', {
-          controller: 'profileController',
-          controllerAs: 'user',
-          templateUrl: 'views/profile.html'
+        .state('tv.backlog', {
+          url: '/backlog',
+          templateUrl: 'views/tv.backlog.html'
         })
-        .when('/tv', {
-            templateUrl: 'views/tv.html'
+        .state('tv.new', {
+          url: '/new',
+          templateUrl: 'views/tv.new.html'
         })
-        .when('/tvbacklog', {
+        .state('tv.unmatched', {
+          url: '/unmatched',
+          templateUrl: 'views/tv.unmatched.html'
+        })
+        .state('tv_list', {
+          url: '/tvbacklog',
           templateUrl: 'views/tvbacklog.html'
         })
-        .when('/tvyearly', {
+        .state('tv_yearly', {
+          url: '/tvyearly',
           templateUrl: 'views/tvyearly.html'
         })
+        .state('games', {
+          url: '/games',
+          templateUrl: 'views/games.html',
+          controller: 'gamesController',
+          controllerAs: 'ctrl'
+        })
+        .state('profile', {
+          url: '/profile',
+          templateUrl: 'views/profile.html',
+          controller: 'profileController',
+          controllerAs: 'user'
+        })
       ;
-      $routeProvider.otherwise({
-        redirectTo: '/'
-      });
 
       authProvider.init({
         domain: 'app40365095.auth0.com',
@@ -50,7 +67,7 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
               auth.signout();
               store.remove('profile');
               store.remove('token');
-              $location.path('/')
+              $location.path('/');
             }
             return $q.reject(rejection);
           }
@@ -69,7 +86,7 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
       $httpProvider.interceptors.push('jwtInterceptor');
 
     }])
-  .run(function($rootScope, auth, store, jwtHelper, $location) {
+  .run(function($rootScope, auth, store, jwtHelper, $location, $state) {
     auth.hookEvents();
     $rootScope.$on('$locationChangeStart', function() {
       // Get the JWT that is saved in local storage
@@ -88,6 +105,6 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
         $location.path('/');
       }
     });
-
+    $state.transitionTo('tv.main');
   })
 ;

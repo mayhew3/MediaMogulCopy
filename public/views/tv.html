@@ -11,20 +11,20 @@
     <div class="container col-lg-2">
       <ul class="nav nav-pills nav-stacked btn-sm">
         <li role="tv" ng-class="ctrl.isActive('Main')">
-          <a href ng-click="ctrl.selectedPill='Main'">
+          <a href ui-sref="tv.main" ng-click="ctrl.selectedPill='Main'">
             Main<span class="badge" ng-show="ctrl.countWhere(ctrl.showInQueue) > 0" ng-bind="ctrl.countWhere(ctrl.showInQueue)"></span>
           </a>
         </li>
         <li role="tv" ng-class="ctrl.isActive('Backlog')">
-          <a href ng-click="ctrl.selectedPill='Backlog'">Backlog</a>
+          <a href ui-sref="tv.backlog" ng-click="ctrl.selectedPill='Backlog'">Backlog</a>
         </li>
         <li role="tv" ng-class="ctrl.isActive('New')">
-          <a href ng-click="ctrl.selectedPill='New'">
+          <a href ui-sref="tv.new" ng-click="ctrl.selectedPill='New'">
             New<span class="badge" ng-show="ctrl.countWhere(ctrl.newlyAdded) > 0" ng-bind="ctrl.countWhere(ctrl.newlyAdded)"></span>
           </a>
         </li>
         <li role="tv" ng-class="ctrl.isActive('Unmatched')">
-          <a href ng-click="ctrl.selectedPill='Unmatched'">
+          <a href ui-sref="tv.unmatched" ng-click="ctrl.selectedPill='Unmatched'">
             Unmatched<span class="badge" ng-show="ctrl.countWhere(ctrl.hasUnmatched) > 0" ng-bind="ctrl.countWhere(ctrl.hasUnmatched)">
           </a>
         </li>
@@ -41,172 +41,7 @@
 
     <div class="container col-lg-10">
 
-
-      <div ng-switch="ctrl.selectedPill">
-
-        <!-- MAIN pill -->
-        <div ng-switch-when="Main">
-
-          <!-- QUEUE section -->
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3>Queue</h3>
-            </div>
-            <div class="panel-body">
-              <div class="row show-list">
-                <div class="fade-repeat col-xs-4 col-md-3 posterRow" ng-repeat="show in ctrl.series |
-                filter:ctrl.showInQueue |
-                orderBy:[ctrl.orderByRating].concat('-FullRating')">
-                  <a ng-click="ctrl.open(show)" href="">
-                    <img class="img-rounded"
-                        ng-style="ctrl.posterStyle(show)"
-                        ng-src="{{show.posterResolved}}"
-                         width="100%"/>
-                    <div class="posterBadge">
-                      <span ng-bind="show.unwatched_all"></span>
-                    </div>
-
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- OTHER ACTIVE section -->
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3>Active</h3>
-            </div>
-            <div class="panel-body">
-              <div class="row show-list">
-                <div class="fade-repeat col-xs-4 col-md-3 posterRow" ng-repeat="show in ctrl.series |
-                filter:ctrl.otherActive |
-                orderBy:[ctrl.orderByRating].concat('-FullRating')">
-                  <a ng-click="ctrl.open(show)" href="">
-                    <img class="img-rounded"
-                        ng-style="ctrl.posterStyle(show)"
-                        ng-src="{{show.posterResolved}}"
-                         width="100%"/>
-                    <div class="posterBadge">
-                      <span ng-bind="show.unwatched_all"></span>
-                    </div>
-
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- THIS WEEK section -->
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3>This Week</h3>
-            </div>
-            <div class="panel-body">
-              <div class="row show-list">
-                <div class="fade-repeat col-xs-3 col-md-2 posterRow" ng-repeat="show in ctrl.series |
-                filter:ctrl.upcomingSoon |
-                orderBy:'nextAirDate'">
-                  <div>
-                    <a ng-click="ctrl.open(show)" href="">
-                      <img class="img-rounded"
-                           ng-src="{{show.posterResolved}}"
-                           width="100%"/>
-                    </a>
-                  </div>
-                  <div align="right">
-                    <h5 ng-bind="show.nextAirDateFormatted"></h5>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- BACKLOG pill -->
-        <div ng-switch-when="Backlog">
-
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3>Backlog</h3>
-            </div>
-            <div class="panel-body">
-              <div class="row show-list">
-                <div class="fade-repeat col-xs-3 col-md-2 posterRow" ng-repeat="show in ctrl.series |
-                filter:ctrl.secondTier |
-                orderBy:[ctrl.orderByRating].concat('-FullRating')">
-                  <a ng-click="ctrl.open(show)" href="">
-                    <img class="img-rounded"
-                         ng-src="{{show.posterResolved}}"
-                         width="100%"/>
-                    <div class="posterBadge">
-                      <span ng-bind="show.unwatched_all"></span>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- NEW pill -->
-        <div ng-switch-when="New">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3>Newly Added</h3>
-            </div>
-            <div class="panel-body">
-              <div class="row show-list">
-                <div class="fade-repeat col-xs-4 col-md-3 posterRow" ng-repeat="show in ctrl.series |
-                filter:ctrl.newlyAdded |
-                orderBy:'date_added'">
-                  <div>
-                    <a ng-click="ctrl.open(show)" href="">
-                      <img class="img-rounded"
-                           ng-src="{{show.posterResolved}}"
-                           width="100%"/>
-                    </a>
-                  </div>
-                  <div align="right">
-                    <h5 ng-bind="show.date_added|date:ctrl.getDateFormat(show.date_added):'+0000'"></h5>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- UNMATCHED pill -->
-        <div ng-switch-when="Unmatched">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3>Unmatched Episodes</h3>
-            </div>
-            <div class="panel-body">
-              <div class="row show-list">
-                <div class="fade-repeat col-xs-4 col-md-3 posterRow" ng-repeat="show in ctrl.series |
-                filter:ctrl.hasUnmatched |
-                orderBy:[ctrl.orderByRating].concat('-FullRating')">
-                  <a ng-click="ctrl.tryToMatch(show)" href="">
-                    <img class="img-rounded"
-                         ng-style="ctrl.posterStyle(show)"
-                         ng-src="{{show.posterResolved}}"
-                         width="100%"/>
-                    <div class="posterBadgeRed">
-                      <span ng-bind="show.unmatched_episodes"></span>
-                    </div>
-
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
+      <div ui-view></div>
 
 
     </div>
