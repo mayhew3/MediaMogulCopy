@@ -1,49 +1,31 @@
 <div class="container">
-  <div ng-controller="seriesController as ctrl">
 
-    <div class="page-header" id="banner">
-      <div class="row">
-        <div class="col-lg-12">
-        </div>
+  <div class="page-header" id="banner">
+    <div class="row">
+      <div class="col-lg-12">
+
       </div>
     </div>
-
-    <div class="container col-lg-2">
-      <ul class="nav nav-pills nav-stacked btn-sm">
-        <li role="tv" ng-class="ctrl.isActive('Main')">
-          <a href ui-sref="tv.main" ng-click="ctrl.selectedPill='Main'">
-            Main<span class="badge" ng-show="ctrl.countWhere(ctrl.showInQueue) > 0" ng-bind="ctrl.countWhere(ctrl.showInQueue)"></span>
-          </a>
-        </li>
-        <li role="tv" ng-class="ctrl.isActive('Backlog')">
-          <a href ui-sref="tv.backlog" ng-click="ctrl.selectedPill='Backlog'">Backlog</a>
-        </li>
-        <li role="tv" ng-class="ctrl.isActive('New')">
-          <a href ui-sref="tv.new" ng-click="ctrl.selectedPill='New'">
-            New<span class="badge" ng-show="ctrl.countWhere(ctrl.newlyAdded) > 0" ng-bind="ctrl.countWhere(ctrl.newlyAdded)"></span>
-          </a>
-        </li>
-        <li role="tv" ng-class="ctrl.isActive('Unmatched')">
-          <a href ui-sref="tv.unmatched" ng-click="ctrl.selectedPill='Unmatched'">
-            Unmatched<span class="badge" ng-show="ctrl.countWhere(ctrl.hasUnmatched) > 0" ng-bind="ctrl.countWhere(ctrl.hasUnmatched)">
-          </a>
-        </li>
-      </ul>
-
-      <ul class="nav nav-pills nav-stacked btn-sm">
-        <li role="tv">
-          <a href ng-click="ctrl.refreshSeriesList()">
-            Update
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <div class="container col-lg-10">
-
-      <div ui-view></div>
-
-
-    </div>
   </div>
+
+  <div class="container col-lg-12">
+    <ul class="nav nav-tabs">
+      <li ui-sref="tv.shows.main" ui-sref-active="active">
+        <a>Shows</a>
+      </li>
+      <li ui-sref="tv.rate" ui-sref-active="active">
+        <a>Rate</a>
+      </li>
+    </ul>
+
+  </div>
+
+
+  <div class="container col-lg-12">
+
+    <div ui-view></div>
+
+  </div>
+
+</div>
 </div>
