@@ -26,7 +26,7 @@
       auth.signin({}, function(profile, token) {
         store.set('profile', profile);
         store.set('token', token);
-        $location.path('/tv/main');
+        $location.path('/tv/shows/main');
       }, function(error) {
         console.log(error);
       })

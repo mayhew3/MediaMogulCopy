@@ -9,31 +9,39 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
         })
         .state('tv', {
           url: '/tv',
-          templateUrl: 'views/tv.html'
+          templateUrl: 'views/tv/tv.html'
         })
-        .state('tv.main', {
+        .state('tv.shows', {
+          url: '/shows',
+          controller: 'seriesController',
+          controllerAs: 'ctrl',
+          templateUrl: 'views/tv/shows/shows.html'
+        })
+        .state('tv.shows.main', {
           url: '/main',
-          templateUrl: 'views/tv.main.html'
+          templateUrl: 'views/tv/shows/main.html'
         })
-        .state('tv.backlog', {
+        .state('tv.shows.backlog', {
           url: '/backlog',
-          templateUrl: 'views/tv.backlog.html'
+          templateUrl: 'views/tv/shows/backlog.html'
         })
-        .state('tv.new', {
+        .state('tv.shows.new', {
           url: '/new',
-          templateUrl: 'views/tv.new.html'
+          templateUrl: 'views/tv/shows/new.html'
         })
-        .state('tv.unmatched', {
+        .state('tv.shows.unmatched', {
           url: '/unmatched',
-          templateUrl: 'views/tv.unmatched.html'
+          templateUrl: 'views/tv/shows/unmatched.html'
         })
         .state('tv_list', {
           url: '/tvbacklog',
           templateUrl: 'views/tvbacklog.html'
         })
-        .state('tv_yearly', {
-          url: '/tvyearly',
-          templateUrl: 'views/tvyearly.html'
+        .state('tv.rate', {
+          url: '/tv/rate/yearly',
+          controller: 'yearlyRatingController',
+          controllerAs: 'ctrl',
+          templateUrl: 'views/tv/rate/tvyearly.html'
         })
         .state('games', {
           url: '/games',
@@ -105,6 +113,5 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
         $location.path('/');
       }
     });
-    $state.transitionTo('tv.main');
   })
 ;

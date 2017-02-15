@@ -1,0 +1,42 @@
+
+<div class="container" style="margin-top: 10px">
+
+<div class="container col-lg-2">
+
+  <ul class="nav nav-pills nav-stacked btn-sm">
+    <li role="tv" ng-class="ctrl.isActive('Main')">
+      <a href ui-sref="tv.shows.main" ng-click="ctrl.selectedPill='Main'">
+        Main<span class="badge" ng-show="ctrl.countWhere(ctrl.showInQueue) > 0" ng-bind="ctrl.countWhere(ctrl.showInQueue)"></span>
+      </a>
+    </li>
+    <li role="tv" ng-class="ctrl.isActive('Backlog')">
+      <a href ui-sref="tv.shows.backlog" ng-click="ctrl.selectedPill='Backlog'">Backlog</a>
+    </li>
+    <li role="tv" ng-class="ctrl.isActive('New')">
+      <a href ui-sref="tv.shows.new" ng-click="ctrl.selectedPill='New'">
+        New<span class="badge" ng-show="ctrl.countWhere(ctrl.newlyAdded) > 0" ng-bind="ctrl.countWhere(ctrl.newlyAdded)"></span>
+      </a>
+    </li>
+    <li role="tv" ng-class="ctrl.isActive('Unmatched')">
+      <a href ui-sref="tv.shows.unmatched" ng-click="ctrl.selectedPill='Unmatched'">
+        Unmatched<span class="badge" ng-show="ctrl.countWhere(ctrl.hasUnmatched) > 0" ng-bind="ctrl.countWhere(ctrl.hasUnmatched)"></span>
+      </a>
+    </li>
+  </ul>
+
+  <ul class="nav nav-pills nav-stacked btn-sm">
+    <li role="tv">
+      <a href ng-click="ctrl.refreshSeriesList()">
+        Update
+      </a>
+    </li>
+  </ul>
+</div>
+
+<div class="container col-lg-10">
+
+  <div ui-view></div>
+
+
+</div>
+</div>
