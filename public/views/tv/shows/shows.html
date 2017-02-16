@@ -31,6 +31,16 @@
       </a>
     </li>
   </ul>
+
+  <ul class="nav nav-pills nav-stacked btn-sm nav-pills-success">
+    <li role="tv">
+      <a href
+         ng-click="ctrl.addSeries()"
+         ng-disabled="!ctrl.auth.isAuthenticated">
+        Add Series
+      </a>
+    </li>
+  </ul>
 </div>
 
 <div class="container col-lg-10">
