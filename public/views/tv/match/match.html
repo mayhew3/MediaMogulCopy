@@ -1,0 +1,19 @@
+
+<div class="container" style="margin-top: 10px">
+
+  <div class="container col-lg-2">
+
+    <ul class="nav nav-pills nav-stacked btn-sm">
+      <li ng-class="ctrl.isActive('Needs First Pass')">
+        <a href ui-sref="tv.match.needsfirstpass" ng-click="ctrl.selectedPill='Needs First Pass'">
+          Needs First Pass
+        </a>
+      </li>
+    </ul>
+
+  </div>
+
+  <div class="container col-lg-10">
+    <div ui-view></div>
+  </div>
+</div>
