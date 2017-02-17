@@ -67,3 +67,12 @@ td {
   color: black;
   background-image: linear-gradient(#2f7d2f, #379337 40%, #3a9a3a);
 }
+
+.ignored {
+  color: red;
+  text-decoration: line-through;
+}
+
+.confirmed {
+  color: green;
+}

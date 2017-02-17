@@ -5,8 +5,13 @@
 
     <ul class="nav nav-pills nav-stacked btn-sm">
       <li ng-class="ctrl.isActive('Needs First Pass')">
-        <a href ui-sref="tv.match.needsfirstpass" ng-click="ctrl.selectedPill='Needs First Pass'">
+        <a href ng-click="ctrl.changeToNeedsFirstPass()">
           Needs First Pass
+        </a>
+      </li>
+      <li ng-class="ctrl.isActive('Match Pending')">
+        <a href ng-click="ctrl.changeToMatchPending()">
+          Match Pending
         </a>
       </li>
     </ul>

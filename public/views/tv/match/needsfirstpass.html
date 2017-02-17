@@ -1,12 +1,38 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3>Needs First Pass</h3>
+    <h3 ng-bind="ctrl.selectedPill"></h3>
   </div>
   <div class="panel-body">
     <table class="table table-striped table-hover">
       <tr data-ng-repeat="series in ctrl.series |
-                filter:ctrl.needsFirstPassFilter">
-        <td ng-bind="series.title" ng-click="ctrl.open(series)"></td>
+                filter:ctrl.selectedFilter">
+        <td ng-bind="series.title" ng-class="ctrl.getSeriesNameClass(series)"></td>
+        <td width="70px" align="right" ng-show="ctrl.selectedPill === 'Match Pending'">
+          <input type="button"
+                 ng-hide="series.temp_confirmed"
+                 class="btn btn-sm btn-success"
+                 ng-disabled="series.temp_ignored"
+                 ng-click="ctrl.confirmMatch(series)"
+                 value="Confirm">
+          <input type="button"
+                 ng-show="series.temp_confirmed"
+                 class="btn btn-sm btn-warning"
+                 ng-click="ctrl.unConfirmMatch(series)"
+                 value="Un-Confirm">
+        </td>
+        <td width="70px" align="right">
+          <input type="button"
+                 class="btn btn-sm btn-danger"
+                 ng-hide="series.temp_ignored"
+                 ng-disabled="series.temp_confirmed"
+                 ng-click="ctrl.ignoreSeries(series)"
+                 value="Ignore">
+          <input type="button"
+                 class="btn btn-sm btn-warning"
+                 ng-show="series.temp_ignored"
+                 ng-click="ctrl.unIgnoreSeries(series)"
+                 value="Un-ignore">
+        </td>
       </tr>
     </table>
   </div>
