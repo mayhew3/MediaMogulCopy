@@ -49,9 +49,9 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
           controllerAs: 'ctrl',
           templateUrl: 'views/tv/match/match.html'
         })
-        .state('tv.match.needsfirstpass', {
-          url: '/needsfirstpass',
-          templateUrl: 'views/tv/match/needsfirstpass.html'
+        .state('tv.match.seriesmatching', {
+          url: '/seriesmatching',
+          templateUrl: 'views/tv/match/seriesMatching.html'
         })
         .state('games', {
           url: '/games',

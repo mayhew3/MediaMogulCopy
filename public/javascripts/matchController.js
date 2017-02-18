@@ -7,7 +7,7 @@ angular.module('mediaMogulApp')
 
       self.auth = auth;
 
-      self.selectedPill = "Needs First Pass";
+      self.selectedPill = "Series";
 
       self.isActive = function(pillName) {
         return (pillName == self.selectedPill) ? "active" : null;
@@ -25,25 +25,25 @@ angular.module('mediaMogulApp')
         self.clearTempFlags();
       };
 
-      self.changeToNeedsFirstPass = function() {
-        self.changeSelectedPill('Needs First Pass');
-        self.selectedFilter = self.needsFirstPassFilter;
+      self.changeToSeries = function() {
+        self.changeSelectedPill('Series');
       };
 
-      self.changeToMatchPending = function() {
-        self.changeSelectedPill('Match Pending');
-        self.selectedFilter = self.matchPendingFilter;
+      self.statusFilter = function(series, status) {
+        return series.tvdb_match_status === status || series.previous_status === status;
       };
 
-      self.needsFirstPassFilter = function(series) {
-        return series.tvdb_match_status === 'Needs First Pass' || series.temp_ignored;
+      self.matchFirstPassFilter = function(series) {
+        return self.statusFilter(series, 'Match First Pass');
       };
 
-      self.matchPendingFilter = function(series) {
-        return series.tvdb_match_status === 'Match Pending' || series.temp_confirmed || series.temp_ignored;
+      self.needsConfirmationFilter = function(series) {
+        return self.statusFilter(series, 'Needs Confirmation');
       };
 
-      self.selectedFilter = self.needsFirstPassFilter;
+      self.needsHintFilter = function(series) {
+        return self.statusFilter(series, 'Needs Hint');
+      };
 
       self.getSeriesNameClass = function(series) {
         if (series.temp_ignored) {
