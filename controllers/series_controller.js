@@ -131,7 +131,7 @@ exports.changeTier = function(req, response) {
 };
 
 exports.addSeries = function(req, res) {
-  console.log("Entered addSeries server call.");
+  console.log("Entered addSeries server call: " + JSON.stringify(req.body.series));
 
   var seriesObj = req.body.series;
 
@@ -143,8 +143,8 @@ var insertSeries = function(series, response) {
   console.log("Inserting series.");
 
   var sql = "INSERT INTO series (" +
-      "title, tier, metacritic, tvdb_series_id, tvdb_series_ext_id, my_rating, date_added, tvdb_new, metacritic_new) " +
-      "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) " +
+      "title, tier, metacritic, tvdb_series_id, tvdb_series_ext_id, my_rating, date_added, tvdb_new, metacritic_new, tvdb_match_status) " +
+      "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) " +
       "RETURNING id ";
   var values = [
     series.title,
@@ -155,7 +155,8 @@ var insertSeries = function(series, response) {
     series.my_rating,
     new Date,
     true,
-    true
+    true,
+    'Match First Pass'
   ];
 
   var queryConfig = {

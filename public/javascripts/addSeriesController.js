@@ -36,7 +36,6 @@ angular.module('mediaMogulApp')
     self.ok = function() {
       self.series.ViewingLocations = [self.selectedLocation];
       self.series.date_added = new Date;
-      self.series.tvdb_match_status = 'Match First Pass';
       var errorResponse = EpisodeService.addSeries(self.series);
       if (errorResponse) {
         $log.debug("Error adding series. Response: " + errorResponse);
