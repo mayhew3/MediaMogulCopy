@@ -5,7 +5,7 @@
     <h3>Queue</h3>
   </div>
   <div class="panel-body">
-    <div class="row show-list">
+    <div class="row">
       <div class="fade-repeat col-xs-4 col-md-3 posterRow" ng-repeat="show in ctrl.series |
                 filter:ctrl.showInQueue |
                 orderBy:[ctrl.orderByRating].concat('-FullRating')">
@@ -30,7 +30,7 @@
     <h3>Active</h3>
   </div>
   <div class="panel-body">
-    <div class="row show-list">
+    <div class="row">
       <div class="fade-repeat col-xs-4 col-md-3 posterRow" ng-repeat="show in ctrl.series |
                 filter:ctrl.otherActive |
                 orderBy:[ctrl.orderByRating].concat('-FullRating')">
@@ -55,7 +55,7 @@
     <h3>This Week</h3>
   </div>
   <div class="panel-body">
-    <div class="row show-list">
+    <div class="row">
       <div class="fade-repeat col-xs-3 col-md-2 posterRow" ng-repeat="show in ctrl.series |
                 filter:ctrl.upcomingSoon |
                 orderBy:'nextAirDate'">

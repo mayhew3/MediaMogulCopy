@@ -17,6 +17,19 @@ exports.getSeries = function(request, response) {
   return executeQueryWithResults(response, sql, [false]);
 };
 
+exports.getSeriesWithPossibleMatchInfo = function(request, response) {
+  console.log("Series with Matches call received.");
+
+  var sql = 'SELECT s.*, psm.tvdb_series_title, psm.poster as poster ' +
+      'FROM series s ' +
+      'LEFT OUTER JOIN possible_series_match psm ' +
+      '  ON (psm.series_id = s.id AND psm.tvdb_series_ext_id = s.tvdb_series_ext_id) ' +
+      'WHERE s.suggestion = $1 ' +
+      'ORDER BY s.title';
+
+  return executeQueryWithResults(response, sql, [false]);
+};
+
 exports.getEpisodeGroupRatings = function(request, response) {
   var year = request.query.Year;
 

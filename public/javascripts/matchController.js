@@ -56,7 +56,7 @@ angular.module('mediaMogulApp')
       };
 
       self.refreshSeriesList = function() {
-        EpisodeService.updateSeriesList().then(function () {
+        EpisodeService.updateSeriesMatchList().then(function () {
           self.series = EpisodeService.getSeriesList();
           $log.debug("Controller has " + self.series.length + " shows.");
         });
@@ -108,6 +108,19 @@ angular.module('mediaMogulApp')
           series.temp_confirmed = false;
           series.tvdb_match_status = series.previous_status;
           series.previous_status = null;
+        });
+      };
+
+      self.open = function(series) {
+        $modal.open({
+          templateUrl: 'views/tv/match/matchConfirmation.html',
+          controller: 'matchConfirmationController as ctrl',
+          size: 'lg',
+          resolve: {
+            series: function() {
+              return series;
+            }
+          }
         });
       };
 

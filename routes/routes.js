@@ -25,6 +25,7 @@ module.exports = function(app) {
 
   // TV
   app.get('/seriesList', series.getSeries);
+  app.get('/seriesMatchList', series.getSeriesWithPossibleMatchInfo);
   app.get('/episodeGroupRatings', series.getEpisodeGroupRatings);
   app.get('/episodeList', series.getEpisodes);
   app.get('/recordingNow', series.getRecordingNow);

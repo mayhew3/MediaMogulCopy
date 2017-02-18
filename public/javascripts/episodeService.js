@@ -38,6 +38,30 @@ function EpisodeService($log, $http, $q, $filter) {
     });
   };
 
+  this.updateSeriesMatchList = function() {
+    return $http.get('/seriesMatchList').then(function (showresponse) {
+      $log.debug("Shows returned " + showresponse.data.length + " items.");
+      var tempShows = showresponse.data;
+      tempShows.forEach(function (show) {
+        updatePosterLocation(show);
+      });
+      $log.debug("Finished updating.");
+      shows = tempShows;
+
+      $http.get('/viewingLocations').then(function (viewingResponse) {
+        $log.debug("Found " + viewingResponse.data.length + " viewing locations.");
+        viewingLocations = viewingResponse.data;
+
+        self.updateNextUp().then(self.updateRecordingNow);
+      }, function (errViewing) {
+        console.error('Error while fetching viewing location list: ' + errViewing);
+      });
+
+    }, function (errResponse) {
+      console.error('Error while fetching series list: ' + errResponse);
+    });
+  };
+
   this.updateEpisodeGroupRatings = function(year) {
     return $http.get('/episodeGroupRatings', {params: {Year: year}}).then(function (groupResponse) {
       var tempShows = groupResponse.data;
@@ -46,6 +70,10 @@ function EpisodeService($log, $http, $q, $filter) {
     });
   };
 
+  function updatePosterLocation(show) {
+    show.posterResolved = show.poster ? 'http://thetvdb.com/banners/' + show.poster : 'images/GenericSeries.gif';
+  }
+
   this.updateNumericFields = function(show) {
     if (show.tier != null) {
       show.tier = parseInt(show.tier);
@@ -53,7 +81,7 @@ function EpisodeService($log, $http, $q, $filter) {
     if (show.metacritic != null) {
       show.metacritic = parseInt(show.metacritic);
     }
-    show.posterResolved = show.poster ? 'http://thetvdb.com/banners/'+show.poster : 'images/GenericSeries.gif';
+    updatePosterLocation(show);
     show.unwatched_all = show.unwatched_episodes + show.unwatched_streaming;
   };
   
@@ -217,6 +245,9 @@ function EpisodeService($log, $http, $q, $filter) {
     return $http.get('/possibleMatches', {params: {SeriesId: series.id}}).then(function(response) {
       $log.debug("Possible matches returned " + response.data.length + " items.");
       possibleMatches = response.data;
+      possibleMatches.forEach(function (match) {
+        updatePosterLocation(match);
+      });
     }, function(errResponse) {
       console.error('Error while fetching possible match list: ' + errResponse);
     });
