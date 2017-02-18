@@ -12,9 +12,10 @@ exports.getSeries = function(request, response) {
       'LEFT OUTER JOIN tvdb_series tvs ' +
       ' ON s.tvdb_series_id = tvs.id ' +
       'WHERE s.suggestion = $1 ' +
+      'AND s.tvdb_match_status = $2 ' +
       'ORDER BY s.title';
 
-  return executeQueryWithResults(response, sql, [false]);
+  return executeQueryWithResults(response, sql, [false, 'Match Completed']);
 };
 
 exports.getSeriesWithPossibleMatchInfo = function(request, response) {
@@ -25,9 +26,10 @@ exports.getSeriesWithPossibleMatchInfo = function(request, response) {
       'LEFT OUTER JOIN possible_series_match psm ' +
       '  ON (psm.series_id = s.id AND psm.tvdb_series_ext_id = s.tvdb_series_ext_id) ' +
       'WHERE s.suggestion = $1 ' +
+      'AND s.tvdb_match_status <> $2 ' +
       'ORDER BY s.title';
 
-  return executeQueryWithResults(response, sql, [false]);
+  return executeQueryWithResults(response, sql, [false, 'Match Completed']);
 };
 
 exports.getEpisodeGroupRatings = function(request, response) {
