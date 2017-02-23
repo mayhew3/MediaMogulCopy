@@ -36,7 +36,6 @@ module.exports = function(app) {
   app.get('/upcomingEpisodes', series.getUpcomingEpisodes);
 
   app.post('/updateEpisode', series.updateEpisode);
-  app.post('/updateMultiEpisodes', series.updateMultipleEpisodes);
   app.post('/markAllWatched', series.markAllEpisodesAsWatched);
   app.post('/matchTiVoEpisodes', series.matchTiVoEpisodes);
   app.post('/unlinkEpisode', series.unlinkEpisode);

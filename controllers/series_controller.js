@@ -13,9 +13,10 @@ exports.getSeries = function(request, response) {
       ' ON s.tvdb_series_id = tvs.id ' +
       'WHERE s.suggestion = $1 ' +
       'AND s.tvdb_match_status = $2 ' +
+      'AND s.retired = $3 ' +
       'ORDER BY s.title';
 
-  return executeQueryWithResults(response, sql, [false, 'Match Completed']);
+  return executeQueryWithResults(response, sql, [false, 'Match Completed', 0]);
 };
 
 exports.getSeriesWithPossibleMatchInfo = function(request, response) {
@@ -27,9 +28,10 @@ exports.getSeriesWithPossibleMatchInfo = function(request, response) {
       '  ON (psm.series_id = s.id AND psm.tvdb_series_ext_id = s.tvdb_series_ext_id) ' +
       'WHERE s.suggestion = $1 ' +
       'AND s.tvdb_match_status <> $2 ' +
+      'AND s.retired = $3 ' +
       'ORDER BY s.title';
 
-  return executeQueryWithResults(response, sql, [false, 'Match Completed']);
+  return executeQueryWithResults(response, sql, [false, 'Match Completed', 0]);
 };
 
 exports.getEpisodeGroupRatings = function(request, response) {
@@ -41,9 +43,10 @@ exports.getEpisodeGroupRatings = function(request, response) {
     ' ON egr.series_id = s.id ' +
     'INNER JOIN tvdb_series tvs ' +
     ' ON s.tvdb_series_id = tvs.id ' +
-    'WHERE year = $1 ';
+    'WHERE year = $1 ' +
+    'AND s.retired = $2 ';
 
-  return executeQueryWithResults(response, sql, [year]);
+  return executeQueryWithResults(response, sql, [year, 0]);
 };
 
 exports.getEpisodes = function(req, response) {
@@ -108,9 +111,10 @@ exports.getPossibleMatches = function(req, response) {
 
   var sql = 'SELECT psm.* ' +
       'FROM possible_series_match psm ' +
-      'WHERE psm.series_id = $1';
+      'WHERE psm.series_id = $1 ' +
+      'AND psm.retired = $2 ';
 
-  return executeQueryWithResults(response, sql, [req.query.SeriesId]);
+  return executeQueryWithResults(response, sql, [req.query.SeriesId, 0]);
 };
 
 exports.getViewingLocations = function(req, response) {
@@ -254,9 +258,10 @@ exports.changeEpisodesStreaming = function(req, response) {
   var sql = "UPDATE episode " +
       "SET streaming = $1 " +
       "WHERE series_id = $2 " +
-      "AND season <> $3";
+      "AND season <> $3 " +
+      "AND retired = $4 ";
 
-  return executeQueryNoResults(response, sql, [streaming, seriesId, 0]);
+  return executeQueryNoResults(response, sql, [streaming, seriesId, 0, 0]);
 };
 
 exports.updateSeries = function(req, response) {
@@ -292,18 +297,6 @@ exports.updateEpisodeGroupRating = function(req, response) {
   return executeQueryNoResults(response, queryConfig.text, queryConfig.values);
 };
 
-exports.updateMultipleEpisodes = function(req, response) {
-  console.log("Update Multiple Episodes with " + JSON.stringify(req.body.ChangedFields));
-
-  var queryConfig = buildUpdateQueryConfigMultiple(req.body.ChangedFields, "episode", req.body.AllEpisodeIds);
-
-  console.log("SQL: " + queryConfig.text);
-  console.log("Values: " + queryConfig.values);
-
-  return executeQueryNoResults(response, queryConfig.text, queryConfig.values);
-};
-
-
 exports.markAllEpisodesAsWatched = function(req, res) {
   var seriesId = req.body.SeriesId;
   var lastWatched = req.body.LastWatched;
@@ -323,13 +316,15 @@ function markAllWatched(response, seriesId) {
       'WHERE series_id = $2 ' +
       'AND on_tivo = $3 ' +
       'AND watched <> $4 ' +
-      'AND season <> $5 ';
+      'AND season <> $5 ' +
+      'AND retired = $6 ';
 
   var values = [true, // watched
     seriesId, // series_id
-    true, // on_tivo
-    true, // !watched
-    0 // !season
+    true,     // on_tivo
+    true,     // !watched
+    0,        // !season
+    0         // retired
   ];
 
   return executeQueryNoResults(response, sql, values)
@@ -356,13 +351,15 @@ function markPastWatched(response, seriesId, lastWatched) {
       'AND tvdb_episode_id is not null ' +
       'AND air_date < $3 ' +
       'AND watched <> $4 ' +
-      'AND season <> $5 ';
+      'AND season <> $5 ' +
+      'AND retired = $6 ';
 
   var values = [true, // watched
-    seriesId, // series_id
-    lastWatched, // air_date <
-    true, // !watched
-    0 // !season
+    seriesId,         // series_id
+    lastWatched,      // air_date <
+    true,             // !watched
+    0,                // !season
+    0                 // retired
   ];
 
   return executeQueryNoResults(response, sql, values);
@@ -573,9 +570,10 @@ exports.getUpcomingEpisodes = function(req, response) {
       "and e.air_date >= (current_date - integer '1') " +
       "and e.watched = $2 " +
       "and e.season <> $3 " +
+      "and e.retired = $4 " +
       "order by e.air_date asc;";
 
-  return executeQueryWithResults(response, sql, [1, false, 0]);
+  return executeQueryWithResults(response, sql, [1, false, 0, 0]);
 };
 
 // utility methods
@@ -709,50 +707,3 @@ function buildUpdateQueryConfig(changedFields, tableName, rowID) {
     values: values
   };
 }
-
-// todo: doesn't quite work right
-function buildUpdateQueryConfigMultiple(changedFields, tableName, rowIDs) {
-
-  var sql = "UPDATE " + tableName + " SET ";
-  var values = [];
-  var i = 1;
-  for (var key in changedFields) {
-    if (changedFields.hasOwnProperty(key)) {
-      if (values.length != 0) {
-        sql += ", ";
-      }
-
-      sql += (key + " = $" + i);
-
-      var value = changedFields[key];
-      values.push(value);
-
-      i++;
-    }
-  }
-
-  sql += " WHERE id IN (";
-
-  var startIndex = i;
-  for(var rowID in rowIDs) {
-    if (i != startIndex) {
-      sql += ", ";
-    }
-
-    sql += ("$" + i);
-    values.push(rowID);
-
-    i++;
-  }
-
-  sql += ")";
-
-  console.log(sql);
-
-  return {
-    text: sql,
-    values: values
-  };
-}
-
-
