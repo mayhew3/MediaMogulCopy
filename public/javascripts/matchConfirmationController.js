@@ -15,7 +15,7 @@ angular.module('mediaMogulApp')
         $log.debug("Updated " + self.possibleMatches.length + " possible matches.");
 
         self.possibleMatches.forEach(function (match) {
-          if (series.tvdb_series_ext_id == match.tvdb_series_ext_id) {
+          if (series.tvdb_match_id == match.tvdb_series_ext_id) {
             self.selectedMatch = match;
           }
         });
@@ -36,12 +36,12 @@ angular.module('mediaMogulApp')
 
 
       self.ok = function() {
-        if (self.selectedMatch.tvdb_series_ext_id != series.tvdb_series_ext_id) {
+        if (self.selectedMatch.tvdb_series_ext_id != series.tvdb_match_id) {
           var changedFields = {
-            tvdb_series_ext_id: self.selectedMatch.tvdb_series_ext_id
+            tvdb_match_id: self.selectedMatch.tvdb_series_ext_id
           };
           EpisodeService.updateSeries(series.id, changedFields).then(function() {
-            series.tvdb_series_ext_id = self.selectedMatch.tvdb_series_ext_id;
+            series.tvdb_match_id = self.selectedMatch.tvdb_series_ext_id;
             series.tvdb_series_title = self.selectedMatch.tvdb_series_title;
             series.poster = self.selectedMatch.poster;
             series.posterResolved = self.selectedMatch.posterResolved;

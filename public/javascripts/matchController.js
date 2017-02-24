@@ -41,6 +41,10 @@ angular.module('mediaMogulApp')
         return self.statusFilter(series, 'Needs Confirmation');
       };
 
+      self.duplicateFilter = function(series) {
+        return self.statusFilter(series, 'Duplicate');
+      };
+
       self.needsHintFilter = function(series) {
         return self.statusFilter(series, 'Needs Hint');
       };

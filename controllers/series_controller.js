@@ -25,7 +25,7 @@ exports.getSeriesWithPossibleMatchInfo = function(request, response) {
   var sql = 'SELECT s.*, psm.tvdb_series_title, psm.poster as poster ' +
       'FROM series s ' +
       'LEFT OUTER JOIN possible_series_match psm ' +
-      '  ON (psm.series_id = s.id AND psm.tvdb_series_ext_id = s.tvdb_series_ext_id) ' +
+      '  ON (psm.series_id = s.id AND psm.tvdb_series_ext_id = s.tvdb_match_id) ' +
       'WHERE s.suggestion = $1 ' +
       'AND s.tvdb_match_status <> $2 ' +
       'AND s.retired = $3 ' +
@@ -154,7 +154,6 @@ exports.addSeries = function(req, res) {
 
   var seriesObj = req.body.series;
 
-  seriesObj.tvdb_series_id = null;
   return insertSeries(seriesObj, res);
 };
 
@@ -162,15 +161,13 @@ var insertSeries = function(series, response) {
   console.log("Inserting series.");
 
   var sql = "INSERT INTO series (" +
-      "title, tier, metacritic, tvdb_series_id, tvdb_series_ext_id, my_rating, date_added, tvdb_new, metacritic_new, tvdb_match_status) " +
-      "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) " +
+      "title, tier, metacritic, my_rating, date_added, tvdb_new, metacritic_new, tvdb_match_status) " +
+      "VALUES ($1, $2, $3, $4, $5, $6, $7, $8) " +
       "RETURNING id ";
   var values = [
     series.title,
     series.tier,
     series.metacritic,
-    series.tvdb_series_id,
-    series.tvdb_series_ext_id,
     series.my_rating,
     new Date,
     true,

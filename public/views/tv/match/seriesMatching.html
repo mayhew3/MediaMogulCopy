@@ -107,4 +107,54 @@
       </div>
     </div>
   </div>
+
+  <!-- Duplicates -->
+  <div class="panel-heading">
+    <h4>Duplicates</h4>
+  </div>
+
+  <div class="panel-body">
+    <div class="row">
+      <div class="fade-repeat col-xs-12 col-md-6 posterRow" ng-repeat="series in ctrl.series |
+                filter:ctrl.duplicateFilter">
+        <div class="col-xs-12 col-md-6">
+          <a ng-click="ctrl.open(series)" href="">
+            <img class="img-rounded"
+                 ng-src="{{series.posterResolved}}"
+                 width="100%"/>
+          </a>
+        </div>
+        <div class="col-xs-12 col-md-6">
+          Input: <span ng-class="ctrl.getSeriesNameClass(series)" ng-bind="series.title"></span><br/>
+          TVDB: <span ng-class="ctrl.getSeriesNameClass(series)" ng-bind="series.tvdb_series_title"></span><br/>
+        </div>
+        <div class="col-xs-12 col-md-6" align="center">
+          <br/>
+          <br/>
+          <input type="button"
+                 ng-hide="series.temp_confirmed"
+                 class="btn btn-sm btn-success"
+                 ng-disabled="series.temp_ignored"
+                 ng-click="ctrl.confirmMatch(series)"
+                 value="Confirm">
+          <input type="button"
+                 ng-show="series.temp_confirmed"
+                 class="btn btn-sm btn-warning"
+                 ng-click="ctrl.unConfirmMatch(series)"
+                 value="Un-Confirm">
+          <input type="button"
+                 class="btn btn-sm btn-danger"
+                 ng-hide="series.temp_ignored"
+                 ng-disabled="series.temp_confirmed"
+                 ng-click="ctrl.ignoreSeries(series)"
+                 value="Ignore">
+          <input type="button"
+                 class="btn btn-sm btn-warning"
+                 ng-show="series.temp_ignored"
+                 ng-click="ctrl.unIgnoreSeries(series)"
+                 value="Un-ignore">
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -107,7 +107,7 @@ angular.module('mediaMogulApp')
     self.useMatch = function(possibleMatch) {
       $log.debug("Match selected: " + possibleMatch.SeriesTitle + '(' + possibleMatch.SeriesID + ')');
       var changedFields = {
-        tvdb_series_ext_id: possibleMatch.tvdb_series_ext_id,
+        tvdb_match_id: possibleMatch.tvdb_match_id,
         needs_tvdb_redo: true,
         matched_wrong: false
       };
