@@ -7,7 +7,7 @@ var config = process.env.DATABASE_URL;
 exports.getSeries = function(request, response) {
   console.log("Series call received.");
 
-  var sql = 'SELECT s.*, tvs.poster, tvs.airs_time ' +
+  var sql = 'SELECT s.*, tvs.airs_time ' +
       'FROM series s ' +
       'LEFT OUTER JOIN tvdb_series tvs ' +
       ' ON s.tvdb_series_id = tvs.id ' +
@@ -37,12 +37,10 @@ exports.getSeriesWithPossibleMatchInfo = function(request, response) {
 exports.getEpisodeGroupRatings = function(request, response) {
   var year = request.query.Year;
 
-  var sql = 'SELECT s.title, tvs.poster, egr.* ' +
+  var sql = 'SELECT s.title, s.poster, egr.* ' +
     'FROM episode_group_rating egr ' +
     'INNER JOIN series s ' +
     ' ON egr.series_id = s.id ' +
-    'INNER JOIN tvdb_series tvs ' +
-    ' ON s.tvdb_series_id = tvs.id ' +
     'WHERE year = $1 ' +
     'AND s.retired = $2 ';
 
