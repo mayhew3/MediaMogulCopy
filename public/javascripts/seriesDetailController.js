@@ -364,6 +364,19 @@ angular.module('mediaMogulApp')
       });
     };
 
+    self.openChangePoster = function () {
+      $modal.open({
+        templateUrl: 'views/tv/shows/changePoster.html',
+        controller: 'changePosterController',
+        controllerAs: 'ctrl',
+        size: 'lg',
+        resolve: {
+          series: function() {
+            return self.series;
+          }
+        }
+      })
+    };
 
     self.ok = function() {
       $modalInstance.close();

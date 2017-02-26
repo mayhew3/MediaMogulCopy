@@ -5,6 +5,7 @@ function EpisodeService($log, $http, $q, $filter) {
   var unmatchedEpisodes = [];
   var possibleMatches = [];
   var viewingLocations = [];
+  var allPosters = [];
   var self = this;
 
   this.getSeriesWithTitle = function(SeriesTitle) {
@@ -71,7 +72,11 @@ function EpisodeService($log, $http, $q, $filter) {
   };
 
   function updatePosterLocation(show) {
-    show.posterResolved = show.poster ? 'http://thetvdb.com/banners/' + show.poster : 'images/GenericSeries.gif';
+    show.posterResolved = amendPosterLocation(show.poster);
+  }
+
+  function amendPosterLocation(posterPath) {
+    return posterPath ? 'http://thetvdb.com/banners/' + posterPath : 'images/GenericSeries.gif';
   }
 
   this.updateNumericFields = function(show) {
@@ -246,11 +251,25 @@ function EpisodeService($log, $http, $q, $filter) {
       $log.debug("Possible matches returned " + response.data.length + " items.");
       possibleMatches = response.data;
       possibleMatches.forEach(function (match) {
-        updatePosterLocation(match);
+        match.posterResolved = amendPosterLocation(match.poster);
       });
     }, function(errResponse) {
       console.error('Error while fetching possible match list: ' + errResponse);
     });
+  };
+
+  this.updateAllPosters = function(series) {
+    return $http.get('/allPosters', {params: {tvdb_series_id: series.tvdb_series_id}}).then(function(response) {
+      $log.debug(response.data.length + " posters found for series tvdb id " + series.tvdb_series_id);
+      allPosters = response.data;
+      allPosters.forEach(function (poster) {
+        poster.posterResolved = amendPosterLocation(poster.poster_path);
+      });
+    });
+  };
+
+  this.getAllPosters = function() {
+    return allPosters;
   };
 
   this.updateUnmatchedList = function(series) {

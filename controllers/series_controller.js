@@ -123,6 +123,17 @@ exports.getViewingLocations = function(req, response) {
   return executeQueryWithResults(response, sql, []);
 };
 
+exports.getAllPosters = function(req, response) {
+  var tvdbSeriesId = req.query.tvdb_series_id;
+  console.log("All Posters call received. Params: {SeriesId: " + tvdbSeriesId + "}");
+
+  var sql = 'SELECT poster_path ' +
+    'FROM tvdb_poster ' +
+    'WHERE tvdb_series_id = $1 ' +
+    'AND retired = $2 ';
+  return executeQueryWithResults(response, sql, [tvdbSeriesId, 0]);
+};
+
 exports.getUnmatchedEpisodes = function(req, response) {
   console.log("Unmatched Episode call received. Params: " + req.query.TiVoSeriesId);
 
