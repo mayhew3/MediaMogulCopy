@@ -40,7 +40,7 @@ angular.module('mediaMogulApp')
       if (episode.watched_date == null) {
         return episode.watched ? "----.--.--" : "";
       } else {
-        return $filter('date')(episode.watched_date, self.getDateFormat(episode.watched_date), '+0000');
+        return $filter('date')(episode.watched_date, self.getDateFormat(episode.watched_date), '-0800');
       }
     };
 

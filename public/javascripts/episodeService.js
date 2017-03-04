@@ -129,7 +129,7 @@ function EpisodeService($log, $http, $q, $filter) {
 
         series.nextAirDate = resultObj.air_date;
 
-        var combinedStr = $filter('date')(series.nextAirDate, 'shortDate', '+0000') + " " + series.airs_time;
+        var combinedStr = $filter('date')(series.nextAirDate, 'shortDate', '-0800') + " " + series.airs_time;
         var combinedDate = new Date(combinedStr);
 
         var minutesPart = $filter('date')(combinedDate, 'mm');

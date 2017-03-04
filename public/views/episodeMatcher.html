@@ -20,7 +20,7 @@
         <td ng-bind="episode.episode_number"></td>
         <td ng-bind="episode.title"></td>
         <td ng-bind="episode.description" class="episodeDescription"></td>
-        <td ng-bind="episode.showing_start_time|date:ctrl.getDateFormat(episode.showing_start_time):'+0000'"></td>
+        <td ng-bind="episode.showing_start_time|date:ctrl.getDateFormat(episode.showing_start_time):'-0800'"></td>
         <td>
               <span ng-class="ctrl.getUnmatchedLabelInfo(episode).labelClass"
                     ng-hide="ctrl.getUnmatchedLabelInfo(episode) == null"
@@ -73,7 +73,7 @@
           ng-click="ctrl.toggleRowBottom(episode)">
         <td ng-bind="episode.tvdb_episode_number"></td>
         <td ng-bind="episode.tvdb_episode_name" class="episodeDescription"></td>
-        <td ng-bind="episode.air_date|date:ctrl.getDateFormat(episode.air_date):'+0000'"></td>
+        <td ng-bind="episode.air_date|date:ctrl.getDateFormat(episode.air_date):'-0800'"></td>
         <td>
               <span ng-class="ctrl.getLabelInfo(episode).labelClass"
                     ng-hide="ctrl.getLabelInfo(episode) == null"
