@@ -171,6 +171,7 @@ angular.module('mediaMogulApp')
       episode.watched = self.watched;
       episode.watched_date = self.watched_date;
       episode.air_date = self.air_date;
+      // MM-233 - todo: update air_time
     }
 
 

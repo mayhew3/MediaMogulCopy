@@ -127,10 +127,7 @@ function EpisodeService($log, $http, $q, $filter) {
       if (series.id == series_id && series.nextAirDate == undefined) {
         // $log.debug("Updating series " + series.title + " next air date " + resultObj.air_date);
 
-        series.nextAirDate = resultObj.air_date;
-
-        var combinedStr = $filter('date')(series.nextAirDate, 'shortDate', '-0800') + " " + series.airs_time;
-        var combinedDate = new Date(combinedStr);
+        var combinedDate = getAirTime(resultObj, series);
 
         var minutesPart = $filter('date')(combinedDate, 'mm');
         var timeFormat = (minutesPart == '00') ? 'EEEE ha' : 'EEEE h:mm a';
@@ -143,6 +140,17 @@ function EpisodeService($log, $http, $q, $filter) {
         };
       }
     });
+  }
+
+  function getAirTime(resultObj, series) {
+    if (resultObj.air_time == null) {
+      series.nextAirDate = resultObj.air_date;
+      var combinedStr = $filter('date')(series.nextAirDate, 'shortDate', '-0800') + " " + series.airs_time;
+      return new Date(combinedStr);
+    } else {
+      series.nextAirDate = resultObj.air_time;
+      return resultObj.air_time;
+    }
   }
 
   this.updateEpisodeListForRating = function(episodeRatingGroup) {

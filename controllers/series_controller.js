@@ -567,17 +567,17 @@ function updateOnTivo(tvdbEpisodeIds, onTiVoValue) {
 }
 
 exports.getUpcomingEpisodes = function(req, response) {
-  var sql = "select e.series_id, e.title, e.season, e.episode_number, e.air_date " +
+  var sql = "select e.series_id, e.title, e.season, e.episode_number, e.air_date, e.air_time " +
       "from episode e " +
       "inner join series s " +
       "on e.series_id = s.id " +
       "where s.tier = $1 " +
-      "and e.air_date is not null " +
-      "and e.air_date >= (current_date - integer '1') " +
+      "and e.air_time is not null " +
+      "and e.air_time >= (current_date - integer '1') " +
       "and e.watched = $2 " +
       "and e.season <> $3 " +
       "and e.retired = $4 " +
-      "order by e.air_date asc;";
+      "order by e.air_time asc;";
 
   return executeQueryWithResults(response, sql, [1, false, 0, 0]);
 };
