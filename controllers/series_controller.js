@@ -7,10 +7,8 @@ var config = process.env.DATABASE_URL;
 exports.getSeries = function(request, response) {
   console.log("Series call received.");
 
-  var sql = 'SELECT s.*, tvs.airs_time ' +
+  var sql = 'SELECT s.* ' +
       'FROM series s ' +
-      'LEFT OUTER JOIN tvdb_series tvs ' +
-      ' ON s.tvdb_series_id = tvs.id ' +
       'WHERE s.suggestion = $1 ' +
       'AND s.tvdb_match_status = $2 ' +
       'AND s.retired = $3 ' +

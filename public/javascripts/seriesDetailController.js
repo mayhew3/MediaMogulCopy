@@ -357,6 +357,9 @@ angular.module('mediaMogulApp')
           },
           previousEpisodes: function() {
             return getPreviousEpisodes(episode);
+          },
+          series: function() {
+            return series;
           }
         }
       }).result.finally(function() {

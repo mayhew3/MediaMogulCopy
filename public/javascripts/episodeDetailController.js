@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-  .controller('episodeDetailController', ['$log', 'EpisodeService', '$modalInstance', 'episode', 'previousEpisodes', 'auth',
-  function($log, EpisodeService, $modalInstance, episode, previousEpisodes, auth) {
+  .controller('episodeDetailController', ['$log', 'EpisodeService', '$modalInstance', 'episode', 'previousEpisodes', 'series', 'auth',
+  function($log, EpisodeService, $modalInstance, episode, previousEpisodes, series, auth) {
     var self = this;
     self.rating_id = episode.rating_id;
     self.auth = auth;
@@ -129,6 +129,7 @@ angular.module('mediaMogulApp')
 
       if (dateHasChanged(originalAirDate, self.air_date)) {
         changedFields.air_date = self.air_date;
+        changedFields.air_time = EpisodeService.combineDateAndTime(self.air_date, series.air_time);
       }
 
       if (isEmpty(changedFields)) {

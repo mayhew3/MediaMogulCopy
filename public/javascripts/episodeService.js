@@ -121,36 +121,47 @@ function EpisodeService($log, $http, $q, $filter) {
     })
   }
 
+  this.combineDateAndTime = function(date, time) {
+    var combinedStr = $filter('date')(date, 'shortDate', '+0000') + " " + time;
+    return new Date(combinedStr);
+  };
+
+  this.getAirTime = function(episode) {
+    if (episode.air_time == null) {
+      return self.combineDateAndTime(episode.air_date, episode.seriesAirTime);
+    } else {
+      return episode.air_time;
+    }
+  };
+
+  this.formatAirTime = function(combinedDate) {
+    var minutesPart = $filter('date')(combinedDate, 'mm');
+    var timeFormat = (minutesPart == '00') ? 'EEEE ha' : 'EEEE h:mm a';
+    return $filter('date')(combinedDate, timeFormat);
+  };
+
+  this.updateNextAirDate = function(series, episode) {
+    series.nextAirDate = episode.air_time == null ? episode.air_date : episode.air_time;
+    var combinedDate = self.getAirTime(episode);
+    series.nextAirDateFormatted = self.formatAirTime(combinedDate);
+  };
+
+  this.updateNextEpisode = function(series, episode) {
+    series.nextEpisode = {
+      title: episode.title,
+      season: episode.season,
+      episode_number: episode.episode_number
+    };
+  };
+
   function findAndUpdateSeries(resultObj) {
     var series_id = resultObj.series_id;
     shows.forEach(function (series) {
       if (series.id == series_id && series.nextAirDate == undefined) {
-        // $log.debug("Updating series " + series.title + " next air date " + resultObj.air_date);
-
-        var combinedDate = getAirTime(resultObj, series);
-
-        var minutesPart = $filter('date')(combinedDate, 'mm');
-        var timeFormat = (minutesPart == '00') ? 'EEEE ha' : 'EEEE h:mm a';
-
-        series.nextAirDateFormatted = $filter('date')(combinedDate, timeFormat);
-        series.nextEpisode = {
-          title: resultObj.title,
-          season: resultObj.season,
-          episode_number: resultObj.episode_number
-        };
+        self.updateNextAirDate(series, resultObj);
+        self.updateNextEpisode(series, resultObj);
       }
     });
-  }
-
-  function getAirTime(resultObj, series) {
-    if (resultObj.air_time == null) {
-      series.nextAirDate = resultObj.air_date;
-      var combinedStr = $filter('date')(series.nextAirDate, 'shortDate', '-0800') + " " + series.airs_time;
-      return new Date(combinedStr);
-    } else {
-      series.nextAirDate = resultObj.air_time;
-      return resultObj.air_time;
-    }
   }
 
   this.updateEpisodeListForRating = function(episodeRatingGroup) {
