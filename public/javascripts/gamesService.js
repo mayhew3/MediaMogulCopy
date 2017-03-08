@@ -95,6 +95,9 @@ function GamesService($log, $http) {
       myRating = myGuess;
     }
 
+    game.FullRating = myRating == null ? metacritic : myRating;
+
+    /*
     if (metacritic == null) {
       game.FullRating = myRating;
     } else if (myRating == null) {
@@ -114,6 +117,7 @@ function GamesService($log, $http) {
 
       game.FullRating = (myRating * myWeight) + (metacritic * metaWeight);
     }
+    */
   };
 
   this.updateImages = function(game) {

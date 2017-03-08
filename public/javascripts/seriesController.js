@@ -95,6 +95,9 @@ angular.module('mediaMogulApp')
       var metacritic = series.metacritic;
       var myRating = series.my_rating;
 
+      series.FullRating = myRating == null ? metacritic : myRating;
+/*
+
       if (metacritic == null) {
         series.FullRating = myRating;
       } else if (myRating == null) {
@@ -109,6 +112,7 @@ angular.module('mediaMogulApp')
 
         series.FullRating = (myRating * myWeight) + (metacritic * metaWeight);
       }
+*/
 
       series.colorStyle = function() {
         if (series.FullRating == null) {
