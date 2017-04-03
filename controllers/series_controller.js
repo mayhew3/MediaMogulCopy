@@ -401,7 +401,7 @@ exports.matchTiVoEpisodes = function(req, response) {
         return response.send("Error " + err);
       }
 
-      response.json({msg: "Success!"});
+      return updateEpisodeMatchStatus(tivoEpisodeId, "Match Completed", response);
     });
   });
 
@@ -411,24 +411,30 @@ exports.matchTiVoEpisodes = function(req, response) {
 exports.unlinkEpisode = function(req, response) {
   var episodeId = req.body.EpisodeId;
 
-  console.log("Retiring all edge rows pointing at " + episodeId);
+  console.log("Unlinking episode: " + episodeId);
 
-  retireEdgeRows(episodeId).then(function(result, err) {
+  setMatchStatusOnLinkedEpisodes(episodeId, "Match First Pass").then(function(result, err) {
     if (err) {
-      console.error(err);
-      return response.send("Error " + err);
+      console.error("Error setting tivo_episode match status: " + err);
+      return response.send(err);
     }
 
-    updateOnTivo([episodeId], false).then(function(results, err) {
+    retireEdgeRows(episodeId).then(function(result, err) {
       if (err) {
-        console.error(err);
+        console.error("Error retiring edge rows: " + err);
         return response.send("Error " + err);
       }
 
-      response.json({msg: "Success!"});
-    })
-  })
+      updateOnTivo([episodeId], false).then(function(results, err) {
+        if (err) {
+          console.error("Error updating OnTivo column: " + err);
+          return response.send("Error " + err);
+        }
 
+        response.json({msg: "Success!"});
+      });
+    });
+  });
 };
 
 exports.addRating = function(req, response) {
@@ -498,71 +504,6 @@ exports.updateRating = function(req, response) {
   return executeQueryNoResults(response, queryConfig.text, queryConfig.values);
 };
 
-
-function insertEdgeRow(tivoEpisodeId, tvdbEpisodeIds) {
-  var wildcards = [];
-  var index = 1;
-  tvdbEpisodeIds.forEach(function() {
-    wildcards.push("$" + index);
-    index++;
-  });
-
-  var wildCardString = wildcards.join(', ');
-
-  console.log("Trying to match TVDB IDs " + tvdbEpisodeIds + " to episode " + tivoEpisodeId);
-
-  var sql = 'INSERT INTO edge_tivo_episode (tivo_episode_id, episode_id) ' +
-      'SELECT $' + index + ', id ' +
-      'FROM episode ' +
-      'WHERE id IN (' + wildCardString + ")";
-
-  var values = tvdbEpisodeIds.slice();
-  values.push(tivoEpisodeId);
-
-  console.log("SQL:" + sql);
-  console.log("Values:" + values);
-
-  return updateNoJSON(sql, values);
-}
-
-function retireEdgeRows(episodeId) {
-  console.log("Retiring edge rows to episode " + episodeId);
-
-  var sql = 'DELETE FROM edge_tivo_episode ' +
-      'WHERE episode_id = $1 ';
-
-  var values = [episodeId];
-
-  console.log("SQL:" + sql);
-  console.log("Values:" + values);
-
-  return updateNoJSON(sql, values);
-}
-
-function updateOnTivo(tvdbEpisodeIds, onTiVoValue) {
-  var wildcards = [];
-  var index = 1;
-  tvdbEpisodeIds.forEach(function() {
-    wildcards.push("$" + index);
-    index++;
-  });
-
-  var wildCardString = wildcards.join(', ');
-
-  console.log("Trying to update episode.OnTivo column for " + tvdbEpisodeIds + ".");
-
-  var sql = 'UPDATE episode ' +
-      'SET on_tivo = $' + index + ' ' +
-      'WHERE id IN (' + wildCardString + ")";
-
-  var values = tvdbEpisodeIds.slice();
-  values.push(onTiVoValue);
-
-  console.log("SQL:" + sql);
-  console.log("Values:" + values);
-
-  return updateNoJSON(sql, values);
-}
 
 exports.getUpcomingEpisodes = function(req, response) {
   var sql = "select e.series_id, e.title, e.season, e.episode_number, e.air_date, e.air_time " +
@@ -649,6 +590,106 @@ function executeQueryNoResults(response, sql, values) {
       response.send("Error " + err);
     }
   });
+}
+
+function insertEdgeRow(tivoEpisodeId, tvdbEpisodeIds) {
+  var wildcards = [];
+  var index = 1;
+  tvdbEpisodeIds.forEach(function() {
+    wildcards.push("$" + index);
+    index++;
+  });
+
+  var wildCardString = wildcards.join(', ');
+
+  console.log("Trying to match TVDB IDs " + tvdbEpisodeIds + " to episode " + tivoEpisodeId);
+
+  var sql = 'INSERT INTO edge_tivo_episode (tivo_episode_id, episode_id) ' +
+    'SELECT $' + index + ', id ' +
+    'FROM episode ' +
+    'WHERE id IN (' + wildCardString + ")";
+
+  var values = tvdbEpisodeIds.slice();
+  values.push(tivoEpisodeId);
+
+  console.log("SQL:" + sql);
+  console.log("Values:" + values);
+
+  return updateNoJSON(sql, values);
+}
+
+function retireEdgeRows(episodeId) {
+  console.log("Retiring edge rows to episode " + episodeId);
+
+  var sql = 'DELETE FROM edge_tivo_episode ' +
+    'WHERE episode_id = $1 ';
+
+  var values = [episodeId];
+
+  console.log("SQL:" + sql);
+  console.log("Values:" + values);
+
+  return updateNoJSON(sql, values);
+}
+
+function setMatchStatusOnLinkedEpisodes(episodeId, matchStatus) {
+  console.log("Setting match status on episode " + episodeId + " to '" + matchStatus + "'");
+
+  var sql = "UPDATE tivo_episode " +
+    "SET tvdb_match_status = $1 " +
+    "WHERE tivo_episode.id IN " +
+    " (SELECT ete.tivo_episode_id " +
+    "  FROM edge_tivo_episode ete " +
+    "  WHERE ete.episode_id = $2) " +
+    "AND retired = $3";
+
+  var values = [
+    matchStatus,
+    episodeId,
+    0
+  ];
+
+  return updateNoJSON(sql, values);
+}
+
+function updateOnTivo(tvdbEpisodeIds, onTiVoValue) {
+  var wildcards = [];
+  var index = 1;
+  tvdbEpisodeIds.forEach(function() {
+    wildcards.push("$" + index);
+    index++;
+  });
+
+  var wildCardString = wildcards.join(', ');
+
+  console.log("Trying to update episode.OnTivo column for " + tvdbEpisodeIds + ".");
+
+  var sql = 'UPDATE episode ' +
+    'SET on_tivo = $' + index + ' ' +
+    'WHERE id IN (' + wildCardString + ")";
+
+  var values = tvdbEpisodeIds.slice();
+  values.push(onTiVoValue);
+
+  console.log("SQL:" + sql);
+  console.log("Values:" + values);
+
+  return updateNoJSON(sql, values);
+}
+
+function updateEpisodeMatchStatus(tivoEpisodeId, matchStatus, response) {
+  console.log("Update TiVoEpisode with ID " + tivoEpisodeId + " to new match status " + matchStatus);
+
+  var changedFields = {
+    tvdb_match_status: matchStatus
+  };
+
+  var queryConfig = buildUpdateQueryConfig(changedFields, "tivo_episode", tivoEpisodeId);
+
+  console.log("SQL: " + queryConfig.text);
+  console.log("Values: " + queryConfig.values);
+
+  return executeQueryNoResults(response, queryConfig.text, queryConfig.values);
 }
 
 function updateNoJSON(sql, values) {
