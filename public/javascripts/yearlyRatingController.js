@@ -7,7 +7,7 @@ angular.module('mediaMogulApp')
 
     self.episodeGroups = [];
 
-    self.year = 2016;
+    self.year = 2017;
 
     self.selectedPill = 'Watched';
 

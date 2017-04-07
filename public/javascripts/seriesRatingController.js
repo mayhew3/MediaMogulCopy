@@ -108,13 +108,13 @@ angular.module('mediaMogulApp')
 
     self.episodeFilter = function(episode) {
       var airDate = episode.air_date == null ? null : new Date(episode.air_date);
-      var startDate = episodeGroup.start_date == null ? null : new Date(episodeGroup.start_date);
-      var endDate = episodeGroup.end_date == null ? null : new Date(episodeGroup.end_date);
+      var startDate = self.episodeGroup.start_date === null ? null : new Date(self.episodeGroup.start_date);
+      var endDate = self.episodeGroup.end_date === null ? null : new Date(self.episodeGroup.end_date);
 
       return episode.season != 0 &&
         airDate != null && startDate != null && endDate != null &&
-        airDate > startDate &&
-        airDate < endDate;
+        airDate >= startDate &&
+        airDate <= endDate;
     };
 
     self.colorStyle = function(scaledValue) {
