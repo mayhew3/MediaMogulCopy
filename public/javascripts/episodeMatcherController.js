@@ -70,8 +70,8 @@ angular.module('mediaMogulApp')
     };
 
     function isUnaired(episode) {
-      // unaired if the air date is more than a day after now.
-      return episode.air_date == null || ((episode.air_date - new Date + (1000*60*60*24)) > 0);
+      // unaired if the air time after now.
+      return episode.air_time === null || ((episode.air_time - new Date) > 0);
     }
 
     self.getDateFormat = function(date) {

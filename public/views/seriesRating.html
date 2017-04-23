@@ -139,7 +139,7 @@
           <div class="panel-body" ng-show="ctrl.showDetail">
             <div class="col-lg-12">
               <div class="col-lg-9">
-                <span ng-bind="episode.air_date|date:ctrl.getDateFormat(episode.air_date):'-0800'"></span>
+                <span ng-bind="episode.air_time|date:ctrl.getDateFormat(episode.air_time):'America/Los_Angeles'"></span>
               </div>
               <div class="col-lg-1" ng-style="ctrl.colorStyleMinor(ctrl.getRatingFunny(episode))">
                 <span ng-bind="ctrl.getRatingFunny(episode)"></span>

@@ -40,7 +40,7 @@ angular.module('mediaMogulApp')
       if (episode.watched_date == null) {
         return episode.watched ? "----.--.--" : "";
       } else {
-        return $filter('date')(episode.watched_date, self.getDateFormat(episode.watched_date), '-0800');
+        return $filter('date')(episode.watched_date, self.getDateFormat(episode.watched_date), 'America/Los_Angeles');
       }
     };
 
@@ -76,20 +76,18 @@ angular.module('mediaMogulApp')
     }
 
     function isUnaired(episode) {
-      // unaired if the air date is more than a day after now.
+      // unaired if the air time is after now.
 
-      var isNull = episode.air_date == null;
-      var diff = (new Date(episode.air_date) - new Date + (1000 * 60 * 60 * 24));
+      var isNull = episode.air_time === null;
+      var diff = (new Date(episode.air_time) - new Date);
       var hasSufficientDiff = (diff > 0);
 
       return isNull || hasSufficientDiff;
     }
 
     function airsInTheNextXDays(episode, days) {
-      // unaired if the air date is more than a day after now.
-
-      var isNull = episode.air_date == null;
-      var diff = (new Date(episode.air_date) - new Date + (1000 * 60 * 60 * 24 * days));
+      var isNull = episode.air_time === null;
+      var diff = (new Date(episode.air_time) - new Date + (1000 * 60 * 60 * 24 * days));
       var hasSufficientDiff = (diff > 0);
 
       return isNull || hasSufficientDiff;
@@ -107,12 +105,12 @@ angular.module('mediaMogulApp')
 
 
     self.episodeFilter = function(episode) {
-      var airDate = episode.air_date == null ? null : new Date(episode.air_date);
+      var airDate = episode.air_time === null ? null : new Date(episode.air_time);
       var startDate = self.episodeGroup.start_date === null ? null : new Date(self.episodeGroup.start_date);
       var endDate = self.episodeGroup.end_date === null ? null : new Date(self.episodeGroup.end_date);
 
-      return episode.season != 0 &&
-        airDate != null && startDate != null && endDate != null &&
+      return episode.season !== 0 &&
+        airDate !== null && startDate !== null && endDate !== null &&
         airDate >= startDate &&
         airDate <= endDate;
     };

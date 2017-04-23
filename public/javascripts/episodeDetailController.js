@@ -14,10 +14,10 @@ angular.module('mediaMogulApp')
     self.previousEpisodes = previousEpisodes;
 
     self.watched = episode.watched;
-    self.watched_date = episode.watched_date == null ? null :
+    self.watched_date = episode.watched_date === null ? null :
       new Date(episode.watched_date).toLocaleDateString("en-US", options);
 
-    self.air_date = episode.air_date == null ? null :
+    self.air_date = episode.air_date === null ? null :
       new Date(episode.air_date).toLocaleDateString("en-US", options);
     
     self.originalRating = {
@@ -172,7 +172,7 @@ angular.module('mediaMogulApp')
       episode.watched = self.watched;
       episode.watched_date = self.watched_date;
       episode.air_date = self.air_date;
-      // MM-233 - todo: update air_time
+      episode.air_time = EpisodeService.combineDateAndTime(self.air_date, series.air_time);
     }
 
 

@@ -29,7 +29,7 @@ angular.module('mediaMogulApp')
     self.shouldHide = function(episode) {
       return episode.retired ||
         // todo: remove when MM-236 is resolved.
-        episode.air_date == null;
+        episode.air_time === null;
     };
 
 
@@ -37,14 +37,14 @@ angular.module('mediaMogulApp')
       self.episodes.forEach(function (episode) {
         // $log.debug("AIR DATE: " + episode.air_date);
         var season = episode.season;
-        if (season != null && !(self.seasonLabels.indexOf(season) > -1) && !self.shouldHide(episode)) {
+        if (season !== null && !(self.seasonLabels.indexOf(season) > -1) && !self.shouldHide(episode)) {
           self.seasonLabels.push(season);
         }
       });
 
       var unwatchedEpisodes = self.episodes.filter(function (episode) {
-        return episode.season != null && episode.season > 0 &&
-                episode.watched == false &&
+        return episode.season !== null && episode.season > 0 &&
+                episode.watched === false &&
                 !self.shouldHide(episode);
       });
 
@@ -52,7 +52,7 @@ angular.module('mediaMogulApp')
         self.selectedSeason = unwatchedEpisodes[0].season;
       } else {
         var allEpisodes = self.episodes.filter(function (episode) {
-          return episode.season != null && episode.season > 0 &&
+          return episode.season !== null && episode.season > 0 &&
                   !self.shouldHide(episode);
         });
 
@@ -145,26 +145,26 @@ angular.module('mediaMogulApp')
     };
 
     self.shouldShowMarkWatched = function(episode) {
-      return !episode.watched && episode.rating_value != null &&
+      return !episode.watched && episode.rating_value !== null &&
       (episode.on_tivo || !isUnaired(episode));
     };
 
     self.shouldShowRate = function(episode) {
-      return episode.rating_value == null && (isTiVoAvailable(episode) || isStreamingAvailable(episode));
+      return episode.rating_value === null && (isTiVoAvailable(episode) || isStreamingAvailable(episode));
     };
 
     self.getWatchedDateOrWatched = function(episode) {
       // $log.debug("In getWatchedDateOrWatched. WatchedDate: " + episode.watched_date);
-      if (episode.watched_date == null) {
+      if (episode.watched_date === null) {
         return episode.watched ? "----.--.--" : "";
       } else {
-        return $filter('date')(episode.watched_date, self.getDateFormat(episode.watched_date), '-0800');
+        return $filter('date')(episode.watched_date, self.getDateFormat(episode.watched_date), 'America/Los_Angeles');
       }
     };
 
     self.getRating = function(episode) {
       var rating = episode.rating_value;
-      if (rating != null) {
+      if (rating !== null) {
         return rating;
       }
       return episode.watched === true ? "--" : "";
@@ -179,20 +179,18 @@ angular.module('mediaMogulApp')
     }
 
     function isUnaired(episode) {
-      // unaired if the air date is more than a day after now.
+      // unaired if the air time is after now.
 
-      var isNull = episode.air_date == null;
-      var diff = (new Date(episode.air_date) - new Date + (1000 * 60 * 60 * 24));
+      var isNull = episode.air_time === null;
+      var diff = (new Date(episode.air_time) - new Date);
       var hasSufficientDiff = (diff > 0);
 
       return isNull || hasSufficientDiff;
     }
 
     function airsInTheNextXDays(episode, days) {
-      // unaired if the air date is more than a day after now.
-
-      var isNull = episode.air_date == null;
-      var diff = (new Date(episode.air_date) - new Date + (1000 * 60 * 60 * 24 * days));
+      var isNull = episode.air_time === null;
+      var diff = (new Date(episode.air_time) - new Date + (1000 * 60 * 60 * 24 * days));
       var hasSufficientDiff = (diff > 0);
 
       return isNull || hasSufficientDiff;
@@ -213,7 +211,7 @@ angular.module('mediaMogulApp')
     };
 
     self.episodeFilter = function(episode) {
-      return episode.season == self.selectedSeason && !self.shouldHide(episode);
+      return episode.season === self.selectedSeason && !self.shouldHide(episode);
     };
 
 
@@ -224,7 +222,7 @@ angular.module('mediaMogulApp')
     self.getDateFormat = function(date) {
       var thisYear = (new Date).getFullYear();
 
-      if (date != null) {
+      if (date !== null) {
         var year = new Date(date).getFullYear();
 
         if (year === thisYear) {
@@ -252,18 +250,18 @@ angular.module('mediaMogulApp')
     self.markAllPastWatched = function() {
       var lastWatched = null;
       self.episodes.forEach(function(episode) {
-        if ((lastWatched == null || lastWatched < episode.air_date)
-          && episode.watched && episode.season != 0) {
+        if ((lastWatched === null || lastWatched < episode.air_time)
+          && episode.watched && episode.season !== 0) {
 
-          lastWatched = episode.air_date;
+          lastWatched = episode.air_time;
         }
       });
 
       EpisodeService.markAllWatched(self.series.id, lastWatched).then(function() {
         $log.debug("Finished update, adjusting denorms.");
         self.episodes.forEach(function(episode) {
-          $log.debug(lastWatched + ", " + episode.air_date);
-          if (episode.air_date != null && episode.air_date < lastWatched && episode.season != 0) {
+          $log.debug(lastWatched + ", " + episode.air_time);
+          if (episode.air_time !== null && episode.air_time < lastWatched && episode.season !== 0) {
             episode.watched = true;
           }
         });
@@ -275,15 +273,15 @@ angular.module('mediaMogulApp')
 
     function getPreviousEpisodes(episode) {
       var allEarlierEpisodes = self.episodes.filter(function (otherEpisode) {
-        return  otherEpisode.air_date != null &&
-                otherEpisode.season != 0 &&
+        return  otherEpisode.air_date !== null &&
+                otherEpisode.season !== 0 &&
                 ((otherEpisode.season < episode.season) ||
-                (otherEpisode.season == episode.season &&
+                (otherEpisode.season === episode.season &&
                 otherEpisode.episode_number < episode.episode_number));
       });
 
       var earlierSorted = allEarlierEpisodes.sort(function(e1, e2) {
-        if (e1.season == e2.season) {
+        if (e1.season === e2.season) {
           return e2.episode_number - e1.episode_number;
         } else {
           return e2.season - e1.season;
@@ -318,7 +316,7 @@ angular.module('mediaMogulApp')
 
           $log.debug("In loop, key: " + key + ", value: " + value + ", old value: " + self.originalFields[key]);
 
-          if (value != self.originalFields[key]) {
+          if (value !== self.originalFields[key]) {
             $log.debug("Changed detected... ");
             changedFields[key] = value;
           }

@@ -127,7 +127,7 @@ function EpisodeService($log, $http, $q, $filter) {
   };
 
   this.getAirTime = function(episode) {
-    if (episode.air_time == null) {
+    if (episode.air_time === null) {
       return self.combineDateAndTime(episode.air_date, episode.seriesAirTime);
     } else {
       return episode.air_time;
@@ -141,7 +141,7 @@ function EpisodeService($log, $http, $q, $filter) {
   };
 
   this.updateNextAirDate = function(series, episode) {
-    series.nextAirDate = episode.air_time == null ? episode.air_date : episode.air_time;
+    series.nextAirDate = episode.air_time === null ? episode.air_date : episode.air_time;
     var combinedDate = self.getAirTime(episode);
     series.nextAirDateFormatted = self.formatAirTime(combinedDate);
   };
