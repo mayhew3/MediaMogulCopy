@@ -6,7 +6,7 @@ angular.module('mediaMogulApp')
     self.auth = auth;
 
     self.episodeGroup = episodeGroup;
-    self.episodeGroup.rating = self.episodeGroup.rating == null ? null : parseFloat(self.episodeGroup.rating);
+    self.episodeGroup.rating = self.episodeGroup.rating === null ? null : parseFloat(self.episodeGroup.rating);
 
     $log.debug("SeriesId: " + self.episodeGroup.series_id);
 
@@ -32,12 +32,12 @@ angular.module('mediaMogulApp')
     });
 
     self.shouldShowRate = function(episode) {
-      return episode.rating_value == null && (isTiVoAvailable(episode) || isStreamingAvailable(episode));
+      return episode.rating_value === null && (isTiVoAvailable(episode) || isStreamingAvailable(episode));
     };
 
     self.getWatchedDateOrWatched = function(episode) {
       // $log.debug("In getWatchedDateOrWatched. WatchedDate: " + episode.watched_date);
-      if (episode.watched_date == null) {
+      if (episode.watched_date === null) {
         return episode.watched ? "----.--.--" : "";
       } else {
         return $filter('date')(episode.watched_date, self.getDateFormat(episode.watched_date), 'America/Los_Angeles');
@@ -45,7 +45,7 @@ angular.module('mediaMogulApp')
     };
 
     self.cleanUpRating = function(rating, watched) {
-      if (rating != null) {
+      if (rating !== null) {
         return rating;
       }
       return watched === true ? "--" : "";
@@ -116,7 +116,7 @@ angular.module('mediaMogulApp')
     };
 
     self.colorStyle = function(scaledValue) {
-      if (scaledValue == null) {
+      if (scaledValue === null) {
         return {};
       } else {
         var hue = (scaledValue <= 50) ? scaledValue * 0.5 : (50 * 0.5 + (scaledValue - 50) * 4.5);
@@ -131,7 +131,7 @@ angular.module('mediaMogulApp')
     };
 
     self.colorStyleMinor = function(scaledValue) {
-      if (scaledValue == null) {
+      if (scaledValue === null) {
         return {};
       } else {
         var hue = (scaledValue <= 50) ? scaledValue * 0.5 : (50 * 0.5 + (scaledValue - 50) * 4.5);
@@ -148,7 +148,7 @@ angular.module('mediaMogulApp')
     self.getDateFormat = function(date) {
       var thisYear = (new Date).getFullYear();
 
-      if (date != null) {
+      if (date !== null) {
         var year = new Date(date).getFullYear();
 
         if (year === thisYear) {
@@ -199,7 +199,7 @@ angular.module('mediaMogulApp')
 
           $log.debug("In loop, key: " + key + ", value: " + value + ", old value: " + self.originalFields[key]);
 
-          if (value != self.originalFields[key]) {
+          if (value !== self.originalFields[key]) {
             $log.debug("Changed detected... ");
             changedFields[key] = value;
           }

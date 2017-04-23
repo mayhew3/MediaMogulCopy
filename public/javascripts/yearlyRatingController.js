@@ -50,7 +50,7 @@ angular.module('mediaMogulApp')
     }
 
     self.colorStyle = function(scaledValue, full) {
-      if (scaledValue == null) {
+      if (scaledValue === null) {
         return {};
       } else {
         var saturation = full ? "50%" : "20%";
@@ -80,7 +80,7 @@ angular.module('mediaMogulApp')
     };
 
     self.isActive = function(pillName) {
-      return (pillName == self.selectedPill) ? "active" : null;
+      return (pillName === self.selectedPill) ? "active" : null;
     };
 
     self.getUnrated = function(episodeGroup) {
@@ -96,19 +96,19 @@ angular.module('mediaMogulApp')
     };
 
     self.getBestRating = function(episodeGroup) {
-      return episodeGroup.rating == null ? episodeGroup.suggested_rating : episodeGroup.rating;
+      return episodeGroup.rating === null ? episodeGroup.suggested_rating : episodeGroup.rating;
     };
 
     self.getBestRatingColorStyle = function(episodeGroup) {
-      return episodeGroup.rating == null ? self.colorStyleMuted(episodeGroup.suggested_rating) : self.colorStyleFull(episodeGroup.rating);
+      return episodeGroup.rating === null ? self.colorStyleMuted(episodeGroup.suggested_rating) : self.colorStyleFull(episodeGroup.rating);
     };
 
     self.getBestRatingRGB = function(episodeGroup) {
-      return episodeGroup.rating == null ? self.rgbValue(episodeGroup.suggested_rating) : self.rgbValue(episodeGroup.rating);
+      return episodeGroup.rating === null ? self.rgbValue(episodeGroup.suggested_rating) : self.rgbValue(episodeGroup.rating);
     };
 
     self.ratedGroupFilter = function(episodeGroup) {
-      return episodeGroup.rating != null;
+      return episodeGroup.rating !== null;
     };
 
     self.unratedGroupFilter = function(episodeGroup) {
@@ -120,7 +120,7 @@ angular.module('mediaMogulApp')
     };
 
     self.fullyWatchedGroupFilter = function(episodeGroup) {
-      return (self.getUnwatched(episodeGroup) == 0);
+      return (self.getUnwatched(episodeGroup) === 0);
     };
 
     self.unairedGroupFilter = function(episodeGroup) {
@@ -129,7 +129,7 @@ angular.module('mediaMogulApp')
     };
 
     self.unwatchedGroupFilter = function(episodeGroup) {
-      return (self.getUnwatched(episodeGroup) != 0);
+      return (self.getUnwatched(episodeGroup) !== 0);
     };
 
     self.episodeGroupFilter = self.fullyWatchedGroupFilter;
@@ -139,8 +139,8 @@ angular.module('mediaMogulApp')
     };
 
     self.orderByRating = function(episodeGroup) {
-      return episodeGroup.rating == null ?
-                (episodeGroup.suggested_rating == null ?
+      return episodeGroup.rating === null ?
+                (episodeGroup.suggested_rating === null ?
                   101 : (100 - episodeGroup.suggested_rating)) :
         (100 - episodeGroup.rating);
     };

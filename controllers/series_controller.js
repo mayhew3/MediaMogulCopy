@@ -188,7 +188,7 @@ var insertSeries = function(series, response) {
   };
 
   var client = new pg.Client(config);
-  if (client == null) {
+  if (client === null) {
     return console.error('null client');
   }
 
@@ -305,7 +305,7 @@ exports.markAllEpisodesAsWatched = function(req, res) {
   var seriesId = req.body.SeriesId;
   var lastWatched = req.body.LastWatched;
 
-  if (lastWatched == null) {
+  if (lastWatched === null) {
     return markAllWatched(res, seriesId);
   } else {
     return markPastWatched(res, seriesId, lastWatched);
@@ -464,7 +464,7 @@ exports.addRating = function(req, response) {
   };
 
   var client = new pg.Client(config);
-  if (client == null) {
+  if (client === null) {
     return console.error('null client');
   }
 
@@ -533,7 +533,7 @@ function executeQueryWithResults(response, sql, values) {
   };
 
   var client = new pg.Client(config);
-  if (client == null) {
+  if (client === null) {
     return console.error('null client');
   }
 
@@ -569,7 +569,7 @@ function executeQueryNoResults(response, sql, values) {
   };
 
   var client = new pg.Client(config);
-  if (client == null) {
+  if (client === null) {
     return console.error('null client');
   }
 
@@ -701,7 +701,7 @@ function updateNoJSON(sql, values) {
     };
 
     var client = new pg.Client(config);
-    if (client == null) {
+    if (client === null) {
       return console.error('null client');
     }
 
@@ -730,7 +730,7 @@ function buildUpdateQueryConfig(changedFields, tableName, rowID) {
   var i = 1;
   for (var key in changedFields) {
     if (changedFields.hasOwnProperty(key)) {
-      if (values.length != 0) {
+      if (values.length !== 0) {
         sql += ", ";
       }
 

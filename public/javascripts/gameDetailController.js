@@ -50,7 +50,7 @@ angular.module('mediaMogulApp')
 
           $log.debug("In loop, key: " + key + ", value: " + value + ", old value: " + self.originalFields[key]);
 
-          if (value != self.originalFields[key]) {
+          if (value !== self.originalFields[key]) {
             $log.debug("Changed detected... ");
             changedFields[key] = value;
           }

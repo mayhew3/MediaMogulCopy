@@ -10,7 +10,7 @@ function EpisodeService($log, $http, $q, $filter) {
 
   this.getSeriesWithTitle = function(SeriesTitle) {
     var filtered = shows.filter(function(seriesElement) {
-      return seriesElement.title == SeriesTitle;
+      return seriesElement.title === SeriesTitle;
     });
     return filtered[0];
   };
@@ -80,10 +80,10 @@ function EpisodeService($log, $http, $q, $filter) {
   }
 
   this.updateNumericFields = function(show) {
-    if (show.tier != null) {
+    if (show.tier !== null) {
       show.tier = parseInt(show.tier);
     }
-    if (show.metacritic != null) {
+    if (show.metacritic !== null) {
       show.metacritic = parseInt(show.metacritic);
     }
     updatePosterLocation(show);
@@ -106,7 +106,7 @@ function EpisodeService($log, $http, $q, $filter) {
         // $log.debug("Found recording in progress for series id " + episode.series_id);
         var series_id = episode.series_id;
         var series = findSeriesWithId(series_id);
-        if (series == null) {
+        if (series === null) {
           $log.debug("Unable to find recording now with series id '" + series_id + "'.");
         } else {
           series.recordingNow = true;
@@ -117,7 +117,7 @@ function EpisodeService($log, $http, $q, $filter) {
 
   function findSeriesWithId(seriesId) {
     return shows.find(function(series) {
-      return series.id == seriesId;
+      return series.id === seriesId;
     })
   }
 
@@ -136,7 +136,7 @@ function EpisodeService($log, $http, $q, $filter) {
 
   this.formatAirTime = function(combinedDate) {
     var minutesPart = $filter('date')(combinedDate, 'mm');
-    var timeFormat = (minutesPart == '00') ? 'EEEE ha' : 'EEEE h:mm a';
+    var timeFormat = (minutesPart === '00') ? 'EEEE ha' : 'EEEE h:mm a';
     return $filter('date')(combinedDate, timeFormat);
   };
 
@@ -157,7 +157,7 @@ function EpisodeService($log, $http, $q, $filter) {
   function findAndUpdateSeries(resultObj) {
     var series_id = resultObj.series_id;
     shows.forEach(function (series) {
-      if (series.id == series_id && series.nextAirDate == undefined) {
+      if (series.id === series_id && series.nextAirDate === undefined) {
         self.updateNextAirDate(series, resultObj);
         self.updateNextEpisode(series, resultObj);
       }
@@ -215,7 +215,7 @@ function EpisodeService($log, $http, $q, $filter) {
               return {};
             } else {
               var hue = (episode.rating_value <= 50) ? episode.rating_value * 0.5 : (50 * 0.5 + (episode.rating_value - 50) * 4.5);
-              var saturation = episode.rating_value == null ? "0%" : "50%";
+              var saturation = episode.rating_value === null ? "0%" : "50%";
               return {
                 'background-color': 'hsla(' + hue + ', ' + saturation + ', 42%, 1)',
                 'font-size': '1.6em',
@@ -251,16 +251,16 @@ function EpisodeService($log, $http, $q, $filter) {
   };
 
   this.updateNumericEpisodeFields = function(episode) {
-    if (episode.rating_funny != null) {
+    if (episode.rating_funny !== null) {
       episode.rating_funny = parseInt(episode.rating_funny);
     }
-    if (episode.rating_character != null) {
+    if (episode.rating_character !== null) {
       episode.rating_character = parseInt(episode.rating_character);
     }
-    if (episode.rating_story != null) {
+    if (episode.rating_story !== null) {
       episode.rating_story = parseInt(episode.rating_story);
     }
-    if (episode.rating_value != null) {
+    if (episode.rating_value !== null) {
       episode.rating_value = parseInt(episode.rating_value);
     }
   };
@@ -417,7 +417,7 @@ function EpisodeService($log, $http, $q, $filter) {
       $log.debug("Episodes updated to streaming: " + streaming);
 
       episodes.forEach(function (episode) {
-        if (episode.season != 0) {
+        if (episode.season !== 0) {
           episode.streaming = streaming;
         }
       });
@@ -482,11 +482,11 @@ function EpisodeService($log, $http, $q, $filter) {
 
     episodes.forEach(function(episode) {
 
-      if (!episode.retired && episode.season != 0) {
+      if (!episode.retired && episode.season !== 0) {
 
         var onTiVo = episode.on_tivo;
         var suggestion = episode.tivo_suggestion;
-        var deleted = (episode.tivo_deleted_date != null);
+        var deleted = (episode.tivo_deleted_date !== null);
         var watched = episode.watched;
         var streaming = episode.streaming;
         var airDate = new Date(episode.air_date);
@@ -542,12 +542,12 @@ function EpisodeService($log, $http, $q, $filter) {
         }
 
         // STREAMING
-        if ((!onTiVo || deleted) && streaming && airDate != null && airDate < now) {
+        if ((!onTiVo || deleted) && streaming && airDate !== null && airDate < now) {
           streamingEpisodes++;
         }
 
         // UNWATCHED STREAMING
-        if ((!onTiVo || deleted) && streaming && airDate != null && airDate < now && !watched) {
+        if ((!onTiVo || deleted) && streaming && airDate !== null && airDate < now && !watched) {
           unwatchedStreaming++;
         }
       }
@@ -585,7 +585,7 @@ function EpisodeService($log, $http, $q, $filter) {
   };
 
   function isAfter(trackingDate, newDate) {
-    return trackingDate == null || trackingDate < newDate;
+    return trackingDate === null || trackingDate < newDate;
   }
 }
 

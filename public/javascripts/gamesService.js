@@ -24,31 +24,31 @@ function GamesService($log, $http) {
 
 
   this.updateNumericFields = function(game) {
-    if (game.metacritic != null) {
+    if (game.metacritic !== null) {
       game.metacritic = parseFloat(game.metacritic);
     }
-    if (game.mayhew != null) {
+    if (game.mayhew !== null) {
       game.mayhew = parseFloat(game.mayhew);
     }
-    if (game.guess != null) {
+    if (game.guess !== null) {
       game.guess = parseFloat(game.guess);
     }
-    if (game.timeplayed != null) {
+    if (game.timeplayed !== null) {
       game.timeplayed = parseFloat(game.timeplayed);
     }
-    if (game.timetotal != null) {
+    if (game.timetotal !== null) {
       game.timetotal = parseFloat(game.timetotal);
     }
-    if (game.replay != null) {
+    if (game.replay !== null) {
       game.replay = parseFloat(game.replay);
     }
-    if (game.finalscore != null) {
+    if (game.finalscore !== null) {
       game.finalscore = parseFloat(game.finalscore);
     }
-    if (game.howlong_id != null) {
+    if (game.howlong_id !== null) {
       game.howlong_id = parseInt(game.howlong_id);
     }
-    if (game.giantbomb_id != null) {
+    if (game.giantbomb_id !== null) {
       game.giantbomb_id = parseInt(game.giantbomb_id);
     }
   };
@@ -63,7 +63,7 @@ function GamesService($log, $http) {
 
   this.getGameWithTitleAndPlatform = function(title, platform) {
     var filtered = games.filter(function(gameElement) {
-      return (gameElement.title == title && gameElement.platform == platform);
+      return (gameElement.title === title && gameElement.platform === platform);
     });
     return filtered[0];
   };
@@ -91,20 +91,20 @@ function GamesService($log, $http) {
     var myRating = game.mayhew;
     var myGuess = game.guess;
 
-    if (myRating == null) {
+    if (myRating === null) {
       myRating = myGuess;
     }
 
-    game.FullRating = myRating == null ? metacritic : myRating;
+    game.FullRating = myRating === null ? metacritic : myRating;
 
     /*
-    if (metacritic == null) {
+    if (metacritic === null) {
       game.FullRating = myRating;
-    } else if (myRating == null) {
+    } else if (myRating === null) {
       game.FullRating = metacritic;
     } else {
       var relevantPlaytime = game.aggPlaytime;
-      if (relevantPlaytime == null) {
+      if (relevantPlaytime === null) {
         relevantPlaytime = 0;
       } else if (relevantPlaytime > 3) {
         relevantPlaytime = 3;
@@ -122,7 +122,7 @@ function GamesService($log, $http) {
 
   this.updateImages = function(game) {
     $log.debug("Image: " + game.logo);
-    if (game.logo == null || game.logo == '') {
+    if (game.logo === null || game.logo === '') {
       game.imageUrl = null;
     } else {
       game.imageUrl = "http://media.steampowered.com/steamcommunity/public/images/apps/" + game.steamid + "/" + game.logo + ".jpg";
@@ -133,12 +133,12 @@ function GamesService($log, $http) {
     var timeplayed = game.timeplayed;
     var playtime = game.playtime;
 
-    game.aggPlaytime = playtime == null ? timeplayed : playtime / 60;
+    game.aggPlaytime = playtime === null ? timeplayed : playtime / 60;
 
     var timetotal = game.timetotal;
     var howlong_time = game.howlong_main;
 
-    game.aggTimetotal = timetotal == null ? howlong_time : timetotal;
+    game.aggTimetotal = timetotal === null ? howlong_time : timetotal;
   };
 
   this.updatePlatforms = function(game) {

@@ -23,7 +23,7 @@
         <td ng-bind="episode.showing_start_time|date:ctrl.getDateFormat(episode.showing_start_time):'America/Los_Angeles'"></td>
         <td>
               <span ng-class="ctrl.getUnmatchedLabelInfo(episode).labelClass"
-                    ng-hide="ctrl.getUnmatchedLabelInfo(episode) == null"
+                    ng-hide="ctrl.getUnmatchedLabelInfo(episode) === null"
                     ng-bind="ctrl.getUnmatchedLabelInfo(episode).labelText"></span>
         </td>
         <td>
@@ -76,7 +76,7 @@
         <td ng-bind="episode.air_time|date:ctrl.getDateFormat(episode.air_time):'America/Los_Angeles'"></td>
         <td>
               <span ng-class="ctrl.getLabelInfo(episode).labelClass"
-                    ng-hide="ctrl.getLabelInfo(episode) == null"
+                    ng-hide="ctrl.getLabelInfo(episode) === null"
                     ng-bind="ctrl.getLabelInfo(episode).labelText"></span>
         </td>
         <td><button type="button"

@@ -15,7 +15,7 @@ angular.module('mediaMogulApp')
         $log.debug("Updated " + self.possibleMatches.length + " possible matches.");
 
         self.possibleMatches.forEach(function (match) {
-          if (series.tvdb_match_id == match.tvdb_series_ext_id) {
+          if (series.tvdb_match_id === match.tvdb_series_ext_id) {
             self.selectedMatch = match;
           }
         });
@@ -23,7 +23,7 @@ angular.module('mediaMogulApp')
 
 
       self.posterStyle = function(match) {
-        if (match == self.selectedMatch) {
+        if (match === self.selectedMatch) {
           return {"border": "solid limegreen"};
         } else {
           return {"border": "solid gray"};
@@ -36,7 +36,7 @@ angular.module('mediaMogulApp')
 
 
       self.ok = function() {
-        if (self.selectedMatch.tvdb_series_ext_id != series.tvdb_match_id) {
+        if (self.selectedMatch.tvdb_series_ext_id !== series.tvdb_match_id) {
           var changedFields = {
             tvdb_match_id: self.selectedMatch.tvdb_series_ext_id
           };

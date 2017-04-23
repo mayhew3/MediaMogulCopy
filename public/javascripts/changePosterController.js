@@ -15,7 +15,7 @@ angular.module('mediaMogulApp')
         $log.debug("Updated " + self.allPosters.length + " posters.");
 
         self.allPosters.forEach(function (poster) {
-          if (series.poster == poster.poster_path) {
+          if (series.poster === poster.poster_path) {
             self.selectedPoster = poster;
           }
         });
@@ -23,7 +23,7 @@ angular.module('mediaMogulApp')
 
 
       self.posterStyle = function(poster) {
-        if (poster == self.selectedPoster) {
+        if (poster === self.selectedPoster) {
           return {"border": "solid limegreen"};
         } else {
           return {"border": "solid gray"};
@@ -36,7 +36,7 @@ angular.module('mediaMogulApp')
 
 
       self.ok = function() {
-        if (self.selectedPoster.poster_path != series.poster) {
+        if (self.selectedPoster.poster_path !== series.poster) {
           var changedFields = {
             poster: self.selectedPoster.poster_path
           };

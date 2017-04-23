@@ -10,8 +10,8 @@
       <img class="img-rounded"
            ng-src="{{ctrl.game.giantbomb_small_url}}"
            width="100%"
-          ng-hide="ctrl.game.giantbomb_small_url == null"/>
-      <span class="h3" ng-show="ctrl.game.giantbomb_small_url == null" ng-bind="ctrl.game.title"></span>
+          ng-hide="ctrl.game.giantbomb_small_url === null"/>
+      <span class="h3" ng-show="ctrl.game.giantbomb_small_url === null" ng-bind="ctrl.game.title"></span>
     </div>
 
     <div class="form-group col-lg-3">
@@ -120,7 +120,7 @@
              ng-model="ctrl.interfaceFields.giantbomb_id"/>
     </div>
 
-    <div class="form-group col-lg-3" ng-hide="ctrl.game.finished == null">
+    <div class="form-group col-lg-3" ng-hide="ctrl.game.finished === null">
       <label class="control-label" for="finalScoreInput">Final Score</label>
       <input type="number"
              class="form-control"
@@ -129,7 +129,7 @@
              ng-model="ctrl.interfaceFields.finalscore"/>
     </div>
 
-    <div class="form-group col-lg-3" ng-show="(ctrl.game.finished != null)">
+    <div class="form-group col-lg-3" ng-show="(ctrl.game.finished !== null)">
       <label class="control-label" for="replayInput">Replay?</label>
       <input type="number"
              class="form-control"

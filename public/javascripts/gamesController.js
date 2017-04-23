@@ -22,7 +22,7 @@ angular.module('mediaMogulApp')
     self.platformFilters = [];
 
     self.orderByRating = function(game) {
-      return ((angular.isDefined(game.FullRating) && game.FullRating != null) ? -1: 0);
+      return ((angular.isDefined(game.FullRating) && game.FullRating !== null) ? -1: 0);
     };
 
     self.isCloudFiltered = function(game) {
@@ -35,8 +35,8 @@ angular.module('mediaMogulApp')
 
     self.nearlyDone = function(game) {
       return !self.nearlyDoneFilter ||
-      (game.timetotal != null &&
-        game.aggPlaytime != null &&
+      (game.timetotal !== null &&
+        game.aggPlaytime !== null &&
         (100*game.aggPlaytime/game.timetotal > 66));
     };
 
@@ -89,15 +89,15 @@ angular.module('mediaMogulApp')
     };
 
     self.isHowlongUnmatched = function(game) {
-      return !self.howlongUnmatchedFilter || game.howlong_id == null;
+      return !self.howlongUnmatchedFilter || game.howlong_id === null;
     };
 
     self.isGiantBombUnmatched = function (game) {
-      return !self.giantBombUnmatchedFilter || game.giantbomb_id == null;
+      return !self.giantBombUnmatchedFilter || game.giantbomb_id === null;
     };
 
     self.isMetacriticUnmatched = function(game) {
-      return !self.metacriticUnmatchedFilter || game.metacritic == null;
+      return !self.metacriticUnmatchedFilter || game.metacritic === null;
     };
 
     self.isFinished = function(game) {
@@ -124,7 +124,7 @@ angular.module('mediaMogulApp')
     };
 
     function addedInLastXDays(dateAdded, days) {
-      var notNull = dateAdded != null;
+      var notNull = dateAdded !== null;
       var diff = (new Date(dateAdded) - new Date + (1000 * 60 * 60 * 24 * days));
       var withinDiff = (diff > 0);
 
@@ -151,7 +151,7 @@ angular.module('mediaMogulApp')
 
     var gamesList = GamesService.getGamesList();
     var platformList = GamesService.getPlatformList();
-    if (gamesList.length == 0) {
+    if (gamesList.length === 0) {
       GamesService.updateGamesList().then(function () {
         self.games = GamesService.getGamesList();
         self.platforms = GamesService.getPlatformList();

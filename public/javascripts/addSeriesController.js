@@ -26,7 +26,7 @@ angular.module('mediaMogulApp')
     };
 
     self.getLocButtonClass = function(location) {
-      if (self.selectedLocation == null) {
+      if (self.selectedLocation === null) {
         return "btn btn-primary";
       }
       return self.selectedLocation.name === location.name ? "btn btn-success" : "btn btn-primary";

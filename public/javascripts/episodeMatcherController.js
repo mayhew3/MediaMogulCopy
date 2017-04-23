@@ -22,7 +22,7 @@ angular.module('mediaMogulApp')
         self.unmatchedEpisodes = EpisodeService.getUnmatchedEpisodes();
         self.episodes.forEach(function (episode) {
           var season = episode.season;
-          if (season != null && !(self.seasonLabels.indexOf(season) > -1)) {
+          if (season !== null && !(self.seasonLabels.indexOf(season) > -1)) {
             self.seasonLabels.push(season);
             if (!isUnaired(episode)) {
               self.selectedSeason = season;
@@ -79,7 +79,7 @@ angular.module('mediaMogulApp')
 
       var thisYear = (new Date).getFullYear();
 
-      if (date != null) {
+      if (date !== null) {
         var year = new Date(date).getFullYear();
 
         // $log.debug("Year: " + year + ", This Year: " + thisYear);
@@ -106,7 +106,7 @@ angular.module('mediaMogulApp')
 
 
     self.bottomFilter = function(episode) {
-      return episode.season == self.selectedSeason && !episode.retired;
+      return episode.season === self.selectedSeason && !episode.retired;
     };
 
     self.getButtonClass = function(season) {
@@ -202,9 +202,9 @@ angular.module('mediaMogulApp')
         }
       });
 
-      if (tivoIDs.length == 0 || tvdbIDs.length == 0) {
+      if (tivoIDs.length === 0 || tvdbIDs.length === 0) {
         $log.debug("Must select at least one episode from top and bottom to match.")
-      } else if (tivoIDs.length != 1) {
+      } else if (tivoIDs.length !== 1) {
         $log.debug("Currently doesn't support matching two TiVo episodes to one TVDB episode.");
       } else {
         $log.debug("Executing match between TiVo eps " + tivoIDs + " and TVDB eps " + tvdbIDs);

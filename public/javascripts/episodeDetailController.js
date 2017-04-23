@@ -41,7 +41,7 @@ angular.module('mediaMogulApp')
     self.updateOrAddRating = function() {
       var changedFields = self.getChangedFields();
       if (Object.keys(changedFields).length > 0) {
-        return self.rating_id == null ?
+        return self.rating_id === null ?
           EpisodeService.addRating(self.interfaceRating) :
           EpisodeService.updateRating(changedFields, self.rating_id);
       }
@@ -58,7 +58,7 @@ angular.module('mediaMogulApp')
     };
 
     self.changeWatchedDate = function() {
-      self.watched = self.watched_date != null;
+      self.watched = self.watched_date !== null;
     };
 
     self.anyRatingChanged = function() {
@@ -80,7 +80,7 @@ angular.module('mediaMogulApp')
 
           $log.debug("In loop, key: " + key + ", value: " + value + ", old value: " + self.originalRating[key]);
 
-          if (value != self.originalRating[key]) {
+          if (value !== self.originalRating[key]) {
             $log.debug("Changed detected... ");
             changedFields[key] = value;
           }
@@ -95,7 +95,7 @@ angular.module('mediaMogulApp')
 
       var thisYear = (new Date).getFullYear();
 
-      if (date != null) {
+      if (date !== null) {
         var year = new Date(date).getFullYear();
 
         // $log.debug("Year: " + year + ", This Year: " + thisYear);
@@ -119,7 +119,7 @@ angular.module('mediaMogulApp')
 
       var changedFields = {};
 
-      if (self.watched != self.episode.watched) {
+      if (self.watched !== self.episode.watched) {
         changedFields.watched = self.watched;
       }
 
@@ -142,23 +142,23 @@ angular.module('mediaMogulApp')
     }
 
     function formatDate(unformattedDate) {
-      var originalDate = (unformattedDate == '' || unformattedDate == null) ? null :
+      var originalDate = (unformattedDate === '' || unformattedDate === null) ? null :
         new Date(unformattedDate);
-      if (originalDate != null) {
+      if (originalDate !== null) {
         originalDate.setHours(0, 0, 0, 0);
       }
       return originalDate;
     }
 
     function dateHasChanged(originalDate, updatedDate) {
-      if (updatedDate == null && originalDate == null) {
+      if (updatedDate === null && originalDate === null) {
         return false;
-      } else if (updatedDate == null) {
+      } else if (updatedDate === null) {
         return true;
-      } else if (originalDate == null) {
+      } else if (originalDate === null) {
         return true;
       } else {
-        return updatedDate.getTime() != originalDate.getTime();
+        return updatedDate.getTime() !== originalDate.getTime();
       }
     }
 

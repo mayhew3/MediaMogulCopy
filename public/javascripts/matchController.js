@@ -10,7 +10,7 @@ angular.module('mediaMogulApp')
       self.selectedPill = "Series";
 
       self.isActive = function(pillName) {
-        return (pillName == self.selectedPill) ? "active" : null;
+        return (pillName === self.selectedPill) ? "active" : null;
       };
 
       self.clearTempFlags = function() {

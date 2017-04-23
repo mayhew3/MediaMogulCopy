@@ -13,14 +13,14 @@ angular.module('mediaMogulApp')
     self.selectedPill = "Main";
 
     self.isActive = function(pillName) {
-      return (pillName == self.selectedPill) ? "active" : null;
+      return (pillName === self.selectedPill) ? "active" : null;
     };
 
     self.seriesFilter = function(series) {
       return (self.unwatchedOnly ?
           hasUnwatchedEpisodes(series) :
           (series.matched_episodes + series.streaming_episodes + series.unmatched_episodes) > 0)
-        && !series.suggestion && series.tvdb_series_id != null;
+        && !series.suggestion && series.tvdb_series_id !== null;
     };
 
     self.firstTier = function(series) {
@@ -48,7 +48,7 @@ angular.module('mediaMogulApp')
     };
 
     self.newlyAdded = function(series) {
-      return series.tier == null;
+      return series.tier === null;
     };
 
     self.hasUnmatched = function(series) {
@@ -72,7 +72,7 @@ angular.module('mediaMogulApp')
     }
 
     function airedInLastDays(airDate, days) {
-      var notNull = airDate != null;
+      var notNull = airDate !== null;
       var diff = (new Date(airDate) - new Date() + (1000 * 60 * 60 * 24 * days));
       var withinDiff = (diff > 0);
 
@@ -82,7 +82,7 @@ angular.module('mediaMogulApp')
     }
 
     function airingInNextDays(airDate, days) {
-      var notNull = airDate != null;
+      var notNull = airDate !== null;
       var diff = (new Date() - new Date(airDate) + (1000 * 60 * 60 * 24 * days));
       var withinDiff = (diff > 0);
 
@@ -95,12 +95,12 @@ angular.module('mediaMogulApp')
       var metacritic = series.metacritic;
       var myRating = series.my_rating;
 
-      series.FullRating = myRating == null ? metacritic : myRating;
+      series.FullRating = myRating === null ? metacritic : myRating;
 /*
 
-      if (metacritic == null) {
+      if (metacritic === null) {
         series.FullRating = myRating;
-      } else if (myRating == null) {
+      } else if (myRating === null) {
         series.FullRating = metacritic;
       } else {
         var watched = series.watched_episodes;
@@ -115,7 +115,7 @@ angular.module('mediaMogulApp')
 */
 
       series.colorStyle = function() {
-        if (series.FullRating == null) {
+        if (series.FullRating === null) {
           return {};
         } else {
           var hue = (series.FullRating <= 50) ? series.FullRating * 0.5 : (50 * 0.5 + (series.FullRating - 50) * 4.5);

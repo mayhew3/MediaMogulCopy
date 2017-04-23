@@ -66,45 +66,45 @@
             <td ng-bind="episodeGroup.last_rating" align="center"></td>
             <td ng-show="ctrl.showUnrated">
                 <span class="label label-danger"
-                      ng-hide="ctrl.getUnrated(episodeGroup) == 0"
+                      ng-hide="ctrl.getUnrated(episodeGroup) === 0"
                       ng-bind="ctrl.getUnrated(episodeGroup)"
                       title="Unrated"></span>
-              <span ng-hide="ctrl.getUnrated(episodeGroup) == 0"> / </span>
+              <span ng-hide="ctrl.getUnrated(episodeGroup) === 0"> / </span>
               <span class="label label-info"
-                    ng-hide="ctrl.getUnrated(episodeGroup) == 0"
+                    ng-hide="ctrl.getUnrated(episodeGroup) === 0"
                     ng-bind="episodeGroup.num_episodes"
                     title="Episodes"></span>
             </td>
             <td ng-show="ctrl.showUnwatched">
                 <span class="label label-danger"
-                      ng-hide="ctrl.getUnwatched(episodeGroup) == 0"
+                      ng-hide="ctrl.getUnwatched(episodeGroup) === 0"
                       ng-bind="ctrl.getUnwatched(episodeGroup)"
                       title="Unwatched"></span>
-              <span ng-hide="ctrl.getUnwatched(episodeGroup) == 0"> / </span>
+              <span ng-hide="ctrl.getUnwatched(episodeGroup) === 0"> / </span>
               <span class="label label-info"
-                    ng-hide="ctrl.getUnwatched(episodeGroup) == 0"
+                    ng-hide="ctrl.getUnwatched(episodeGroup) === 0"
                     ng-bind="episodeGroup.aired"
                     title="Aired"></span>
             </td>
 
             <td ng-show="ctrl.showUnaired">
                 <span class="label label-danger"
-                      ng-hide="ctrl.getUnaired(episodeGroup) == 0"
+                      ng-hide="ctrl.getUnaired(episodeGroup) === 0"
                       ng-bind="ctrl.getUnaired(episodeGroup)"
                       title="Unwatched"></span>
-              <span ng-hide="ctrl.getUnaired(episodeGroup) == 0"> / </span>
+              <span ng-hide="ctrl.getUnaired(episodeGroup) === 0"> / </span>
               <span class="label label-info"
-                    ng-hide="ctrl.getUnaired(episodeGroup) == 0"
+                    ng-hide="ctrl.getUnaired(episodeGroup) === 0"
                     ng-bind="episodeGroup.aired"
                     title="Aired"></span>
             </td>
 
             <td ng-show="ctrl.showNeeds">
                 <span class="label label-danger"
-                      ng-show="episodeGroup.rating == null"
+                      ng-show="episodeGroup.rating === null"
                       title="Needs Rating">Rating</span>
               <span class="label label-warning"
-                    ng-show="episodeGroup.rating != null && episodeGroup.review == null"
+                    ng-show="episodeGroup.rating !== null && episodeGroup.review === null"
                     title="Needs Review">Review</span>
             </td>
             <td ng-style="ctrl.getBestRatingColorStyle(episodeGroup)" ng-bind="ctrl.getBestRating(episodeGroup)|number: 1" width="70" align="center"></td>

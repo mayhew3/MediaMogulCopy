@@ -183,29 +183,29 @@
     <div class="form-group col-lg-12">
 
       <!-- TVDB Info -->
-      <div class="form-group col-lg-6" ng-show="ctrl.episode.tvdb_episode_id != null">
+      <div class="form-group col-lg-6" ng-show="ctrl.episode.tvdb_episode_id !== null">
 
         <!-- Director -->
-        <div ng-show="ctrl.episode.tvdb_director != null">
+        <div ng-show="ctrl.episode.tvdb_director !== null">
           <h3>Director</h3>
           <span ng-bind="ctrl.episode.tvdb_director"></span>
         </div>
 
         <!-- Writer -->
-        <div ng-show="ctrl.episode.tvdb_writer != null">
+        <div ng-show="ctrl.episode.tvdb_writer !== null">
           <h3>Writer</h3>
           <span ng-bind="ctrl.episode.tvdb_writer"></span>
         </div>
 
 
         <!-- Production Code -->
-        <div ng-show="ctrl.episode.tvdb_production_code != null">
+        <div ng-show="ctrl.episode.tvdb_production_code !== null">
           <h3>Production Code</h3>
           <span ng-bind="ctrl.episode.tvdb_production_code"></span>
         </div>
 
         <!-- Rating -->
-        <div ng-show="ctrl.episode.tvdb_rating != null">
+        <div ng-show="ctrl.episode.tvdb_rating !== null">
           <h3>TVDB Rating</h3>
           <span ng-bind="ctrl.episode.tvdb_rating"></span>
         </div>
@@ -218,19 +218,19 @@
 
 
         <!-- Station -->
-        <div ng-show="ctrl.episode.tivo_station != null">
+        <div ng-show="ctrl.episode.tivo_station !== null">
           <h3>Station</h3>
           <span ng-bind="ctrl.episode.tivo_station"></span>
         </div>
 
         <!-- Channel -->
-        <div ng-show="ctrl.episode.tivo_channel != null">
+        <div ng-show="ctrl.episode.tivo_channel !== null">
           <h3>Channel</h3>
           <span ng-bind="ctrl.episode.tivo_channel"></span>
         </div>
 
         <!-- Rating -->
-        <div ng-show="ctrl.episode.tivo_rating != null">
+        <div ng-show="ctrl.episode.tivo_rating !== null">
           <h3>Rating</h3>
           <span ng-bind="ctrl.episode.tivo_rating"></span>
         </div>

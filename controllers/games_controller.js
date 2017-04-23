@@ -40,7 +40,7 @@ exports.updateGame = function(request, response) {
   var changedFields = request.body.ChangedFields;
   for (var key in changedFields) {
     if (changedFields.hasOwnProperty(key)) {
-      if (values.length != 0) {
+      if (values.length !== 0) {
         sql += ", ";
       }
 
