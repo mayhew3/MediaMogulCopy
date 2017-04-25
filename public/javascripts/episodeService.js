@@ -489,7 +489,7 @@ function EpisodeService($log, $http, $q, $filter) {
         var deleted = (episode.tivo_deleted_date !== null);
         var watched = episode.watched;
         var streaming = episode.streaming;
-        var airDate = new Date(episode.air_date);
+        var airDate = episode.air_date === null ? null : new Date(episode.air_date);
 
         // ACTIVE
         if (onTiVo && !suggestion && !deleted) {
@@ -565,6 +565,7 @@ function EpisodeService($log, $http, $q, $filter) {
     series.matched_episodes = matchedEpisodes;
     series.streaming_episodes = streamingEpisodes;
     series.unwatched_streaming = unwatchedStreaming;
+    series.unwatched_all = unwatchedEpisodes + unwatchedStreaming;
 
     var changedFields = {
       active_episodes: activeEpisodes,
