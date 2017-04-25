@@ -36,7 +36,7 @@ angular.module('mediaMogulApp')
     };
 
     self.upcomingSoon = function(series) {
-      return airingInNextDays(series.nextAirDate, 7) && !self.showInQueue(series);
+      return airingInNextDays(series.nextAirDate, 7);
     };
 
     self.showInQueue = function(series) {

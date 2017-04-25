@@ -512,7 +512,7 @@ exports.getUpcomingEpisodes = function(req, response) {
       "on e.series_id = s.id " +
       "where s.tier = $1 " +
       "and e.air_time is not null " +
-      "and e.air_time >= (current_date - integer '1') " +
+      "and e.air_time >= current_timestamp " +
       "and e.watched = $2 " +
       "and e.season <> $3 " +
       "and e.retired = $4 " +
