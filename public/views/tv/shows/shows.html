@@ -19,7 +19,13 @@
     </li>
     <li role="tv" ng-class="ctrl.isActive('Unmatched')">
       <a href ui-sref="tv.shows.unmatched" ng-click="ctrl.selectedPill='Unmatched'">
-        Unmatched<span class="badge" ng-show="ctrl.countWhere(ctrl.hasUnmatched) > 0" ng-bind="ctrl.countWhere(ctrl.hasUnmatched)"></span>
+        Unmatched
+        <span class="badge pillTabRed"
+              ng-show="ctrl.countWhere(ctrl.hasImportantUnmatched) > 0"
+              ng-bind="ctrl.countWhere(ctrl.hasImportantUnmatched)"></span>
+        <span class="badge"
+              ng-show="ctrl.countWhere(ctrl.hasInactiveUnmatched) > 0"
+              ng-bind="ctrl.countWhere(ctrl.hasInactiveUnmatched)"></span>
       </a>
     </li>
   </ul>

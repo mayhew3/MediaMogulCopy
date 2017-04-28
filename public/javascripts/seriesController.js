@@ -51,8 +51,12 @@ angular.module('mediaMogulApp')
       return series.tier === null;
     };
 
-    self.hasUnmatched = function(series) {
-      return hasUnmatchedEpisodes(series);
+    self.hasInactiveUnmatched = function(series) {
+      return hasInactiveUnmatchedEpisodes(series);
+    };
+
+    self.hasImportantUnmatched = function(series) {
+      return hasImportantUnmatchedEpisodes(series);
     };
 
     self.countWhere = function(filter) {
@@ -67,8 +71,12 @@ angular.module('mediaMogulApp')
       return series.unwatched_all > 0;
     }
 
-    function hasUnmatchedEpisodes(series) {
-      return series.unmatched_episodes > 0;
+    function hasInactiveUnmatchedEpisodes(series) {
+      return series.unmatched_episodes > 0 && series.tier !== 1;
+    }
+
+    function hasImportantUnmatchedEpisodes(series) {
+      return series.unmatched_episodes > 0 && series.tier === 1;
     }
 
     function airedInLastDays(airDate, days) {
