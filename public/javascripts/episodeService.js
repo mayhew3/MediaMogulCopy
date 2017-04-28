@@ -478,6 +478,7 @@ function EpisodeService($log, $http, $q, $filter) {
     var unwatchedStreaming = 0;
     var mostRecent = null;
     var lastUnwatched = null;
+    var firstUnwatched = null;
     var now = new Date;
 
     episodes.forEach(function(episode) {
@@ -489,7 +490,8 @@ function EpisodeService($log, $http, $q, $filter) {
         var deleted = (episode.tivo_deleted_date !== null);
         var watched = episode.watched;
         var streaming = episode.streaming;
-        var airDate = episode.air_date === null ? null : new Date(episode.air_date);
+        var airTime = episode.air_time === null ? null : new Date(episode.air_time);
+        var canWatch = (onTiVo && !deleted) || (streaming && isBefore(airTime, now));
 
         // ACTIVE
         if (onTiVo && !suggestion && !deleted) {
@@ -532,22 +534,27 @@ function EpisodeService($log, $http, $q, $filter) {
         }
 
         // LAST EPISODE
-        if (onTiVo && isAfter(mostRecent, airDate) && !deleted) {
-          mostRecent = airDate;
+        if (onTiVo && isAfter(airTime, mostRecent) && !deleted) {
+          mostRecent = airTime;
+        }
+
+        // FIRST UNWATCHED EPISODE
+        if (canWatch && isBefore(airTime, firstUnwatched) && !suggestion && !watched) {
+          firstUnwatched = airTime;
         }
 
         // LAST UNWATCHED EPISODE
-        if (onTiVo && isAfter(lastUnwatched, airDate) && !suggestion && !deleted && !watched) {
-          lastUnwatched = airDate;
+        if (canWatch && isAfter(airTime, lastUnwatched) && !suggestion && !watched) {
+          lastUnwatched = airTime;
         }
 
         // STREAMING
-        if ((!onTiVo || deleted) && streaming && airDate !== null && airDate < now) {
+        if ((!onTiVo || deleted) && canWatch) {
           streamingEpisodes++;
         }
 
         // UNWATCHED STREAMING
-        if ((!onTiVo || deleted) && streaming && airDate !== null && airDate < now && !watched) {
+        if ((!onTiVo || deleted) && canWatch && !watched) {
           unwatchedStreaming++;
         }
       }
@@ -562,6 +569,7 @@ function EpisodeService($log, $http, $q, $filter) {
     series.unwatched_unrecorded = unwatchedUnrecorded;
     series.most_recent = mostRecent;
     series.last_unwatched = lastUnwatched;
+    series.first_unwatched = firstUnwatched;
     series.matched_episodes = matchedEpisodes;
     series.streaming_episodes = streamingEpisodes;
     series.unwatched_streaming = unwatchedStreaming;
@@ -577,6 +585,7 @@ function EpisodeService($log, $http, $q, $filter) {
       unwatched_unrecorded: unwatchedUnrecorded,
       most_recent: mostRecent,
       last_unwatched: lastUnwatched,
+      first_unwatched: firstUnwatched,
       matched_episodes: matchedEpisodes,
       streaming_episodes: streamingEpisodes,
       unwatched_streaming: unwatchedStreaming
@@ -585,8 +594,12 @@ function EpisodeService($log, $http, $q, $filter) {
     return $http.post('/updateSeries', {SeriesId: series.id, ChangedFields: changedFields});
   };
 
-  function isAfter(trackingDate, newDate) {
-    return trackingDate === null || trackingDate < newDate;
+  function isBefore(newDate, trackingDate) {
+    return trackingDate === null || newDate < trackingDate;
+  }
+
+  function isAfter(newDate, trackingDate) {
+    return trackingDate === null || newDate > trackingDate;
   }
 }
 

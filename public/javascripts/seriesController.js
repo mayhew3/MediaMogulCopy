@@ -40,7 +40,8 @@ angular.module('mediaMogulApp')
     };
 
     self.showInQueue = function(series) {
-      return self.firstTier(series) && (series.unwatched_all) < 3 && airedInLastDays(series.last_unwatched, 8);
+      return self.firstTier(series) &&
+        airedInLastDays(series.first_unwatched, 8);
     };
 
     self.otherActive = function(series) {
@@ -175,11 +176,13 @@ angular.module('mediaMogulApp')
         series.unwatched_streaming = 0;
         series.unwatched_all = 0;
         series.last_unwatched = null;
+        series.first_unwatched = null;
 
         var changedFields = {
           unwatched_episodes: 0,
           unwatched_streaming: 0,
-          last_unwatched: null
+          last_unwatched: null,
+          first_unwatched: null
         };
 
         EpisodeService.updateSeries(series.id, changedFields).then(function() {
