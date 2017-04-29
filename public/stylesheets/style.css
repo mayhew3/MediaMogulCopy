@@ -15,6 +15,15 @@ td {
   background-color: skyblue;
 }
 */
+*, h5 {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
+
+h1, h3 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 800;
+}
 
 .episodeDescription {
   max-width: 300pt;
