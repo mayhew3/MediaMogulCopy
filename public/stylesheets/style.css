@@ -34,6 +34,11 @@ h1 {
   margin: 0;
 }
 
+.btn-sm > li > a {
+  font-size: 10pt;
+  padding: 9px 12px;
+}
+
 .episodeDescription {
   max-width: 300pt;
 }
