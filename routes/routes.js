@@ -8,15 +8,6 @@ module.exports = function(app) {
     audience: process.env.AUTH0_CLIENT_ID
   });
 
-  // GENERIC API
-  app.get('/api/public', function(req, res) {
-    res.status(200).json({ message: "Hello from a public endpoint! You don't need to be authenticated to see this." });
-  });
-
-  app.get('/api/private', authCheck, function(req, res) {
-    res.status(200).json({ message: "Hello from a private endpoint! You DO need to be authenticated to see this." });
-  });
-
   // GAMES
   app.get('/api/games', authCheck, games.getGames);
 
@@ -24,33 +15,33 @@ module.exports = function(app) {
   app.post('/api/addgame', authCheck, games.addGame);
 
   // TV
-  app.get('/seriesList', series.getSeries);
-  app.get('/seriesMatchList', series.getSeriesWithPossibleMatchInfo);
-  app.get('/episodeGroupRatings', series.getEpisodeGroupRatings);
-  app.get('/episodeList', series.getEpisodes);
-  app.get('/recordingNow', series.getRecordingNow);
-  app.get('/possibleMatches', series.getPossibleMatches);
-  app.get('/viewingLocations', series.getViewingLocations);
-  app.get('/allPosters', series.getAllPosters);
-  app.get('/seriesViewingLocations', series.getSeriesViewingLocations);
-  app.get('/unmatchedEpisodes', series.getUnmatchedEpisodes);
-  app.get('/upcomingEpisodes', series.getUpcomingEpisodes);
+  app.get('/seriesList', authCheck, series.getSeries);
+  app.get('/seriesMatchList', authCheck, series.getSeriesWithPossibleMatchInfo);
+  app.get('/episodeGroupRatings', authCheck, series.getEpisodeGroupRatings);
+  app.get('/episodeList', authCheck, series.getEpisodes);
+  app.get('/recordingNow', authCheck, series.getRecordingNow);
+  app.get('/possibleMatches', authCheck, series.getPossibleMatches);
+  app.get('/viewingLocations', authCheck, series.getViewingLocations);
+  app.get('/allPosters', authCheck, series.getAllPosters);
+  app.get('/seriesViewingLocations', authCheck, series.getSeriesViewingLocations);
+  app.get('/unmatchedEpisodes', authCheck, series.getUnmatchedEpisodes);
+  app.get('/upcomingEpisodes', authCheck, series.getUpcomingEpisodes);
 
-  app.post('/updateEpisode', series.updateEpisode);
-  app.post('/markAllWatched', series.markAllEpisodesAsWatched);
-  app.post('/matchTiVoEpisodes', series.matchTiVoEpisodes);
-  app.post('/unlinkEpisode', series.unlinkEpisode);
-  app.post('/retireTiVoEpisode', series.retireTiVoEpisode);
-  app.post('/ignoreTiVoEpisode', series.ignoreTiVoEpisode);
-  app.post('/changeTier', series.changeTier);
-  app.post('/addSeries', series.addSeries);
-  app.post('/updateSeries', series.updateSeries);
-  app.post('/updateEpisodeGroupRating', series.updateEpisodeGroupRating);
-  app.post('/addViewingLocation', series.addViewingLocation);
-  app.post('/removeViewingLocation', series.removeViewingLocation);
-  app.post('/changeEpisodesStreaming', series.changeEpisodesStreaming);
-  app.post('/addRating', series.addRating);
-  app.post('/updateRating', series.updateRating);
+  app.post('/updateEpisode', authCheck, series.updateEpisode);
+  app.post('/markAllWatched', authCheck, series.markAllEpisodesAsWatched);
+  app.post('/matchTiVoEpisodes', authCheck, series.matchTiVoEpisodes);
+  app.post('/unlinkEpisode', authCheck, series.unlinkEpisode);
+  app.post('/retireTiVoEpisode', authCheck, series.retireTiVoEpisode);
+  app.post('/ignoreTiVoEpisode', authCheck, series.ignoreTiVoEpisode);
+  app.post('/changeTier', authCheck, series.changeTier);
+  app.post('/addSeries', authCheck, series.addSeries);
+  app.post('/updateSeries', authCheck, series.updateSeries);
+  app.post('/updateEpisodeGroupRating', authCheck, series.updateEpisodeGroupRating);
+  app.post('/addViewingLocation', authCheck, series.addViewingLocation);
+  app.post('/removeViewingLocation', authCheck, series.removeViewingLocation);
+  app.post('/changeEpisodesStreaming', authCheck, series.changeEpisodesStreaming);
+  app.post('/addRating', authCheck, series.addRating);
+  app.post('/updateRating', authCheck, series.updateRating);
 
   // error handlers
 

@@ -23,7 +23,12 @@
       // makes use of Auth0Lock. If authentication
       // is successful, the user's profile and token
       // are saved in local storage with the store service
-      auth.signin({}, function(profile, token) {
+      auth.signin({
+        authParams: {
+          scope: 'openid offline_access',
+          device: 'Chrome browser'
+        }
+      }, function(profile, token) {
         store.set('profile', profile);
         store.set('token', token);
         $location.path('/tv/shows/main');

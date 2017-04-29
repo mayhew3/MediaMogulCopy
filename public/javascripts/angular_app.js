@@ -94,34 +94,69 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
       $provide.factory('redirect', redirect);
       $httpProvider.interceptors.push('redirect');
 
+      var refreshingToken = null;
 
       //Angular HTTP Interceptor function
-      jwtInterceptorProvider.tokenGetter = ['store', function(store) {
-        return store.get('token');
-      }];
+      jwtInterceptorProvider.tokenGetter =
+        ['store', '$http', 'jwtHelper',
+          function(store, $http, jwtHelper) {
+            var token = store.get('token');
+            var refreshToken = store.get('refreshToken');
+            if (token) {
+              if (!jwtHelper.isTokenExpired(token)) {
+                return token;
+              } else {
+                if (refreshingToken === null) {
+                  refreshingToken = auth.refreshIdToken(refreshToken).then(function(idToken) {
+                    store.set('token', idToken);
+                    return idToken;
+                  }).finally(function() {
+                    refreshingToken = null;
+                  });
+                }
+                return refreshingToken;
+              }
+            }
+          }];
 
       //Push interceptor function to $httpProvider's interceptors
       $httpProvider.interceptors.push('jwtInterceptor');
 
     }])
-  .run(function($rootScope, auth, store, jwtHelper, $location, $state) {
+  .run(['$rootScope', 'auth', 'store', 'jwtHelper', '$location',
+    function($rootScope, auth, store, jwtHelper, $location) {
+    var refreshingToken = null;
     auth.hookEvents();
     $rootScope.$on('$locationChangeStart', function() {
       // Get the JWT that is saved in local storage
       // and if it is there, check whether it is expired.
       // If it isn't, set the user's auth state
       var token = store.get('token');
+      var refreshToken = store.get('refreshToken');
       if (token) {
         if (!jwtHelper.isTokenExpired(token)) {
           if (!auth.isAuthenticated) {
             auth.authenticate(store.get('profile'), token);
           }
+        } else {
+          if (refreshToken) {
+            if (refreshingToken === null) {
+              refreshingToken = auth.refreshIdToken(refreshToken).then(function(idToken) {
+                store.set('token', idToken);
+                auth.authenticate(store.get('profile'), idToken);
+              }).finally(function() {
+                refreshingToken = null;
+              });
+            }
+            return refreshingToken;
+          } else {
+            $location.path('/');
+          }
         }
-      }
-      else {
+      } else {
         // Otherwise, redirect to the home route
         $location.path('/');
       }
     });
-  })
+  }])
 ;
