@@ -12,7 +12,7 @@
     }
   }
 
-  function toolbarController(auth, store, $location, $state) {
+  function toolbarController(auth, store, $location) {
     var vm = this;
     vm.login = login;
     vm.logout = logout;
@@ -25,12 +25,15 @@
       // are saved in local storage with the store service
       auth.signin({
         authParams: {
-          scope: 'openid offline_access',
-          device: 'Chrome browser'
+          scope: 'openid offline_access'
         }
-      }, function(profile, token) {
+      }, function(profile, idToken, accessToken, state, refreshToken) {
         store.set('profile', profile);
-        store.set('token', token);
+        store.set('token', idToken);
+        store.set('accessToken', accessToken);
+        store.set('refreshToken', refreshToken);
+        console.log("ID Token: " + idToken);
+        console.log("Refresh Token: " + refreshToken);
         $location.path('/tv/shows/main');
       }, function(error) {
         console.log(error);

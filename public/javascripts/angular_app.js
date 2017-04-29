@@ -98,21 +98,24 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
 
       //Angular HTTP Interceptor function
       jwtInterceptorProvider.tokenGetter =
-        ['store', '$http', 'jwtHelper',
-          function(store, $http, jwtHelper) {
+        ['store', '$http', 'jwtHelper', 'auth',
+          function(store, $http, jwtHelper, auth) {
             var token = store.get('token');
             var refreshToken = store.get('refreshToken');
             if (token) {
               if (!jwtHelper.isTokenExpired(token)) {
                 return token;
               } else {
+                console.log("RefreshToken: " + refreshToken);
                 if (refreshingToken === null) {
-                  refreshingToken = auth.refreshIdToken(refreshToken).then(function(idToken) {
-                    store.set('token', idToken);
-                    return idToken;
-                  }).finally(function() {
-                    refreshingToken = null;
-                  });
+                  if (refreshToken !== null) {
+                    refreshingToken = auth.refreshIdToken(refreshToken).then(function (idToken) {
+                      store.set('token', idToken);
+                      return idToken;
+                    }).finally(function () {
+                      refreshingToken = null;
+                    });
+                  }
                 }
                 return refreshingToken;
               }
