@@ -68,8 +68,8 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
       ;
 
       authProvider.init({
-        domain: 'app40365095.auth0.com',
-        clientID: 'dSHWdaxORGRtRUFi8WdGCzlECwAmSxF4'
+        domain: 'mayhew3.auth0.com',
+        clientID: 'QdwQv7LcXgmiUpYhXnTYyGQsXie2UQNb'
       });
 
       function redirect($q, $injector, $timeout, store, $location) {
@@ -112,6 +112,11 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
                     refreshingToken = auth.refreshIdToken(refreshToken).then(function (idToken) {
                       store.set('token', idToken);
                       return idToken;
+                    }, function(err) {
+                      console.log(err);
+                      store.remove('refreshToken');
+                      refreshToken = null;
+                      return null;
                     }).finally(function () {
                       refreshingToken = null;
                     });
@@ -147,6 +152,11 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
               refreshingToken = auth.refreshIdToken(refreshToken).then(function(idToken) {
                 store.set('token', idToken);
                 auth.authenticate(store.get('profile'), idToken);
+              }, function(err) {
+                console.log(err);
+                store.remove('refreshToken');
+                refreshToken = null;
+                return null;
               }).finally(function() {
                 refreshingToken = null;
               });
