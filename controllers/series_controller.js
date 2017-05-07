@@ -145,6 +145,16 @@ exports.getUnmatchedEpisodes = function(req, response) {
   return executeQueryWithResults(response, sql, [req.query.TiVoSeriesId, 0, false]);
 };
 
+exports.getTVDBErrors = function(req, response) {
+  console.log("TVDB Errors request received.");
+
+  var sql = 'SELECT * ' +
+    'FROM tvdb_update_error ' +
+    'ORDER BY id DESC ';
+
+  return executeQueryWithResults(response, sql, []);
+};
+
 exports.changeTier = function(req, response) {
   var tier = req.body.tier;
   var seriesId = req.body.SeriesId;

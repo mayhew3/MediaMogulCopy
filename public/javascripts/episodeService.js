@@ -6,6 +6,7 @@ function EpisodeService($log, $http, $q, $filter) {
   var possibleMatches = [];
   var viewingLocations = [];
   var allPosters = [];
+  var tvdbErrors = [];
   var self = this;
 
   this.getSeriesWithTitle = function(SeriesTitle) {
@@ -95,6 +96,17 @@ function EpisodeService($log, $http, $q, $filter) {
       // $log.debug(JSON.stringify(upcomingResults));
       upcomingResults.data.forEach(function(episode) {
         findAndUpdateSeries(episode);
+      });
+    });
+  };
+
+  this.updateTVDBErrors = function() {
+    return $http.get('/tvdbErrors').then(function (payload) {
+      tvdbErrors = payload.data;
+      tvdbErrors.forEach(function(tvdb_error) {
+        var exceptionClass = tvdb_error.exception_class;
+        var exceptionParts = exceptionClass.split('.');
+        tvdb_error.shortClass = exceptionParts[exceptionParts.length -1];
       });
     });
   };
@@ -322,6 +334,10 @@ function EpisodeService($log, $http, $q, $filter) {
 
   this.getViewingLocations = function() {
     return viewingLocations;
+  };
+
+  this.getTVDBErrors = function() {
+    return tvdbErrors;
   };
 
   this.isStreaming = function(series) {

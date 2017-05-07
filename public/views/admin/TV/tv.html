@@ -1,0 +1,23 @@
+
+<div class="container" style="margin-top: 10px">
+
+  <div class="container col-lg-2">
+
+    <ul class="nav nav-pills nav-stacked btn-sm">
+      <li role="tv_admin" ng-class="ctrl.isActive('TVDBErrors')">
+        <a href ui-sref="admin.tv.tvdb_errors" ng-click="ctrl.selectedPill='TVDBErrors'">
+          TVDB Errors
+        </a>
+      </li>
+
+    </ul>
+
+  </div>
+
+  <div class="container col-lg-10">
+
+    <div ui-view></div>
+
+
+  </div>
+</div>

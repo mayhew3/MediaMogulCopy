@@ -59,6 +59,20 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
           controller: 'gamesController',
           controllerAs: 'ctrl'
         })
+        .state('admin', {
+          url: '/admin',
+          templateUrl: 'views/admin/admin.html'
+        })
+        .state('admin.tv', {
+          url: '/tv',
+          templateUrl: 'views/admin/tv/tv.html'
+        })
+        .state('admin.tv.tvdb', {
+          url: '/tvdb_errors',
+          controller: 'tvdbErrorsController',
+          controllerAs: 'ctrl',
+          templateUrl: 'views/admin/tv/tvdb_errors.html'
+        })
         .state('profile', {
           url: '/profile',
           templateUrl: 'views/profile.html',

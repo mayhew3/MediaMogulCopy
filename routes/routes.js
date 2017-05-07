@@ -26,6 +26,7 @@ module.exports = function(app) {
   app.get('/seriesViewingLocations', authCheck, series.getSeriesViewingLocations);
   app.get('/unmatchedEpisodes', authCheck, series.getUnmatchedEpisodes);
   app.get('/upcomingEpisodes', authCheck, series.getUpcomingEpisodes);
+  app.get('/tvdbErrors', authCheck, series.getTVDBErrors);
 
   app.post('/updateEpisode', authCheck, series.updateEpisode);
   app.post('/markAllWatched', authCheck, series.markAllEpisodesAsWatched);
