@@ -85,7 +85,7 @@ exports.getEpisodes = function(req, response) {
       'WHERE e.series_id = $1 ' +
       'AND e.retired = $2 ' +
       'AND te.retired = $3 ' +
-      'ORDER BY e.season, te.episode_number, ti.id';
+      'ORDER BY e.season, e.episode_number, ti.id';
 
   return executeQueryWithResults(response, sql, [req.query.SeriesId, 0, 0]);
 };
@@ -357,22 +357,20 @@ function markAllWatched(response, seriesId) {
 }
 
 function markPastWatched(response, seriesId, lastWatched) {
-  console.log("Updating episodes as Watched, before " + lastWatched);
+  console.log("Updating episodes as Watched, before episode " + lastWatched);
 
   var sql = 'UPDATE episode ' +
       'SET watched = $1 ' +
       'WHERE series_id = $2 ' +
-      'AND tvdb_episode_id is not null ' +
-      'AND air_date < $3 ' +
+      'AND absolute_number IS NOT NULL ' +
+      'AND absolute_number < $3 ' +
       'AND watched <> $4 ' +
-      'AND season <> $5 ' +
-      'AND retired = $6 ';
+      'AND retired = $5 ';
 
   var values = [true, // watched
     seriesId,         // series_id
-    lastWatched,      // air_date <
+    lastWatched,      // absolute_number <
     true,             // !watched
-    0,                // !season
     0                 // retired
   ];
 

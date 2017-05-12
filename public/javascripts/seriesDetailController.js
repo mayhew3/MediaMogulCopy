@@ -250,18 +250,20 @@ angular.module('mediaMogulApp')
     self.markAllPastWatched = function() {
       var lastWatched = null;
       self.episodes.forEach(function(episode) {
-        if ((lastWatched === null || lastWatched < episode.air_time)
+        if ((lastWatched === null || lastWatched < episode.absolute_number)
           && episode.watched && episode.season !== 0) {
 
-          lastWatched = episode.air_time;
+          lastWatched = episode.absolute_number;
         }
       });
+
+      $log.debug("Last Watched: Episode " + lastWatched);
 
       EpisodeService.markAllWatched(self.series.id, lastWatched).then(function() {
         $log.debug("Finished update, adjusting denorms.");
         self.episodes.forEach(function(episode) {
-          $log.debug(lastWatched + ", " + episode.air_time);
-          if (episode.air_time !== null && episode.air_time < lastWatched && episode.season !== 0) {
+          $log.debug(lastWatched + ", " + episode.absolute_number);
+          if (episode.absolute_number !== null && episode.absolute_number < lastWatched && episode.season !== 0) {
             episode.watched = true;
           }
         });
