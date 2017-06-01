@@ -155,6 +155,20 @@ exports.getTVDBErrors = function(req, response) {
   return executeQueryWithResults(response, sql, []);
 };
 
+exports.getPrimeTV = function(req, response) {
+  console.log("Unsecure PrimeTV endpoint called.");
+
+  var sql = 'SELECT title, my_rating, (unwatched_episodes + unwatched_streaming) as unwatched, first_unwatched ' +
+    'FROM series ' +
+    'WHERE tier = $1 ' +
+    'AND unwatched_episodes + unwatched_streaming > $2 ' +
+    'AND tvdb_match_status = $3 ' +
+    'AND retired = $4 ' +
+    'ORDER BY my_rating DESC NULLS LAST';
+
+  return executeQueryWithResults(response, sql, [1, 0, 'Match Completed', 0])
+};
+
 exports.changeTier = function(req, response) {
   var tier = req.body.tier;
   var seriesId = req.body.SeriesId;

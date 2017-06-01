@@ -28,6 +28,9 @@ module.exports = function(app) {
   app.get('/upcomingEpisodes', authCheck, series.getUpcomingEpisodes);
   app.get('/tvdbErrors', authCheck, series.getTVDBErrors);
 
+  // special app-only test endpoint. No authentication required, gets minimal series info to keep payload size down.
+  app.get('/primeTV', series.getPrimeTV);
+
   app.post('/updateEpisode', authCheck, series.updateEpisode);
   app.post('/markAllWatched', authCheck, series.markAllEpisodesAsWatched);
   app.post('/matchTiVoEpisodes', authCheck, series.matchTiVoEpisodes);
