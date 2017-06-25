@@ -172,6 +172,7 @@ exports.getPrimeTV = function(req, response) {
 exports.getPrimeSeriesInfo = function(req, response) {
   console.log("Unsecure Prime Series Info call received. Params: " + req.query.SeriesId);
 
+  // Items commented out which aren't in iOS UI yet, but could be of use.
   var sql = 'SELECT ' +
     'e.id, ' +
     'e.title, ' +
@@ -179,18 +180,18 @@ exports.getPrimeSeriesInfo = function(req, response) {
     'e.episode_number, ' +
     'e.watched_date, ' +
     'e.air_time, ' +
-    'e.on_tivo, ' +
+    // 'e.on_tivo, ' +
     'e.watched, ' +
-    'e.streaming, ' +
+    // 'e.streaming, ' +
     'te.filename as tvdb_filename, ' +
     'te.overview as tvdb_overview, ' +
-    'ti.deleted_date as tivo_deleted_date, ' +
-    'er.rating_funny, ' +
-    'er.rating_character, ' +
-    'er.rating_story, ' +
-    'er.rating_value, ' +
-    'er.review, ' +
-    'er.id as rating_id ' +
+    // 'ti.deleted_date as tivo_deleted_date, ' +
+    // 'er.rating_funny, ' +
+    // 'er.rating_character, ' +
+    // 'er.rating_story, ' +
+    // 'er.rating_value, ' +
+    // 'er.review, ' +
+    // 'er.id as rating_id ' +
     'FROM episode e ' +
     'LEFT OUTER JOIN tvdb_episode te ' +
     ' ON e.tvdb_episode_id = te.id ' +
@@ -207,9 +208,6 @@ exports.getPrimeSeriesInfo = function(req, response) {
     'AND e.watched = $5 ' +
     'ORDER BY e.season, e.episode_number, ti.id ' +
     'LIMIT 1';
-
-  // from episode, pull:
-  // id, title, season, episode_number, watched_date, air_time, on_tivo, watched, streaming
 
   return executeQueryWithResults(response, sql, [req.query.SeriesId, 0, 0, 0, false]);
 };
