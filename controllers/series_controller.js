@@ -184,7 +184,7 @@ exports.getPrimeSeriesInfo = function(req, response) {
     'e.watched, ' +
     // 'e.streaming, ' +
     'te.filename as tvdb_filename, ' +
-    'te.overview as tvdb_overview, ' +
+    'te.overview as tvdb_overview ' +
     // 'ti.deleted_date as tivo_deleted_date, ' +
     // 'er.rating_funny, ' +
     // 'er.rating_character, ' +
