@@ -158,7 +158,7 @@ exports.getTVDBErrors = function(req, response) {
 exports.getPrimeTV = function(req, response) {
   console.log("Unsecure PrimeTV endpoint called.");
 
-  var sql = 'SELECT title, my_rating, (unwatched_episodes + unwatched_streaming) as unwatched, first_unwatched ' +
+  var sql = 'SELECT id, title, my_rating, metacritic, poster, (unwatched_episodes + unwatched_streaming) as unwatched, first_unwatched ' +
     'FROM series ' +
     'WHERE tier = $1 ' +
     'AND unwatched_episodes + unwatched_streaming > $2 ' +
@@ -167,6 +167,51 @@ exports.getPrimeTV = function(req, response) {
     'ORDER BY my_rating DESC NULLS LAST';
 
   return executeQueryWithResults(response, sql, [1, 0, 'Match Completed', 0])
+};
+
+exports.getPrimeSeriesInfo = function(req, response) {
+  console.log("Unsecure Prime Series Info call received. Params: " + req.query.SeriesId);
+
+  var sql = 'SELECT ' +
+    'e.id, ' +
+    'e.title, ' +
+    'e.season, ' +
+    'e.episode_number, ' +
+    'e.watched_date, ' +
+    'e.air_time, ' +
+    'e.on_tivo, ' +
+    'e.watched, ' +
+    'e.streaming, ' +
+    'te.filename as tvdb_filename, ' +
+    'te.overview as tvdb_overview, ' +
+    'ti.deleted_date as tivo_deleted_date, ' +
+    'er.rating_funny, ' +
+    'er.rating_character, ' +
+    'er.rating_story, ' +
+    'er.rating_value, ' +
+    'er.review, ' +
+    'er.id as rating_id ' +
+    'FROM episode e ' +
+    'LEFT OUTER JOIN tvdb_episode te ' +
+    ' ON e.tvdb_episode_id = te.id ' +
+    'LEFT OUTER JOIN edge_tivo_episode ete ' +
+    ' ON e.id = ete.episode_id ' +
+    'LEFT OUTER JOIN tivo_episode ti ' +
+    ' ON ete.tivo_episode_id = ti.id ' +
+    'LEFT OUTER JOIN episode_rating er ' +
+    ' ON er.episode_id = e.id ' +
+    'WHERE e.series_id = $1 ' +
+    'AND e.retired = $2 ' +
+    'AND te.retired = $3 ' +
+    'AND e.season <> $4 ' +
+    'AND e.watched = $5 ' +
+    'ORDER BY e.season, e.episode_number, ti.id ' +
+    'LIMIT 1';
+
+  // from episode, pull:
+  // id, title, season, episode_number, watched_date, air_time, on_tivo, watched, streaming
+
+  return executeQueryWithResults(response, sql, [req.query.SeriesId, 0, 0, 0, false]);
 };
 
 exports.changeTier = function(req, response) {
