@@ -30,7 +30,7 @@ module.exports = function(app) {
 
   // special app-only test endpoint. No authentication required, gets minimal series info to keep payload size down.
   app.get('/primeTV', authCheck, series.getPrimeTV);
-  app.get('/primeSeriesInfo', series.getPrimeSeriesInfo);
+  app.get('/primeSeriesInfo', authCheck, series.getPrimeSeriesInfo);
 
   app.post('/updateEpisode', authCheck, series.updateEpisode);
   app.post('/markAllWatched', authCheck, series.markAllEpisodesAsWatched);
