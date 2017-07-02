@@ -156,7 +156,7 @@ exports.getTVDBErrors = function(req, response) {
 };
 
 exports.getPrimeTV = function(req, response) {
-  console.log("Unsecure PrimeTV endpoint called.");
+  console.log("PrimeTV endpoint called.");
 
   var sql = 'SELECT id, title, my_rating, metacritic, poster, (unwatched_episodes + unwatched_streaming) as unwatched, first_unwatched ' +
     'FROM series ' +
@@ -170,7 +170,7 @@ exports.getPrimeTV = function(req, response) {
 };
 
 exports.getPrimeSeriesInfo = function(req, response) {
-  console.log("Unsecure Prime Series Info call received. Params: " + req.query.SeriesId);
+  console.log("Prime Series Info call received. Params: " + req.query.SeriesId);
 
   // Items commented out which aren't in iOS UI yet, but could be of use.
   var sql = 'SELECT ' +
@@ -180,7 +180,7 @@ exports.getPrimeSeriesInfo = function(req, response) {
     'e.episode_number, ' +
     'e.watched_date, ' +
     'e.air_time, ' +
-    // 'e.on_tivo, ' +
+    'e.on_tivo, ' +
     'e.watched, ' +
     // 'e.streaming, ' +
     'te.filename as tvdb_filename, ' +
