@@ -56,7 +56,8 @@ module.exports = function(app) {
     app.use(function (err, req, res, next) {
       console.log(err.message);
       console.log(err.stack);
-      res.status(err.status || 500).json('error', {
+      console.log("Status: " + err.status);
+      res.status(err.status || 500).json({
         message: err.message,
         error: err
       });
@@ -66,9 +67,13 @@ module.exports = function(app) {
   // production error handler
   // no stacktraces leaked to user
   app.use(function (err, req, res, next) {
-    res.status(err.status || 500).json('error', {
+    console.log(err.message);
+    console.log(err.stack);
+    console.log("Status: " + err.status);
+    res.status(err.status || 500).json({
       message: err.message,
-      error: {}
+      error: err
     });
   });
+
 };
