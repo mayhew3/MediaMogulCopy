@@ -24,7 +24,7 @@
     "async": "~0.8.0"
   },
   "engines": {
-    "node": "5.11.0"
+    "node": "6.11.1"
   },
   "keywords": [
     "node",
