@@ -55,7 +55,17 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
         })
         .state('games', {
           url: '/games',
-          templateUrl: 'views/games/games.html',
+          templateUrl: 'views/games/games.html'
+        })
+        .state('games.list', {
+          url: '/list',
+          templateUrl: 'views/games/list.html',
+          controller: 'gamesController',
+          controllerAs: 'ctrl'
+        })
+        .state('games.dashboard', {
+          url: '/dashboard',
+          templateUrl: 'views/games/dashboard.html',
           controller: 'gamesController',
           controllerAs: 'ctrl'
         })
