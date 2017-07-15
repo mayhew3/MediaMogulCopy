@@ -66,7 +66,7 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
         .state('games.dashboard', {
           url: '/dashboard',
           templateUrl: 'views/games/dashboard.html',
-          controller: 'gamesController',
+          controller: 'gameDashboardController',
           controllerAs: 'ctrl'
         })
         .state('admin', {

@@ -8,7 +8,24 @@
     </div>
     <div class="panel-body">
       <div class="row">
-        Test data
+        <div class="fade-repeat col-xs-3 col-md-2 posterRow" ng-repeat="game in ctrl.games |
+                filter:ctrl.newlyAddedFilter |
+                orderBy:[ctrl.orderByRating].concat('-FullRating') |
+                limitTo: 6">
+
+
+
+          <a ng-click="ctrl.open(game)" href="">
+            <img class="img-rounded"
+                 ng-src="{{game.giantbomb_medium_url}}"
+                 width="100%"
+                ng-hide="game.giantbomb_medium_url == null"
+                alt="{{game.title}}"/>
+          </a>
+          <div class="col-xs-3 col-md-2" ng-hide="game.giantbomb_medium_url != null" ng-click="ctrl.open(game)" href="">
+            <span ng-bind="game.title"></span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
