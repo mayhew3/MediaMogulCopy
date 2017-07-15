@@ -35,7 +35,7 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
         })
         .state('tv_list', {
           url: '/tvbacklog',
-          templateUrl: 'views/tvbacklog.html'
+          templateUrl: 'views/tv/tvbacklog.html'
         })
         .state('tv.rate', {
           url: '/tv/rate/yearly',
@@ -55,7 +55,7 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
         })
         .state('games', {
           url: '/games',
-          templateUrl: 'views/games.html',
+          templateUrl: 'views/games/games.html',
           controller: 'gamesController',
           controllerAs: 'ctrl'
         })

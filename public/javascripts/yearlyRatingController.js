@@ -229,7 +229,7 @@ angular.module('mediaMogulApp')
 
     self.openSeriesRating = function(episodeGroup) {
       $modal.open({
-        templateUrl: 'views/seriesRating.html',
+        templateUrl: 'views/tv/seriesRating.html',
         controller: 'seriesRatingController as ctrl',
         size: 'lg',
         resolve: {

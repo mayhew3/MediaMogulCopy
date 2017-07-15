@@ -195,7 +195,7 @@ angular.module('mediaMogulApp')
 
     self.open = function(series) {
       $modal.open({
-        templateUrl: 'views/seriesDetail.html',
+        templateUrl: 'views/tv/seriesDetail.html',
         controller: 'seriesDetailController as ctrl',
         size: 'lg',
         resolve: {
@@ -209,7 +209,7 @@ angular.module('mediaMogulApp')
     self.tryToMatch = function(series) {
       $log.debug("Executing!");
       $modal.open({
-        templateUrl: 'views/episodeMatcher.html',
+        templateUrl: 'views/tv/episodeMatcher.html',
         controller: 'episodeMatcherController as ctrl',
         size: 'lg',
         resolve: {
@@ -223,7 +223,7 @@ angular.module('mediaMogulApp')
     self.addSeries = function() {
       $log.debug("Adding window.");
       $modal.open({
-        templateUrl: 'views/addSeries.html',
+        templateUrl: 'views/tv/addSeries.html',
         controller: 'addSeriesController as ctrl',
         size: 'lg',
         resolve: {

@@ -172,7 +172,7 @@ angular.module('mediaMogulApp')
 
     self.open = function(game) {
       $modal.open({
-        templateUrl: 'views/gameDetail.html',
+        templateUrl: 'views/games/gameDetail.html',
         controller: 'gameDetailController as ctrl',
         size: 'lg',
         resolve: {
@@ -186,7 +186,7 @@ angular.module('mediaMogulApp')
     self.addGame = function() {
       $log.debug("Adding window.");
       $modal.open({
-        templateUrl: 'views/addGame.html',
+        templateUrl: 'views/games/addGame.html',
         controller: 'addGameController as ctrl',
         size: 'lg',
         resolve: {

@@ -162,7 +162,7 @@ angular.module('mediaMogulApp')
 
     self.openEpisodeDetail = function(episode) {
       $modal.open({
-        templateUrl: 'views/episodeDetail.html',
+        templateUrl: 'views/tv/episodeDetail.html',
         controller: 'episodeDetailController as ctrl',
         size: 'lg',
         resolve: {
