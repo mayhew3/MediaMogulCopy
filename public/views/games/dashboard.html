@@ -1,6 +1,35 @@
 
 <div class="container" style="margin-top: 10px">
 
+  <!-- RECENTLY PLAYED section -->
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3>Recently Played</h3>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="fade-repeat col-xs-3 col-md-2 posterRow" ng-repeat="game in ctrl.games |
+                filter:ctrl.baseFilter |
+                orderBy:[ctrl.orderByLastPlayed].concat('-last_played') |
+                limitTo: 6">
+
+          <a ng-click="ctrl.open(game)" href="">
+            <img class="img-rounded"
+                 ng-src="{{game.giantbomb_medium_url}}"
+                 width="100%"
+                 ng-hide="game.giantbomb_medium_url == null"
+                 alt="{{game.title}}"/>
+          </a>
+          <br>
+          <span ng-bind="game.last_played|date:ctrl.getDateFormat(game.last_played):'America/Los_Angeles'"></span>
+          <div class="col-xs-3 col-md-2" ng-hide="game.giantbomb_medium_url != null" ng-click="ctrl.open(game)" href="">
+            <span ng-bind="game.title"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- NEWLY ADDED section -->
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -13,8 +42,6 @@
                 orderBy:[ctrl.orderByRating].concat('-FullRating') |
                 limitTo: 6">
 
-
-
           <a ng-click="ctrl.open(game)" href="">
             <img class="img-rounded"
                  ng-src="{{game.giantbomb_medium_url}}"
@@ -26,18 +53,6 @@
             <span ng-bind="game.title"></span>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECENTLY PLAYED section -->
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3>Recently Played</h3>
-    </div>
-    <div class="panel-body">
-      <div class="row">
-        Test data
       </div>
     </div>
   </div>

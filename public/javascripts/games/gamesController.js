@@ -128,7 +128,7 @@ angular.module('mediaMogulApp')
       var diff = (new Date(dateAdded) - new Date + (1000 * 60 * 60 * 24 * days));
       var withinDiff = (diff > 0);
 
-      $log.debug("AirDate: " + dateAdded + ", diff: " + diff);
+      // $log.debug("AirDate: " + dateAdded + ", diff: " + diff);
 
       return notNull && withinDiff;
     }

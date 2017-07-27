@@ -9,6 +9,25 @@ angular.module('mediaMogulApp')
         return ((angular.isDefined(game.FullRating) && game.FullRating !== null) ? -1: 0);
       };
 
+      self.orderByLastPlayed = function(game) {
+        return ((angular.isDefined(game.last_played) && game.last_played !== null) ? -1: 0);
+      };
+
+      self.getDateFormat = function(date) {
+        var thisYear = (new Date).getFullYear();
+
+        if (date !== null) {
+          var year = new Date(date).getFullYear();
+
+          if (year === thisYear) {
+            return 'EEE M/d';
+          } else {
+            return 'yyyy.M.d';
+          }
+        }
+        return 'yyyy.M.d';
+      };
+
       self.isFinished = function(game) {
         return game.finished || game.finalscore;
       };
@@ -21,11 +40,13 @@ angular.module('mediaMogulApp')
 
       self.newlyAddedFilter = function(game) {
         return addedInLastXDays(game.date_added, 90) &&
-          game.aggPlaytime < 2 &&
+          game.aggPlaytime < 0.1 &&
           self.baseFilter(game);
       };
 
-
+      self.lastPlayedFilter = function(game) {
+        return self.baseFilter(game);
+      };
 
 
       function addedInLastXDays(dateAdded, days) {
@@ -33,7 +54,7 @@ angular.module('mediaMogulApp')
         var diff = (new Date(dateAdded) - new Date + (1000 * 60 * 60 * 24 * days));
         var withinDiff = (diff > 0);
 
-        $log.debug("AirDate: " + dateAdded + ", diff: " + diff);
+        //$log.debug("AirDate: " + dateAdded + ", diff: " + diff);
 
         return notNull && withinDiff;
       }

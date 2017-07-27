@@ -51,6 +51,9 @@ function GamesService($log, $http) {
     if (game.giantbomb_id !== null) {
       game.giantbomb_id = parseInt(game.giantbomb_id);
     }
+    if (game.last_played !== null) {
+      game.last_played = new Date(game.last_played);
+    }
   };
 
   this.getGamesList = function() {
