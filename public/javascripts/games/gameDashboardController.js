@@ -3,15 +3,16 @@ angular.module('mediaMogulApp')
     function($log, $modal, GamesService) {
       var self = this;
 
+      var MAX_GAMES = 6;
+
       self.platforms = ["Wii U", "Xbox One", "PS4", "Steam", "PC"];
+      self.games = [];
 
-      self.orderByRating = function(game) {
-        return ((angular.isDefined(game.FullRating) && game.FullRating !== null) ? -1: 0);
-      };
+      self.recentGames = [];
+      self.newlyAddedGames = [];
 
-      self.orderByLastPlayed = function(game) {
-        return ((angular.isDefined(game.last_played) && game.last_played !== null) ? -1: 0);
-      };
+
+      // UI HELPERS
 
       self.getDateFormat = function(date) {
         var thisYear = (new Date).getFullYear();
@@ -28,6 +29,9 @@ angular.module('mediaMogulApp')
         return 'yyyy.M.d';
       };
 
+
+      // FILTER HELPERS
+
       self.isFinished = function(game) {
         return game.finished || game.finalscore;
       };
@@ -35,46 +39,91 @@ angular.module('mediaMogulApp')
       self.baseFilter = function(game) {
         var platform = game.platform;
         return !self.isFinished(game) &&
-            contains(self.platforms, platform);
+          _.contains(self.platforms, platform);
+      };
+
+      function daysBetween(earlyDate, lateDate) {
+        return (lateDate - earlyDate) / (1000 * 60 * 60 * 24 );
+      }
+
+
+
+      // RECENTLY PLAYED SHOWCASE
+
+      self.createRecentlyPlayedShowcase = function() {
+        var filtered = _.filter(self.games, self.recentlyPlayedFilter);
+        var sorted = _.sortBy(filtered, function(game)  {
+          return self.recentlyPlayedScore(game) * -1;
+        });
+
+        self.recentGames = _.first(sorted, MAX_GAMES);
+        self.games = _.without(self.games, self.recentGames);
+      };
+
+      self.recentlyPlayedScore = function(game) {
+        if (game.last_played === null) {
+          return -1;
+        }
+        var today = new Date;
+        var daysAgo = daysBetween(game.last_played, today);
+        return (daysAgo > 100) ? 0 : (100 - daysAgo);
+      };
+
+      self.recentlyPlayedFilter = function(game) {
+        return self.baseFilter(game) && game.last_played !== null;
+      };
+
+
+      // NEWLY ADDED SHOWCASE
+
+      self.createNewlyAddedShowcase = function() {
+        var filtered = _.filter(self.games, self.newlyAddedFilter);
+        var sorted = _.sortBy(filtered, function(game) {
+          return self.newlyAddedScore(game) * -1;
+        });
+
+        self.newlyAddedGames = _.first(sorted, MAX_GAMES);
+        self.games = _.without(self.games, self.newlyAddedGames);
+      };
+
+      self.newlyAddedScore = function(game) {
+        if (game.date_added === null) {
+          return -1;
+        }
+        var today = new Date;
+        var added = new Date(game.date_added);
+        var daysAgo = daysBetween(added, today);
+        return (daysAgo > 100) ? 0 : (100 - daysAgo);
       };
 
       self.newlyAddedFilter = function(game) {
-        return addedInLastXDays(game.date_added, 90) &&
+        return game.date_added !== null &&
           game.aggPlaytime < 0.1 &&
           self.baseFilter(game);
       };
 
-      self.lastPlayedFilter = function(game) {
-        return self.baseFilter(game);
+
+      // SETUP ALL GAME LISTS
+
+      self.createShowcases = function() {
+        self.createRecentlyPlayedShowcase();
+        self.createNewlyAddedShowcase();
       };
-
-
-      function addedInLastXDays(dateAdded, days) {
-        var notNull = dateAdded !== null;
-        var diff = (new Date(dateAdded) - new Date + (1000 * 60 * 60 * 24 * days));
-        var withinDiff = (diff > 0);
-
-        //$log.debug("AirDate: " + dateAdded + ", diff: " + diff);
-
-        return notNull && withinDiff;
-      }
-
 
       var gamesList = GamesService.getGamesList();
       if (gamesList.length === 0) {
         GamesService.updateGamesList().then(function () {
-          self.games = GamesService.getGamesList();
+          self.games = GamesService.getGamesList().slice();
           $log.debug("Controller has " + self.games.length + " games.");
+          self.createShowcases();
         })
       } else {
-        self.games = gamesList;
+        self.games = gamesList.slice();
+        self.createShowcases();
       }
 
-      function contains(myArray, myValue) {
-        return myArray.some(function (g1) {
-          return g1 === myValue;
-        });
-      }
+
+      // UI POPUPS
 
       self.open = function(game) {
         $modal.open({
@@ -89,16 +138,6 @@ angular.module('mediaMogulApp')
         });
       };
 
-      self.addGame = function() {
-        $log.debug("Adding window.");
-        $modal.open({
-          templateUrl: 'views/games/addGame.html',
-          controller: 'addGameController as ctrl',
-          size: 'lg',
-          resolve: {
-          }
-        });
-      };
     }
 
   ]);

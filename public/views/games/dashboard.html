@@ -8,10 +8,7 @@
     </div>
     <div class="panel-body">
       <div class="row">
-        <div class="fade-repeat col-xs-3 col-md-2 posterRow" ng-repeat="game in ctrl.games |
-                filter:ctrl.baseFilter |
-                orderBy:[ctrl.orderByLastPlayed].concat('-last_played') |
-                limitTo: 6">
+        <div class="fade-repeat col-xs-3 col-md-2 posterRow" ng-repeat="game in ctrl.recentGames">
 
           <a ng-click="ctrl.open(game)" href="">
             <img class="img-rounded"
@@ -37,10 +34,7 @@
     </div>
     <div class="panel-body">
       <div class="row">
-        <div class="fade-repeat col-xs-3 col-md-2 posterRow" ng-repeat="game in ctrl.games |
-                filter:ctrl.newlyAddedFilter |
-                orderBy:[ctrl.orderByRating].concat('-FullRating') |
-                limitTo: 6">
+        <div class="fade-repeat col-xs-3 col-md-2 posterRow" ng-repeat="game in ctrl.newlyAddedGames">
 
           <a ng-click="ctrl.open(game)" href="">
             <img class="img-rounded"
@@ -49,6 +43,7 @@
                 ng-hide="game.giantbomb_medium_url == null"
                 alt="{{game.title}}"/>
           </a>
+
           <div class="col-xs-3 col-md-2" ng-hide="game.giantbomb_medium_url != null" ng-click="ctrl.open(game)" href="">
             <span ng-bind="game.title"></span>
           </div>
