@@ -48,6 +48,13 @@ angular.module('mediaMogulApp')
         return (lateDate - earlyDate) / (1000 * 60 * 60 * 24 );
       }
 
+      function shrinkFromInfinity(value, max, slope) {
+        if (value < 0) {
+          return 0;
+        }
+        var timeOverSquared = Math.pow(value, 2);
+        return (((max - 1) * timeOverSquared) - slope) / (timeOverSquared + slope) + 1;
+      }
 
 
       // RECENTLY PLAYED SHOWCASE
@@ -130,8 +137,8 @@ angular.module('mediaMogulApp')
           // The bigger the negative number, the closer the result of this function will get to 5. 0 will return 0.
           // (4x^2 - 10) / (x^2 + 10) + 1
           var SLOPE_SCALE = 10;
-          var timeOverSquared = Math.pow(timeLeft, 2);
-          var under5Value = ((4 * timeOverSquared) - SLOPE_SCALE) / (timeOverSquared + SLOPE_SCALE) + 1;
+          var MAX_SCALE = 5;
+          var under5Value = shrinkFromInfinity(-timeLeft, MAX_SCALE, SLOPE_SCALE);
           $log.debug(game.title + " has negative time left: " + timeLeft + ". Under 5 score: " + under5Value);
           return 95 + under5Value;
         }
@@ -155,7 +162,14 @@ angular.module('mediaMogulApp')
       };
 
       self.playAgainScore = function(game) {
-        return game.replay;
+        var today = new Date;
+        var timeSinceFinished = daysBetween(new Date(game.finished), today);
+
+        var SLOPE_SCALE = 10000;
+        var MAX_SCALE = 100;
+        var timeSinceScore = shrinkFromInfinity(timeSinceFinished, MAX_SCALE, SLOPE_SCALE);
+        $log.debug(game.title + " finished " + timeSinceFinished + " days ago, score of " + timeSinceScore);
+        return (game.replay * 0.8) + (timeSinceScore * 0.2);
       };
 
       // SETUP ALL GAME LISTS
