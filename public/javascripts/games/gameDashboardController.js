@@ -11,6 +11,7 @@ angular.module('mediaMogulApp')
       self.recentGames = [];
       self.newlyAddedGames = [];
       self.almostDoneGames = [];
+      self.playAgainGames = [];
 
 
       // UI HELPERS
@@ -136,12 +137,34 @@ angular.module('mediaMogulApp')
         }
       };
 
+
+      // PLAY AGAIN SHOWCASE
+
+      self.createPlayAgainShowcase = function() {
+        var filtered = _.filter(self.games, self.playAgainFilter);
+        var sorted = _.sortBy(filtered, function(game) {
+          return self.playAgainScore(game) * -1;
+        });
+
+        self.playAgainGames = _.first(sorted, MAX_GAMES);
+        self.games = _.without(self.games, self.playAgainGames);
+      };
+
+      self.playAgainFilter = function(game) {
+        return game.finished !== null;
+      };
+
+      self.playAgainScore = function(game) {
+        return game.replay;
+      };
+
       // SETUP ALL GAME LISTS
 
       self.createShowcases = function() {
         self.createRecentlyPlayedShowcase();
         self.createNewlyAddedShowcase();
         self.createAlmostDoneShowcase();
+        self.createPlayAgainShowcase();
       };
 
       var gamesList = GamesService.getGamesList();
