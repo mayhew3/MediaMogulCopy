@@ -10,6 +10,7 @@ angular.module('mediaMogulApp')
 
       self.recentGames = [];
       self.newlyAddedGames = [];
+      self.almostDoneGames = [];
 
 
       // UI HELPERS
@@ -102,12 +103,45 @@ angular.module('mediaMogulApp')
           self.baseFilter(game);
       };
 
+      // ALMOST DONE SHOWCASE
+
+      self.createAlmostDoneShowcase = function() {
+        var filtered = _.filter(self.games, self.almostDoneFilter);
+        var sorted = _.sortBy(filtered, function(game) {
+          return self.almostDoneScore(game) * -1;
+        });
+
+        self.almostDoneGames = _.first(sorted, MAX_GAMES);
+        self.games = _.without(self.games, self.almostDoneGames);
+      };
+
+      self.almostDoneFilter = function(game) {
+        return game.aggPlaytime > 2 &&
+          self.baseFilter(game);
+      };
+
+      self.almostDoneScore = function(game) {
+        var timeLeft = game.aggTimetotal - game.aggPlaytime;
+        if (timeLeft > 0) {
+          return (timeLeft > 95) ? 0 : (95 - timeLeft);
+        } else {
+          // Use a function with a horizontal asymptote so we can order games with negative playtime with no limit.
+          // The bigger the negative number, the closer the result of this function will get to 5. 0 will return 0.
+          // (4x^2 - 10) / (x^2 + 10) + 1
+          var SLOPE_SCALE = 10;
+          var timeOverSquared = Math.pow(timeLeft, 2);
+          var under5Value = ((4 * timeOverSquared) - SLOPE_SCALE) / (timeOverSquared + SLOPE_SCALE) + 1;
+          $log.debug(game.title + " has negative time left: " + timeLeft + ". Under 5 score: " + under5Value);
+          return 95 + under5Value;
+        }
+      };
 
       // SETUP ALL GAME LISTS
 
       self.createShowcases = function() {
         self.createRecentlyPlayedShowcase();
         self.createNewlyAddedShowcase();
+        self.createAlmostDoneShowcase();
       };
 
       var gamesList = GamesService.getGamesList();
