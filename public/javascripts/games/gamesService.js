@@ -9,7 +9,7 @@ function GamesService($log, $http) {
       var tempGames = gamesResponse.data;
       tempGames.forEach(function (game) {
         self.updateNumericFields(game);
-        //self.updateImages(game);
+        self.updateImages(game);
         self.updatePlaytimes(game);
         self.updateRating(game);
         self.updatePlatforms(game);
@@ -124,11 +124,12 @@ function GamesService($log, $http) {
   };
 
   this.updateImages = function(game) {
-    $log.debug("Image: " + game.logo);
-    if (game.logo === null || game.logo === '') {
-      game.imageUrl = null;
-    } else {
-      game.imageUrl = "http://media.steampowered.com/steamcommunity/public/images/apps/" + game.steamid + "/" + game.logo + ".jpg";
+    game.imageUrl = null;
+
+    if (game.logo !== null && game.logo !== '') {
+      game.imageUrl = "http://cdn.edgecast.steamstatic.com/steam/apps/" + game.steamid + "/header.jpg";
+    } else if (game.giantbomb_medium_url !== null) {
+      game.imageUrl = game.giantbomb_medium_url;
     }
   };
 

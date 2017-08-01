@@ -8,18 +8,18 @@
     </div>
     <div class="panel-body">
       <div class="row">
-        <div class="fade-repeat col-xs-3 col-md-2 posterRow" ng-repeat="game in ctrl.recentGames">
+        <div class="fade-repeat col-xs-4 col-md-3 posterRow" ng-repeat="game in ctrl.recentGames">
 
           <a ng-click="ctrl.open(game)" href="">
             <img class="img-rounded"
-                 ng-src="{{game.giantbomb_medium_url}}"
+                 ng-src="{{game.imageUrl}}"
                  width="100%"
-                 ng-hide="game.giantbomb_medium_url == null"
+                 ng-hide="game.imageUrl == null"
                  alt="{{game.title}}"/>
           </a>
           <br>
           <span ng-bind="game.last_played|date:ctrl.getDateFormat(game.last_played):'America/Los_Angeles'"></span>
-          <div class="col-xs-3 col-md-2" ng-hide="game.giantbomb_medium_url != null" ng-click="ctrl.open(game)" href="">
+          <div class="col-xs-4 col-md-3" ng-hide="game.imageUrl != null" ng-click="ctrl.open(game)" href="">
             <span ng-bind="game.title"></span>
           </div>
         </div>
@@ -34,17 +34,17 @@
     </div>
     <div class="panel-body">
       <div class="row">
-        <div class="fade-repeat col-xs-3 col-md-2 posterRow" ng-repeat="game in ctrl.newlyAddedGames">
+        <div class="fade-repeat col-xs-4 col-md-3 posterRow" ng-repeat="game in ctrl.newlyAddedGames">
 
           <a ng-click="ctrl.open(game)" href="">
             <img class="img-rounded"
-                 ng-src="{{game.giantbomb_medium_url}}"
+                 ng-src="{{game.imageUrl}}"
                  width="100%"
-                ng-hide="game.giantbomb_medium_url == null"
+                ng-hide="game.imageUrl == null"
                 alt="{{game.title}}"/>
           </a>
 
-          <div class="col-xs-3 col-md-2" ng-hide="game.giantbomb_medium_url != null" ng-click="ctrl.open(game)" href="">
+          <div class="col-xs-4 col-md-3" ng-hide="game.imageUrl != null" ng-click="ctrl.open(game)" href="">
             <span ng-bind="game.title"></span>
           </div>
         </div>
@@ -59,17 +59,17 @@
     </div>
     <div class="panel-body">
       <div class="row">
-        <div class="fade-repeat col-xs-3 col-md-2 posterRow" ng-repeat="game in ctrl.almostDoneGames">
+        <div class="fade-repeat col-xs-4 col-md-3 posterRow" ng-repeat="game in ctrl.almostDoneGames">
 
           <a ng-click="ctrl.open(game)" href="">
             <img class="img-rounded"
-                 ng-src="{{game.giantbomb_medium_url}}"
+                 ng-src="{{game.imageUrl}}"
                  width="100%"
-                ng-hide="game.giantbomb_medium_url == null"
+                ng-hide="game.imageUrl == null"
                 alt="{{game.title}}"/>
           </a>
 
-          <div class="col-xs-3 col-md-2" ng-hide="game.giantbomb_medium_url != null" ng-click="ctrl.open(game)" href="">
+          <div class="col-xs-4 col-md-3" ng-hide="game.imageUrl != null" ng-click="ctrl.open(game)" href="">
             <span ng-bind="game.title"></span>
           </div>
         </div>
@@ -84,17 +84,17 @@
     </div>
     <div class="panel-body">
       <div class="row">
-        <div class="fade-repeat col-xs-3 col-md-2 posterRow" ng-repeat="game in ctrl.playAgainGames">
+        <div class="fade-repeat col-xs-4 col-md-3 posterRow" ng-repeat="game in ctrl.playAgainGames">
 
           <a ng-click="ctrl.open(game)" href="">
             <img class="img-rounded"
-                 ng-src="{{game.giantbomb_medium_url}}"
+                 ng-src="{{game.imageUrl}}"
                  width="100%"
-                ng-hide="game.giantbomb_medium_url == null"
+                ng-hide="game.imageUrl == null"
                 alt="{{game.title}}"/>
           </a>
 
-          <div class="col-xs-3 col-md-2" ng-hide="game.giantbomb_medium_url != null" ng-click="ctrl.open(game)" href="">
+          <div class="col-xs-4 col-md-3" ng-hide="game.imageUrl != null" ng-click="ctrl.open(game)" href="">
             <span ng-bind="game.title"></span>
           </div>
         </div>

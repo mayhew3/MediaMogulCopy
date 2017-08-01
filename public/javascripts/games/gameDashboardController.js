@@ -3,7 +3,7 @@ angular.module('mediaMogulApp')
     function($log, $modal, GamesService) {
       var self = this;
 
-      var MAX_GAMES = 6;
+      var MAX_GAMES = 8;
 
       self.platforms = ["Wii U", "Xbox One", "PS4", "Steam", "PC"];
       self.games = [];
