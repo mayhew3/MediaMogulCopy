@@ -125,6 +125,7 @@ angular.module('mediaMogulApp')
 
       self.almostDoneFilter = function(game) {
         return game.aggPlaytime > 2 &&
+          game.natural_end &&
           self.baseFilter(game);
       };
 

@@ -141,8 +141,9 @@ function GamesService($log, $http) {
 
     var timetotal = game.timetotal;
     var howlong_time = game.howlong_main;
+    var natural_end = game.natural_end;
 
-    game.aggTimetotal = timetotal === null ? howlong_time : timetotal;
+    game.aggTimetotal = natural_end ? (timetotal === null ? howlong_time : timetotal) : null;
   };
 
   this.updatePlatforms = function(game) {

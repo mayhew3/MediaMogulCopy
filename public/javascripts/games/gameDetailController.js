@@ -16,6 +16,7 @@ angular.module('mediaMogulApp')
       mayhew: self.game.mayhew,
       timeplayed: self.game.timeplayed,
       timetotal: self.game.timetotal,
+      natural_end: self.game.natural_end,
       finalscore: self.game.finalscore,
       replay: self.game.replay,
       howlong_id: self.game.howlong_id,
@@ -32,6 +33,7 @@ angular.module('mediaMogulApp')
       mayhew: self.game.mayhew,
       timeplayed: self.game.timeplayed,
       timetotal: self.game.timetotal,
+      natural_end: self.game.natural_end,
       finalscore: self.game.finalscore,
       replay: self.game.replay,
       howlong_id: self.game.howlong_id,
@@ -72,6 +74,7 @@ angular.module('mediaMogulApp')
           self.game.mayhew = self.interfaceFields.mayhew;
           self.game.timeplayed = self.interfaceFields.timeplayed;
           self.game.timetotal = self.interfaceFields.timetotal;
+          self.game.natural_end = self.interfaceFields.natural_end;
           self.game.finalscore = self.interfaceFields.finalscore;
           self.game.replay = self.interfaceFields.replay;
           self.game.howlong_id = self.interfaceFields.howlong_id;
@@ -86,6 +89,7 @@ angular.module('mediaMogulApp')
           self.originalFields.mayhew = self.interfaceFields.mayhew;
           self.originalFields.timeplayed = self.interfaceFields.timeplayed;
           self.originalFields.timetotal = self.interfaceFields.timetotal;
+          self.originalFields.natural_end = self.interfaceFields.natural_end;
           self.originalFields.finalscore = self.interfaceFields.finalscore;
           self.originalFields.replay = self.interfaceFields.replay;
           self.originalFields.howlong_id = self.interfaceFields.howlong_id;
@@ -98,10 +102,9 @@ angular.module('mediaMogulApp')
           $log.debug("Finished resetting. Original values: " + self.originalFields);
         });
       }
+
+      $modalInstance.close();
     };
 
-    self.ok = function() {
-      $modalInstance.close();
-    }
   }
   ]);
