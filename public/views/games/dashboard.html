@@ -77,6 +77,31 @@
     </div>
   </div>
 
+  <!-- ENDLESS section -->
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3>Endless</h3>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="fade-repeat col-xs-4 col-md-3 posterRow" ng-repeat="game in ctrl.endlessGames">
+
+          <a ng-click="ctrl.open(game)" href="">
+            <img class="img-rounded"
+                 ng-src="{{game.imageUrl}}"
+                 width="100%"
+                ng-hide="game.imageUrl == null"
+                alt="{{game.title}}"/>
+          </a>
+
+          <div class="col-xs-4 col-md-3" ng-hide="game.imageUrl != null" ng-click="ctrl.open(game)" href="">
+            <span ng-bind="game.title"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- PLAY AGAIN section -->
   <div class="panel panel-default">
     <div class="panel-heading">

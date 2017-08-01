@@ -11,6 +11,7 @@ angular.module('mediaMogulApp')
       self.recentGames = [];
       self.newlyAddedGames = [];
       self.almostDoneGames = [];
+      self.endlessGames = [];
       self.playAgainGames = [];
 
 
@@ -66,7 +67,7 @@ angular.module('mediaMogulApp')
         });
 
         self.recentGames = _.first(sorted, MAX_GAMES);
-        self.games = _.without(self.games, self.recentGames);
+        self.games = _.difference(self.games, self.recentGames);
       };
 
       self.recentlyPlayedScore = function(game) {
@@ -92,7 +93,7 @@ angular.module('mediaMogulApp')
         });
 
         self.newlyAddedGames = _.first(sorted, MAX_GAMES);
-        self.games = _.without(self.games, self.newlyAddedGames);
+        self.games = _.difference(self.games, self.newlyAddedGames);
       };
 
       self.newlyAddedScore = function(game) {
@@ -120,7 +121,7 @@ angular.module('mediaMogulApp')
         });
 
         self.almostDoneGames = _.first(sorted, MAX_GAMES);
-        self.games = _.without(self.games, self.almostDoneGames);
+        self.games = _.difference(self.games, self.almostDoneGames);
       };
 
       self.almostDoneFilter = function(game) {
@@ -140,11 +141,30 @@ angular.module('mediaMogulApp')
           var SLOPE_SCALE = 10;
           var MAX_SCALE = 5;
           var under5Value = shrinkFromInfinity(-timeLeft, MAX_SCALE, SLOPE_SCALE);
-          $log.debug(game.title + " has negative time left: " + timeLeft + ". Under 5 score: " + under5Value);
           return 95 + under5Value;
         }
       };
 
+      // ENDLESS SHOWCASE
+
+      self.createEndlessShowcase = function() {
+        var filtered = _.filter(self.games, self.endlessFilter);
+        var sorted = _.sortBy(filtered, function(game) {
+          return self.endlessScore(game) * -1;
+        });
+
+        self.endlessGames = _.first(sorted, MAX_GAMES);
+        self.games = _.difference(self.games, self.endlessGames);
+      };
+
+      self.endlessFilter = function (game) {
+        return !game.natural_end &&
+          self.baseFilter(game);
+      };
+
+      self.endlessScore = function(game) {
+        return game.FullRating;
+      };
 
       // PLAY AGAIN SHOWCASE
 
@@ -155,7 +175,7 @@ angular.module('mediaMogulApp')
         });
 
         self.playAgainGames = _.first(sorted, MAX_GAMES);
-        self.games = _.without(self.games, self.playAgainGames);
+        self.games = _.difference(self.games, self.playAgainGames);
       };
 
       self.playAgainFilter = function(game) {
@@ -169,7 +189,6 @@ angular.module('mediaMogulApp')
         var SLOPE_SCALE = 10000;
         var MAX_SCALE = 100;
         var timeSinceScore = shrinkFromInfinity(timeSinceFinished, MAX_SCALE, SLOPE_SCALE);
-        $log.debug(game.title + " finished " + timeSinceFinished + " days ago, score of " + timeSinceScore);
         return (game.replay * 0.8) + (timeSinceScore * 0.2);
       };
 
@@ -179,6 +198,7 @@ angular.module('mediaMogulApp')
         self.createRecentlyPlayedShowcase();
         self.createNewlyAddedShowcase();
         self.createAlmostDoneShowcase();
+        self.createEndlessShowcase();
         self.createPlayAgainShowcase();
       };
 
