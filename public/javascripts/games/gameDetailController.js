@@ -106,5 +106,8 @@ angular.module('mediaMogulApp')
       $modalInstance.close();
     };
 
+    self.cancel = function() {
+      $modalInstance.dismiss();
+    }
   }
   ]);

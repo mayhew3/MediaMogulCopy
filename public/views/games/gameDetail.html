@@ -1,25 +1,29 @@
-<div class="modal-body clearfix">
+<form class="bs-component"
+      id="gameFields"
+      name="gameFields"
+      ng-submit="ctrl.changeValues()"
+      novalidate>
 
-  <form class="bs-component"
-        id="gameFields"
-        name="gameFields"
-        ng-submit="ctrl.changeValues()"
-        novalidate>
+  <div class="modal-header">
+    <h1 ng-bind="ctrl.game.title"></h1>
+  </div>
+
+  <div class="modal-body clearfix">
 
     <div class="col-lg-6">
       <img class="img-rounded"
-           ng-src="{{ctrl.game.giantbomb_small_url}}"
+           ng-src="{{ctrl.game.imageUrl}}"
            width="100%"
-          ng-hide="ctrl.game.giantbomb_small_url === null"/>
-      <span class="h3" ng-show="ctrl.game.giantbomb_small_url === null" ng-bind="ctrl.game.title"></span>
+           ng-hide="ctrl.game.imageUrl === null"/>
+      <span class="h3" ng-show="ctrl.game.imageUrl === null" ng-bind="ctrl.game.title"></span>
     </div>
 
     <div class="form-group col-lg-3">
       <label class="control-label" for="platformInput">Platform</label>
       <select class="form-control"
-             id="platformInput"
-             name="platformInput"
-          ng-model="ctrl.interfaceFields.platform">
+              id="platformInput"
+              name="platformInput"
+              ng-model="ctrl.interfaceFields.platform">
         <option value="Steam">Steam</option>
         <option value="PC">PC</option>
         <option value="PS4">PS4</option>
@@ -36,9 +40,9 @@
     <div class="form-group col-lg-3">
       <label class="control-label" for="ownedInput">Owned</label>
       <select class="form-control"
-             id="ownedInput"
-             name="ownedInput"
-             ng-model="ctrl.interfaceFields.owned">
+              id="ownedInput"
+              name="ownedInput"
+              ng-model="ctrl.interfaceFields.owned">
         <option value="owned">Owned</option>
         <option value="not owned">Not Owned</option>
         <option value="borrowed">Borrowed</option>
@@ -148,16 +152,19 @@
              name="replayInput"
              ng-model="ctrl.interfaceFields.replay"/>
     </div>
+  </div>
 
-    <div class="form-group col-lg-3">
-      <span class="input-group-btn">
-        <input class="btn btn-default"
-               type="submit"
-               value="Update"
-               ng-disabled="gameFields.$invalid || !ctrl.auth.isAuthenticated">
-      </span>
-    </div>
-  </form>
+  <div class="modal-footer">
+    <input class="btn btn-primary"
+           type="submit"
+           value="Submit"
+           ng-disabled="gameFields.$invalid || !ctrl.auth.isAuthenticated">
+    <input class="btn btn-default"
+           type="button"
+           value="Cancel"
+           ng-click="ctrl.cancel()">
+  </div>
+</form>
 </div>
 
 
