@@ -13,6 +13,7 @@
           <img class="img-rounded"
                ng-style="ctrl.posterStyle(show)"
                ng-src="{{show.posterResolved}}"
+               err-src="images/GenericSeries.gif"
                width="100%"/>
           <div class="posterBadge">
             <span ng-bind="show.unwatched_all"></span>
@@ -38,6 +39,7 @@
           <img class="img-rounded"
                ng-style="ctrl.posterStyle(show)"
                ng-src="{{show.posterResolved}}"
+               err-src="images/GenericSeries.gif"
                width="100%"/>
           <div class="posterBadge">
             <span ng-bind="show.unwatched_all"></span>
@@ -63,6 +65,7 @@
           <a ng-click="ctrl.open(show)" href="">
             <img class="img-rounded"
                  ng-src="{{show.posterResolved}}"
+                 err-src="images/GenericSeries.gif"
                  width="100%"/>
           </a>
         </div>
