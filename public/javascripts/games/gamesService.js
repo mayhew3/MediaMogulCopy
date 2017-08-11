@@ -140,7 +140,7 @@ function GamesService($log, $http) {
     game.aggPlaytime = playtime === null ? timeplayed : playtime / 60;
 
     var timetotal = game.timetotal;
-    var howlong_time = game.howlong_main;
+    var howlong_time = game.howlong_extras;
     var natural_end = game.natural_end;
 
     game.aggTimetotal = natural_end ? (timetotal === null ? howlong_time : timetotal) : null;

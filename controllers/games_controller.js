@@ -7,8 +7,8 @@ exports.getGames = function (request, response) {
   pg.connect(config, function(err, client) {
     var query = client.query('SELECT id, logo, title, steamid, playtime, metacritic, platform, owned, metacritic_hint, mayhew, ' +
                                       'timeplayed, timetotal, finished, finalscore, replay, guess, date_added, ' +
-                                      'steam_cloud, last_played, natural_end, ' +
-                                      'giantbomb_small_url, giantbomb_thumb_url, giantbomb_medium_url, howlong_main, ' +
+                                      'steam_cloud, last_played, natural_end, metacritic_matched, ' +
+                                      'giantbomb_small_url, giantbomb_thumb_url, giantbomb_medium_url, howlong_extras, ' +
                                       'howlong_id, giantbomb_id, giantbomb_manual_guess ' +
                               'FROM games ' +
                               'WHERE owned IN (\'owned\', \'borrowed\') ' +

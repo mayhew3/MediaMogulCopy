@@ -59,10 +59,9 @@
              ng-model="ctrl.interfaceFields.metacritic"/>
     </div>
 
-    <div class="form-group col-lg-3">
+    <div class="form-group col-lg-3" ng-show="ctrl.game.metacritic_matched === null">
       <label class="control-label" for="metacriticHintInput">Metacritic Hint</label>
-      <input type="text"
-             class="form-control"
+      <input class="form-control"
              id="metacriticHintInput"
              name="metacriticHintInput"
              ng-model="ctrl.interfaceFields.metacritic_hint"/>
@@ -108,7 +107,7 @@
              ng-model="ctrl.interfaceFields.mayhew"/>
     </div>
 
-    <div class="form-group col-lg-3">
+    <div class="form-group col-lg-3" ng-show="ctrl.originalFields.howlong_id === null">
       <label class="control-label" for="howlongInput">HowLongToBeat ID</label>
       <input type="number"
              class="form-control"
@@ -117,16 +116,15 @@
              ng-model="ctrl.interfaceFields.howlong_id"/>
     </div>
 
-    <div class="form-group col-lg-3">
+    <div class="form-group col-lg-3" ng-show="ctrl.originalFields.giantbomb_id === null">
       <label class="control-label" for="giantBombGuessInput">GiantBomb Guess</label>
-      <input type="number"
-             class="form-control"
+      <input class="form-control"
              id="giantBombGuessInput"
              name="giantBombGuessInput"
              ng-model="ctrl.interfaceFields.giantbomb_manual_guess"/>
     </div>
 
-    <div class="form-group col-lg-3">
+    <div class="form-group col-lg-3" ng-show="ctrl.originalFields.giantbomb_id === null">
       <label class="control-label" for="giantBombIdInput">GiantBomb ID</label>
       <input type="number"
              class="form-control"
