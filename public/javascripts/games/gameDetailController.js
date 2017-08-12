@@ -7,6 +7,38 @@ angular.module('mediaMogulApp')
 
     self.game = game;
 
+    // DATE HANDLING
+    var options = {
+      year: "numeric", month: "2-digit",
+      day: "2-digit", timeZone: "America/Los_Angeles"
+    };
+
+    function formatDate(unformattedDate) {
+      var originalDate = (unformattedDate === '' || unformattedDate === null) ? null :
+        new Date(unformattedDate);
+      if (originalDate !== null) {
+        originalDate.setHours(0, 0, 0, 0);
+      }
+      return originalDate;
+    }
+
+    function dateHasChanged(originalValue, updatedValue) {
+      var originalDate = formatDate(originalValue);
+      var updatedDate = formatDate(updatedValue);
+
+      if (updatedDate === null && originalDate === null) {
+        return false;
+      } else if (updatedDate === null) {
+        return true;
+      } else if (originalDate === null) {
+        return true;
+      } else {
+        return updatedDate.getTime() !== originalDate.getTime();
+      }
+    }
+
+    // FIELDS
+
     self.originalFields = {
       platform: self.game.platform,
       owned: self.game.owned,
@@ -21,7 +53,8 @@ angular.module('mediaMogulApp')
       replay: self.game.replay,
       howlong_id: self.game.howlong_id,
       giantbomb_manual_guess: self.game.giantbomb_manual_guess,
-      giantbomb_id: self.game.giantbomb_id
+      giantbomb_id: self.game.giantbomb_id,
+      finished: self.game.finished === null ? null : new Date(self.game.finished).toLocaleDateString("en-US", options)
     };
 
     self.interfaceFields = {
@@ -38,12 +71,17 @@ angular.module('mediaMogulApp')
       replay: self.game.replay,
       howlong_id: self.game.howlong_id,
       giantbomb_manual_guess: self.game.giantbomb_manual_guess,
-      giantbomb_id: self.game.giantbomb_id
+      giantbomb_id: self.game.giantbomb_id,
+      finished: self.game.finished === null ? null : new Date(self.game.finished).toLocaleDateString("en-US", options)
     };
 
     $log.debug("Game opened: " + game.title + ", Finished: " + self.game.finished);
 
     self.changeValues = function() {
+
+      if (!dateHasChanged(self.originalFields.finished, self.interfaceFields.finished)) {
+        self.interfaceFields.finished = self.originalFields.finished;
+      }
 
       var changedFields = {};
       for (var key in self.interfaceFields) {

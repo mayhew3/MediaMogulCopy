@@ -133,7 +133,19 @@
              ng-model="ctrl.interfaceFields.giantbomb_id"/>
     </div>
 
-    <div class="form-group col-lg-3" ng-hide="ctrl.game.finished === null">
+
+    <!-- Finished Date (uses Bootstrap Switch - remember javascript snippet at bottom to activate!) -->
+    <div class="form-group col-lg-3">
+      <label class="control-label" for="finishedDate">Finished</label>
+      <div class="date">
+        <input id="finishedDate"
+               name="finishedDate"
+               class="form-control"
+               ng-model="ctrl.interfaceFields.finished">
+      </div>
+    </div>
+
+    <div class="form-group col-lg-3" ng-show="ctrl.interfaceFields.finished !== null">
       <label class="control-label" for="finalScoreInput">Final Score</label>
       <input type="number"
              class="form-control"
@@ -142,7 +154,7 @@
              ng-model="ctrl.interfaceFields.finalscore"/>
     </div>
 
-    <div class="form-group col-lg-3" ng-show="(ctrl.game.finished !== null)">
+    <div class="form-group col-lg-3" ng-show="ctrl.interfaceFields.finished !== null">
       <label class="control-label" for="replayInput">Replay?</label>
       <input type="number"
              class="form-control"
@@ -150,6 +162,7 @@
              name="replayInput"
              ng-model="ctrl.interfaceFields.replay"/>
     </div>
+
   </div>
 
   <div class="modal-footer">
@@ -163,6 +176,17 @@
            ng-click="ctrl.cancel()">
   </div>
 </form>
-</div>
 
+
+<script>
+  $(document).ready(function()  {
+    $('#finishedDate').datepicker({
+      todayBtn: "linked",
+      clearBtn: true,
+      daysOfWeekHighlighted: "0,6",
+      autoclose: true,
+      todayHighlight: true
+    });
+  });
+</script>
 
