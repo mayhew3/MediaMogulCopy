@@ -96,6 +96,11 @@
             class="btn btn-success"
             ng-click="ctrl.markAllPastWatched()"
             ng-disabled="!ctrl.auth.isAuthenticated">All Past Watched</button>
+    <button type="button"
+            class="btn btn-warning"
+            ng-disabled="ctrl.series.tvdb_manual_queue"
+            ng-click="ctrl.queueForManualUpdate()">TVDB Update</button>
+    <span ng-bind="'Last Update: ' + ctrl.daysSinceLastUpdate + ' days.'"></span>
   </div>
 
   <div id="seasonFilter" class="col-lg-12" style="margin-top: 5px">

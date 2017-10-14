@@ -18,6 +18,12 @@ angular.module('mediaMogulApp')
 
     self.inputViewingLocations = [];
 
+    self.lastUpdate = self.series.last_tvdb_update === null ?
+      self.series.last_tvdb_error :
+      self.series.last_tvdb_update;
+
+    self.daysSinceLastUpdate = Math.floor((new Date - new Date(self.lastUpdate)) / 1000 / 60 / 60 / 24);
+
     EpisodeService.updateEpisodeList(self.series).then(function() {
       self.episodes = EpisodeService.getEpisodes();
       $log.debug("Updated list with " + self.episodes.length + " episodes!");
@@ -168,6 +174,12 @@ angular.module('mediaMogulApp')
         return rating;
       }
       return episode.watched === true ? "--" : "";
+    };
+
+    self.queueForManualUpdate = function() {
+      EpisodeService.updateSeries(self.series.id, {tvdb_manual_queue: true}).then(function() {
+        self.series.tvdb_manual_queue = true;
+      });
     };
 
     function isStreamingAvailable(episode) {
