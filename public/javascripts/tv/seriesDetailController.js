@@ -138,27 +138,11 @@ angular.module('mediaMogulApp')
       });
     };
 
-    function isStreamingAvailable(episode) {
-      return episode.streaming && !airsInTheNextXDays(episode, 0);
-    }
-
-    function isTiVoAvailable(episode) {
-      return episode.on_tivo || !isUnaired(episode)
-    }
-
     function isUnaired(episode) {
       // unaired if the air time is after now.
 
       var isNull = episode.air_time === null;
       var diff = (new Date(episode.air_time) - new Date);
-      var hasSufficientDiff = (diff > 0);
-
-      return isNull || hasSufficientDiff;
-    }
-
-    function airsInTheNextXDays(episode, days) {
-      var isNull = episode.air_time === null;
-      var diff = (new Date(episode.air_time) - new Date + (1000 * 60 * 60 * 24 * days));
       var hasSufficientDiff = (diff > 0);
 
       return isNull || hasSufficientDiff;
