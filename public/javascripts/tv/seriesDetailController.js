@@ -7,7 +7,6 @@ angular.module('mediaMogulApp')
 
     self.series = series;
     self.episodes = [];
-    self.possibleMatches = [];
 
     self.tiers = [1, 2, 3, 4, 5];
 
@@ -93,36 +92,6 @@ angular.module('mediaMogulApp')
       return !(foundElement === undefined);
     }
 
-    self.changeViewingLocation = function(location) {
-      if (location.active) {
-        EpisodeService.addViewingLocation(self.series, self.episodes, location.viewingLocation);
-      } else {
-        EpisodeService.removeViewingLocation(self.series, self.episodes, location.viewingLocation);
-      }
-    };
-
-    EpisodeService.updatePossibleMatches(self.series).then(function() {
-      self.possibleMatches = EpisodeService.getPossibleMatches();
-      $log.debug("Updated " + self.possibleMatches.length + " possible matches.");
-    });
-
-    self.wrongMatch = function() {
-      EpisodeService.updateSeries(self.series.id, {matched_wrong: self.series.matched_wrong});
-    };
-
-    self.useMatch = function(possibleMatch) {
-      $log.debug("Match selected: " + possibleMatch.SeriesTitle + '(' + possibleMatch.SeriesID + ')');
-      var changedFields = {
-        tvdb_match_id: possibleMatch.tvdb_match_id,
-        needs_tvdb_redo: true,
-        matched_wrong: false
-      };
-      EpisodeService.updateSeries(self.series.id, changedFields).then(function () {
-        self.series.needs_tvdb_redo = true;
-        self.series.matched_wrong = false;
-      });
-    };
-
     self.getLabelInfo = function(episode) {
       if (episode.on_tivo) {
         if (episode.tivo_deleted_date) {
@@ -144,19 +113,6 @@ angular.module('mediaMogulApp')
         }
         return null;
       }
-    };
-
-    self.shouldHideMarkWatched = function(episode) {
-      return (!episode.on_tivo || episode.watched) && (episode.on_tivo || isUnaired(episode));
-    };
-
-    self.shouldShowMarkWatched = function(episode) {
-      return !episode.watched && episode.rating_value !== null &&
-      (episode.on_tivo || !isUnaired(episode));
-    };
-
-    self.shouldShowRate = function(episode) {
-      return episode.rating_value === null && (isTiVoAvailable(episode) || isStreamingAvailable(episode));
     };
 
     self.getWatchedDateOrWatched = function(episode) {
@@ -208,20 +164,6 @@ angular.module('mediaMogulApp')
       return isNull || hasSufficientDiff;
     }
 
-    self.originalFields = {
-      metacritic: self.series.metacritic,
-      my_rating: self.series.my_rating,
-      tvdb_hint: self.series.tvdb_hint,
-      metacritic_hint: self.series.metacritic_hint
-    };
-
-    self.interfaceFields = {
-      metacritic: self.series.metacritic,
-      my_rating: self.series.my_rating,
-      tvdb_hint: self.series.tvdb_hint,
-      metacritic_hint: self.series.metacritic_hint
-    };
-
     self.episodeFilter = function(episode) {
       return episode.season === self.selectedSeason && !self.shouldHide(episode);
     };
@@ -244,19 +186,6 @@ angular.module('mediaMogulApp')
         }
       }
       return 'yyyy.M.d';
-    };
-
-    self.getTierButtonClass = function(tier) {
-      return self.series.tier === tier ? "btn btn-success" : "btn btn-primary";
-    };
-
-    self.getLocButtonClass = function(location) {
-      return location.active ? "btn btn-success" : "btn btn-primary";
-    };
-
-
-    self.changeTier = function() {
-      EpisodeService.changeTier(self.series.id, self.series.tier);
     };
 
     self.markAllPastWatched = function() {
@@ -317,47 +246,6 @@ angular.module('mediaMogulApp')
     }
 
 
-    self.changeMetacritic = function(series) {
-      series.metacritic = self.interfaceFields.metacritic;
-      series.my_rating = self.interfaceFields.my_rating;
-      series.tvdb_hint = self.interfaceFields.tvdb_hint;
-      series.metacritic_hint = self.interfaceFields.metacritic_hint;
-
-      var changedFields = {};
-      for (var key in self.interfaceFields) {
-        if (self.interfaceFields.hasOwnProperty(key)) {
-          var value = self.interfaceFields[key];
-
-          $log.debug("In loop, key: " + key + ", value: " + value + ", old value: " + self.originalFields[key]);
-
-          if (value !== self.originalFields[key]) {
-            $log.debug("Changed detected... ");
-            changedFields[key] = value;
-          }
-        }
-      }
-
-      $log.debug("Changed fields: " + JSON.stringify(changedFields));
-
-      if (Object.getOwnPropertyNames(changedFields).length > 0) {
-        $log.debug("Changed fields has a length!");
-        EpisodeService.updateSeries(series.id, changedFields);
-      }
-    };
-
-    self.markWatched = function(episode, withoutDate) {
-      var dateToUpdate = withoutDate ? null : new Date;
-      EpisodeService.markWatched(self.series.id, episode.id, episode.watched, dateToUpdate).then(function () {
-        EpisodeService.updateDenorms(self.series, self.episodes);
-      });
-    };
-
-    self.unwatch = function(episode) {
-      EpisodeService.markWatched(self.series.id, episode.id, false, null).then(function () {
-        EpisodeService.updateDenorms(self.series, self.episodes);
-      });
-    };
-
     self.openEpisodeDetail = function(episode) {
       $modal.open({
         templateUrl: 'views/tv/episodeDetail.html',
@@ -383,6 +271,20 @@ angular.module('mediaMogulApp')
       $modal.open({
         templateUrl: 'views/tv/shows/changePoster.html',
         controller: 'changePosterController',
+        controllerAs: 'ctrl',
+        size: 'lg',
+        resolve: {
+          series: function() {
+            return self.series;
+          }
+        }
+      })
+    };
+
+    self.openEditSeries = function() {
+      $modal.open({
+        templateUrl: 'views/tv/editSeries.html',
+        controller: 'editSeriesController',
         controllerAs: 'ctrl',
         size: 'lg',
         resolve: {
