@@ -95,12 +95,9 @@ angular.module('mediaMogulApp')
       $log.debug("Added: " + self.addedViewingLocations);
       $log.debug("Removed: " + self.removedViewingLocations);
 
-      var deferred = $q.defer();
       var methods = [];
       methods.push(self.maybeUpdateSeriesInDatabase(changedFields));
       self.addedViewingLocations.forEach(function(location) {
-        // todo: figure out how to update the episodes. Hand them into the method? Try to refactor out the episode updates
-        // todo: so that it updates after the popup returns?
         methods.push(EpisodeService.addViewingLocation(self.series, self.episodes, location.viewingLocation));
       });
       self.removedViewingLocations.forEach(function(location) {
@@ -110,7 +107,6 @@ angular.module('mediaMogulApp')
     };
 
     self.maybeUpdateSeriesInDatabase = function(changedFields) {
-      var deferred = $q.defer();
       if (Object.getOwnPropertyNames(changedFields).length > 0) {
         $log.debug("Changed fields has a length!");
         return EpisodeService.updateSeries(self.series.id, changedFields);
