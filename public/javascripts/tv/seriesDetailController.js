@@ -274,6 +274,8 @@ angular.module('mediaMogulApp')
         resolve: {
           series: function() {
             return self.series;
+          }, episodes: function() {
+            return self.episodes;
           }
         }
       })
