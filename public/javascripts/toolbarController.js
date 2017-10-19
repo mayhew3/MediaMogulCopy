@@ -13,10 +13,10 @@
   }
 
   function toolbarController(auth, store, $location) {
-    var vm = this;
-    vm.login = login;
-    vm.logout = logout;
-    vm.auth = auth;
+    var self = this;
+    self.login = login;
+    self.logout = logout;
+    self.auth = auth;
 
     function login() {
       // The auth service has a signin method that
@@ -34,6 +34,10 @@
         store.set('refreshToken', refreshToken);
         console.log("ID Token: " + idToken);
         console.log("Refresh Token: " + refreshToken);
+        self.auth.roles = profile.app_metadata.roles;
+        self.auth.isAdmin = function() {
+          return this.isAuthenticated && _.contains(this.roles, 'admin');
+        };
         $location.path('/tv/shows/main');
       }, function(error) {
         console.log(error);
@@ -45,9 +49,10 @@
       // sets isAuthenticated to false but we
       // also need to remove the profile and
       // token from local storage
-      auth.signout();
+      self.auth.signout();
       store.remove('profile');
       store.remove('token');
+      self.auth.roles = [];
       $location.path('/');
     }
   }
