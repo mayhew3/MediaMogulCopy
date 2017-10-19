@@ -92,8 +92,8 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
       ;
 
       authProvider.init({
-        domain: 'mayhew3.auth0.com',
-        clientID: 'QdwQv7LcXgmiUpYhXnTYyGQsXie2UQNb'
+        domain: 'app40365095.auth0.com',
+        clientID: 'dSHWdaxORGRtRUFi8WdGCzlECwAmSxF4'
       });
 
       function redirect($q, $injector, $timeout, store, $location) {
