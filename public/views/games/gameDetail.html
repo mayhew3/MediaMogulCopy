@@ -169,6 +169,7 @@
     <input class="btn btn-primary"
            type="submit"
            value="Submit"
+           ng-show="ctrl.auth.isAdmin()"
            ng-disabled="gameFields.$invalid || !ctrl.auth.isAuthenticated">
     <input class="btn btn-default"
            type="button"

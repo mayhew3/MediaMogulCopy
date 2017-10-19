@@ -30,6 +30,7 @@
           <button type="button"
                   class="btn btn-default"
                   ng-click="ctrl.openEditSeries()"
+                  ng-show="ctrl.auth.isAdmin()"
                   ng-disabled="!ctrl.auth.isAuthenticated">Edit Details</button>
         </div>
       </div>
@@ -39,11 +40,13 @@
           <button type="button"
                   class="btn btn-success"
                   ng-click="ctrl.markAllPastWatched()"
+                  ng-show="ctrl.auth.isAdmin()"
                   ng-disabled="!ctrl.auth.isAuthenticated">All Past Watched</button>
         </div>
         <div class="col-lg-8">
           <button type="button"
                   class="btn btn-warning"
+                  ng-show="ctrl.auth.isAdmin()"
                   ng-disabled="ctrl.series.tvdb_manual_queue"
                   ng-click="ctrl.queueForManualUpdate()">TVDB Update</button>
           <span ng-bind="'Last Update: ' + ctrl.daysSinceLastUpdate + ' days.'"></span>

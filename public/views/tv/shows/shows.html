@@ -42,6 +42,7 @@
     <li role="tv">
       <a href
          ng-click="ctrl.addSeries()"
+         ng-show="ctrl.auth.isAdmin()"
          ng-disabled="!ctrl.auth.isAuthenticated">
         Add Series
       </a>

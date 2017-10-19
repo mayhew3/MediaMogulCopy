@@ -30,10 +30,12 @@
           <button type="button"
                   ng-click="ctrl.ignoreUnmatchedEpisode(episode)"
                   class="btn btn-warning"
+                  ng-show="ctrl.auth.isAdmin()"
                   ng-disabled="!ctrl.auth.isAuthenticated">Ignore</button>
           <button type="button"
                   ng-click="ctrl.retireUnmatchedEpisode(episode)"
                   class="btn btn-danger"
+                  ng-show="ctrl.auth.isAdmin()"
                   ng-disabled="!ctrl.auth.isAuthenticated">Delete</button>
         </td>
       </tr>
@@ -55,6 +57,7 @@
       <button type="button"
               ng-click="ctrl.matchSelectedEpisodes()"
               class="btn btn-warning"
+              ng-show="ctrl.auth.isAdmin()"
               ng-disabled="!ctrl.auth.isAuthenticated">Match</button>
     </div>
 
@@ -82,6 +85,7 @@
         <td><button type="button"
                     ng-click="ctrl.unlinkEpisode(episode)"
                     class="btn btn-warning"
+                    ng-show="ctrl.auth.isAdmin()"
                     ng-disabled="!ctrl.auth.isAuthenticated">Unlink</button></td>
       </tr>
     </table>
