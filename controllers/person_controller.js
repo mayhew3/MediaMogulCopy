@@ -58,6 +58,14 @@ exports.addPerson = function(request, response) {
   });
 };
 
+exports.linkPersonWithSeries = function(request, response) {
+
+};
+
+exports.unlinkPersonFromSeries = function(request, response) {
+
+};
+
 // utility methods
 
 
