@@ -2,6 +2,7 @@ module.exports = function(app) {
   var jwt = require('express-jwt');
   var games = require('../controllers/games_controller');
   var series = require('../controllers/series_controller');
+  var persons = require('../controllers/person_controller');
 
   var authCheck = jwt({
     secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
@@ -47,6 +48,9 @@ module.exports = function(app) {
   app.post('/changeEpisodesStreaming', authCheck, series.changeEpisodesStreaming);
   app.post('/addRating', authCheck, series.addRating);
   app.post('/updateRating', authCheck, series.updateRating);
+
+  // PERSONS
+  app.get('/person', authCheck, persons.getPersonInfo);
 
   // error handlers
 

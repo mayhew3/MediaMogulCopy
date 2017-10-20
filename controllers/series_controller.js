@@ -1,6 +1,3 @@
-var xml2js = require('xml2js');
-var async = require('async');
-var request = require('request');
 var pg = require('pg');
 var config = process.env.DATABASE_URL;
 
