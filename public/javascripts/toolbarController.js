@@ -34,43 +34,7 @@
         store.set('refreshToken', refreshToken);
         // console.log("ID Token: " + idToken);
         // console.log("Refresh Token: " + refreshToken);
-
-        var email = profile.email;
-
-        $http.get('/person', {params: {email: email}}).then(function(response) {
-          var personData = response.data;
-          console.log("User info found: " + personData.length + " rows.");
-
-          if (personData.length === 0) {
-            console.log("No person found. Adding: " + profile.user_metadata.first_name);
-            var user_metadata = profile.user_metadata;
-            $http.post('/addPerson', {Person: {
-              email: email,
-              first_name: user_metadata.first_name,
-              last_name: user_metadata.last_name
-            }}).then(function (response) {
-              console.log("Added successfully. Person ID: " + response.data.PersonId);
-              self.auth.person_id = response.data.PersonId;
-            }, function (err) {
-              console.log("Error adding person to DB: " + err);
-            });
-
-          } else {
-            var personInfo = personData[0];
-            console.log("Name: " + personInfo.first_name + " " + personInfo.last_name);
-            console.log("ID: " + personInfo.id);
-
-            self.auth.firstName = personInfo.first_name;
-            self.auth.lastName = personInfo.last_name;
-            self.auth.person_id = personInfo.id;
-          }
-
-          self.auth.roles = profile.app_metadata.roles;
-          self.auth.isAdmin = function() {
-            return this.isAuthenticated && _.contains(this.roles, 'admin');
-          };
-          $location.path('/tv/shows/main');
-        });
+        syncPersonWithDB(profile, $http, self.auth, $location);
 
       }, function(error) {
         console.log(error);
@@ -89,4 +53,55 @@
       $location.path('/');
     }
   }
+
+  // user management functions
+
+  function syncPersonWithDB(profile, $http, auth, $location) {
+    var email = profile.email;
+
+    $http.get('/person', {params: {email: email}}).then(function (response) {
+      var personData = response.data;
+      console.log("User info found: " + personData.length + " rows.");
+
+      if (personData.length === 0) {
+        addPersonToDB(profile, $http, email, auth);
+      } else {
+        copyPersonInfoToAuth(personData, auth);
+      }
+
+      auth.roles = profile.app_metadata.roles;
+      auth.isAdmin = function () {
+        return this.isAuthenticated && _.contains(this.roles, 'admin');
+      };
+      $location.path('/tv/shows/main');
+    });
+  }
+
+  function addPersonToDB(profile, $http, email, auth) {
+    console.log("No person found. Adding: " + profile.user_metadata.first_name);
+    var user_metadata = profile.user_metadata;
+    $http.post('/addPerson', {
+      Person: {
+        email: email,
+        first_name: user_metadata.first_name,
+        last_name: user_metadata.last_name
+      }
+    }).then(function (response) {
+      console.log("Added successfully. Person ID: " + response.data.PersonId);
+      auth.person_id = response.data.PersonId;
+    }, function (err) {
+      console.log("Error adding person to DB: " + err);
+    });
+  }
+
+  function copyPersonInfoToAuth(personData, auth) {
+    var personInfo = personData[0];
+    console.log("Name: " + personInfo.first_name + " " + personInfo.last_name);
+    console.log("ID: " + personInfo.id);
+
+    auth.firstName = personInfo.first_name;
+    auth.lastName = personInfo.last_name;
+    auth.person_id = personInfo.id;
+  }
+
 })();
