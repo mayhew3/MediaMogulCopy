@@ -12,7 +12,7 @@
     }
   }
 
-  function toolbarController(auth, store, $location) {
+  function toolbarController(auth, store, $location, $http) {
     var self = this;
     self.login = login;
     self.logout = logout;
@@ -34,6 +34,25 @@
         store.set('refreshToken', refreshToken);
         console.log("ID Token: " + idToken);
         console.log("Refresh Token: " + refreshToken);
+
+        var email = profile.email;
+
+        /*
+        $http.get('/person', {params: {email: email}}).then(function(response) {
+          var personInfo = response.data;
+          $log.debug("User info found: " + personInfo.length + " rows.");
+
+          if (personInfo.length === 0) {
+            // todo: insert person into db.
+          } else {
+            $log.debug("Name: " + personInfo.first_name + " " + personInfo.last_name);
+
+            self.auth.firstName = personInfo.first_name;
+            self.auth.lastName = personInfo.last_name;
+          }
+
+        });
+        */
         self.auth.roles = profile.app_metadata.roles;
         self.auth.isAdmin = function() {
           return this.isAuthenticated && _.contains(this.roles, 'admin');
