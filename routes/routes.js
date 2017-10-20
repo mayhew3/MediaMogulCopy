@@ -51,6 +51,7 @@ module.exports = function(app) {
 
   // PERSONS
   app.get('/person', authCheck, persons.getPersonInfo);
+  app.post('/addPerson', authCheck, persons.addPerson);
 
   // error handlers
 

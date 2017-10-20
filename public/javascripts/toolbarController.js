@@ -32,32 +32,46 @@
         store.set('token', idToken);
         store.set('accessToken', accessToken);
         store.set('refreshToken', refreshToken);
-        console.log("ID Token: " + idToken);
-        console.log("Refresh Token: " + refreshToken);
+        // console.log("ID Token: " + idToken);
+        // console.log("Refresh Token: " + refreshToken);
 
         var email = profile.email;
 
-        /*
         $http.get('/person', {params: {email: email}}).then(function(response) {
-          var personInfo = response.data;
-          $log.debug("User info found: " + personInfo.length + " rows.");
+          var personData = response.data;
+          console.log("User info found: " + personData.length + " rows.");
 
-          if (personInfo.length === 0) {
-            // todo: insert person into db.
+          if (personData.length === 0) {
+            console.log("No person found. Adding: " + profile.user_metadata.first_name);
+            var user_metadata = profile.user_metadata;
+            $http.post('/addPerson', {Person: {
+              email: email,
+              first_name: user_metadata.first_name,
+              last_name: user_metadata.last_name
+            }}).then(function (response) {
+              console.log("Added successfully. Person ID: " + response.data.PersonId);
+              self.auth.person_id = response.data.PersonId;
+            }, function (err) {
+              console.log("Error adding person to DB: " + err);
+            });
+
           } else {
-            $log.debug("Name: " + personInfo.first_name + " " + personInfo.last_name);
+            var personInfo = personData[0];
+            console.log("Name: " + personInfo.first_name + " " + personInfo.last_name);
+            console.log("ID: " + personInfo.id);
 
             self.auth.firstName = personInfo.first_name;
             self.auth.lastName = personInfo.last_name;
+            self.auth.person_id = personInfo.id;
           }
 
+          self.auth.roles = profile.app_metadata.roles;
+          self.auth.isAdmin = function() {
+            return this.isAuthenticated && _.contains(this.roles, 'admin');
+          };
+          $location.path('/tv/shows/main');
         });
-        */
-        self.auth.roles = profile.app_metadata.roles;
-        self.auth.isAdmin = function() {
-          return this.isAuthenticated && _.contains(this.roles, 'admin');
-        };
-        $location.path('/tv/shows/main');
+
       }, function(error) {
         console.log(error);
       })
