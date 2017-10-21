@@ -33,15 +33,19 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
           url: '/unmatched',
           templateUrl: 'views/tv/shows/unmatched.html'
         })
-        .state('tv.person', {
-          url: '/person',
+        .state('mytv', {
+          url: '/mytv',
+          templateUrl: 'views/mytv/mytv.html'
+        })
+        .state('mytv.shows', {
+          url: '/shows',
           controller: 'myShowsController',
           controllerAs: 'ctrl',
-          templateUrl: 'views/tv/person/main.html'
+          templateUrl: 'views/mytv/shows/shows.html'
         })
-        .state('tv.person.myshows', {
-          url: '/myshows',
-          templateUrl: 'views/tv/person/myshows.html'
+        .state('mytv.shows.main', {
+          url: '/main',
+          templateUrl: 'views/mytv/shows/main.html'
         })
         .state('tv_list', {
           url: '/tvbacklog',
