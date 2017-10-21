@@ -1,5 +1,6 @@
-function EpisodeService($log, $http, $q, $filter) {
+function EpisodeService($log, $http, $q, $filter, auth) {
   var shows = [];
+  var myShows = [];
   var episodes = [];
   var episodeGroupRatings = [];
   var unmatchedEpisodes = [];
@@ -31,6 +32,30 @@ function EpisodeService($log, $http, $q, $filter) {
         viewingLocations = viewingResponse.data;
 
         self.updateNextUp().then(self.updateRecordingNow);
+      }, function (errViewing) {
+        console.error('Error while fetching viewing location list: ' + errViewing);
+      });
+
+    }, function (errResponse) {
+      console.error('Error while fetching series list: ' + errResponse);
+    });
+  };
+
+  this.updateMyShowsList = function() {
+    return $http.get('/myShows', {params: {PersonId: auth.person_id}}).then(function (response) {
+      $log.debug("Shows returned " + response.data.length + " items.");
+      var tempShows = response.data;
+      tempShows.forEach(function (show) {
+        self.updateNumericFields(show);
+      });
+      $log.debug("Finished updating.");
+      myShows = tempShows;
+
+      $http.get('/viewingLocations').then(function (viewingResponse) {
+        $log.debug("Found " + viewingResponse.data.length + " viewing locations.");
+        viewingLocations = viewingResponse.data;
+
+        self.updateNextUp();
       }, function (errViewing) {
         console.error('Error while fetching viewing location list: ' + errViewing);
       });
@@ -96,6 +121,15 @@ function EpisodeService($log, $http, $q, $filter) {
       // $log.debug(JSON.stringify(upcomingResults));
       upcomingResults.data.forEach(function(episode) {
         findAndUpdateSeries(episode);
+      });
+    });
+  };
+
+  this.updateMyUpcomingEpisodes = function() {
+    return $http.get('/myUpcomingEpisodes', {params: {PersonId: auth.person_id}}).then(function (upcomingResults) {
+      // $log.debug(JSON.stringify(upcomingResults));
+      upcomingResults.data.forEach(function(episode) {
+        findAndUpdateMyShows(episode);
       });
     });
   };
@@ -169,6 +203,16 @@ function EpisodeService($log, $http, $q, $filter) {
   function findAndUpdateSeries(resultObj) {
     var series_id = resultObj.series_id;
     shows.forEach(function (series) {
+      if (series.id === series_id && series.nextAirDate === undefined) {
+        self.updateNextAirDate(series, resultObj);
+        self.updateNextEpisode(series, resultObj);
+      }
+    });
+  }
+
+  function findAndUpdateMyShows(resultObj) {
+    var series_id = resultObj.series_id;
+    myShows.forEach(function (series) {
       if (series.id === series_id && series.nextAirDate === undefined) {
         self.updateNextAirDate(series, resultObj);
         self.updateNextEpisode(series, resultObj);
@@ -326,6 +370,10 @@ function EpisodeService($log, $http, $q, $filter) {
 
   this.getSeriesList = function() {
     return shows;
+  };
+
+  this.getMyShows = function() {
+    return myShows;
   };
 
   this.getEpisodeGroupRatings = function() {
@@ -620,4 +668,4 @@ function EpisodeService($log, $http, $q, $filter) {
 }
 
 angular.module('mediaMogulApp')
-  .service('EpisodeService', ['$log', '$http', '$q', '$filter', EpisodeService]);
+  .service('EpisodeService', ['$log', '$http', '$q', '$filter', 'auth', EpisodeService]);

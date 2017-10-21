@@ -59,7 +59,8 @@ exports.addPerson = function(request, response) {
 };
 
 exports.getMyShows = function(request, response) {
-  var personId = request.body.PersonId;
+  var personId = request.query.PersonId;
+  console.log("Server call: Person " + personId);
 
   var sql = "SELECT s.* " +
     "FROM series s " +
@@ -72,6 +73,26 @@ exports.getMyShows = function(request, response) {
   ];
 
   return executeQueryWithResults(response, sql, values);
+};
+
+exports.getMyUpcomingEpisodes = function(request, response) {
+  var personId = request.query.PersonId;
+
+  var sql = "SELECT e.series_id, e.title, e.season, e.episode_number, e.air_date, e.air_time " +
+    "FROM episode e " +
+    "INNER JOIN series s " +
+    "  ON e.series_id = s.id " +
+    "INNER JOIN person_series ps " +
+    "  ON ps.series_id = s.id " +
+    "WHERE ps.person_id = $1 " +
+    "AND e.air_time is not null " +
+    "AND e.air_time >= current_timestamp " +
+    "AND e.watched = $2 " +
+    "AND e.season <> $3 " +
+    "AND e.retired = $4 " +
+    "ORDER BY e.air_time ASC;";
+
+  return executeQueryWithResults(response, sql, [personId, false, 0, 0]);
 };
 
 exports.addToMyShows = function(request, response) {
