@@ -53,6 +53,11 @@ module.exports = function(app) {
   app.get('/person', authCheck, persons.getPersonInfo);
   app.post('/addPerson', authCheck, persons.addPerson);
 
+  // MY SHOWS
+  app.get('/myShows', authCheck, persons.getMyShows);
+  app.post('/linkPersonWithSeries', authCheck, persons.linkPersonWithSeries);
+  app.post('/unlinkPersonFromSeries', authCheck, persons.unlinkPersonFromSeries);
+
   // error handlers
 
   // development error handler

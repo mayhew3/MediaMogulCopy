@@ -16,8 +16,8 @@ exports.getPersonInfo = function(request, response) {
 exports.addPerson = function(request, response) {
   var person = request.body.Person;
 
-  var sql = "INSERT INTO person (" +
-          "email, first_name, last_name) " +
+  var sql = "INSERT INTO person " +
+          "(email, first_name, last_name) " +
           "VALUES ($1, $2, $3) " +
           "RETURNING id ";
   var values = [
@@ -58,12 +58,48 @@ exports.addPerson = function(request, response) {
   });
 };
 
-exports.linkPersonWithSeries = function(request, response) {
+exports.getMyShows = function(request, response) {
+  var personId = request.body.PersonId;
 
+  var sql = "SELECT s.* " +
+    "FROM series s " +
+    "INNER JOIN person_series ps " +
+    "  ON ps.series_id = s.id " +
+    "WHERE ps.person_id = $1 " +
+    "AND s.retired = $2 ";
+  var values = [
+    personId, 0
+  ];
+
+  return executeQueryWithResults(response, sql, values);
+};
+
+exports.linkPersonWithSeries = function(request, response) {
+  var personId = request.body.PersonId;
+  var seriesId = request.body.SeriesId;
+
+  var sql = "INSERT INTO person_series " +
+    "(person_id, series_id, tier) " +
+    "VALUES ($1, $2, $3) ";
+  var values = [
+    personId, seriesId, 1
+  ];
+
+  return executeQueryNoResults(response, sql, values);
 };
 
 exports.unlinkPersonFromSeries = function(request, response) {
+  var personId = request.body.PersonId;
+  var seriesId = request.body.SeriesId;
 
+  var sql = "DELETE FROM person_series " +
+    "WHERE person_id = $1 " +
+    "AND series_id = $2 ";
+  var values = [
+    personId, seriesId
+  ];
+
+  return executeQueryNoResults(response, sql, values);
 };
 
 // utility methods
@@ -104,3 +140,36 @@ function executeQueryWithResults(response, sql, values) {
     }
   })
 }
+
+
+function executeQueryNoResults(response, sql, values) {
+
+  var queryConfig = {
+    text: sql,
+    values: values
+  };
+
+  var client = new pg.Client(config);
+  if (client === null) {
+    return console.error('null client');
+  }
+
+  client.connect(function(err) {
+    if (err) {
+      return console.error('could not connect to postgres', err);
+    }
+
+    var query = client.query(queryConfig);
+
+    query.on('end', function() {
+      client.end();
+      return response.json({msg: "Success"});
+    });
+
+    if (err) {
+      console.error(err);
+      response.send("Error " + err);
+    }
+  });
+}
+
