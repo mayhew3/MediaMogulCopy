@@ -74,7 +74,7 @@ exports.getMyShows = function(request, response) {
   return executeQueryWithResults(response, sql, values);
 };
 
-exports.linkPersonWithSeries = function(request, response) {
+exports.addToMyShows = function(request, response) {
   var personId = request.body.PersonId;
   var seriesId = request.body.SeriesId;
 
@@ -88,7 +88,7 @@ exports.linkPersonWithSeries = function(request, response) {
   return executeQueryNoResults(response, sql, values);
 };
 
-exports.unlinkPersonFromSeries = function(request, response) {
+exports.removeFromMyShows = function(request, response) {
   var personId = request.body.PersonId;
   var seriesId = request.body.SeriesId;
 

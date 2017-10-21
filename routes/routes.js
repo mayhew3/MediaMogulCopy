@@ -55,8 +55,8 @@ module.exports = function(app) {
 
   // MY SHOWS
   app.get('/myShows', authCheck, persons.getMyShows);
-  app.post('/linkPersonWithSeries', authCheck, persons.linkPersonWithSeries);
-  app.post('/unlinkPersonFromSeries', authCheck, persons.unlinkPersonFromSeries);
+  app.post('/addToMyShows', authCheck, persons.addToMyShows);
+  app.post('/removeFromMyShows', authCheck, persons.removeFromMyShows);
 
   // error handlers
 
