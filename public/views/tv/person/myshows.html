@@ -1,0 +1,26 @@
+
+<!-- QUEUE section -->
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3>Queue</h3>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="fade-repeat col-xs-4 col-md-3 posterRow" ng-repeat="show in ctrl.series |
+                filter:ctrl.showInQueue |
+                orderBy:[ctrl.orderByRating].concat('-FullRating')">
+        <a ng-click="ctrl.open(show)" href="">
+          <img class="img-rounded"
+               ng-style="ctrl.posterStyle(show)"
+               ng-src="{{show.posterResolved}}"
+               err-src="images/GenericSeries.gif"
+               width="100%"/>
+          <div class="posterBadge">
+            <span ng-bind="show.unwatched_all"></span>
+          </div>
+
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
