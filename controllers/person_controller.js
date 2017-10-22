@@ -124,6 +124,26 @@ exports.removeFromMyShows = function(request, response) {
   return executeQueryNoResults(response, sql, values);
 };
 
+
+exports.getNotMyShows = function(request, response) {
+  var personId = request.query.PersonId;
+  console.log("Server call 'getNotMyShows': Person " + personId);
+
+  var sql = "SELECT s.* " +
+    "FROM series s " +
+    "WHERE id NOT IN (SELECT ps.series_id " +
+    "                 FROM person_series ps " +
+    "                 WHERE person_id = $1) " +
+    "AND s.retired = $2 " +
+    "AND s.tier = $3 ";
+  var values = [
+    personId, 0, 1
+  ];
+
+  return executeQueryWithResults(response, sql, values);
+};
+
+
 // utility methods
 
 

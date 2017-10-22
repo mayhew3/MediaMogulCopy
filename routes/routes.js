@@ -55,6 +55,7 @@ module.exports = function(app) {
 
   // MY SHOWS
   app.get('/myShows', authCheck, persons.getMyShows);
+  app.get('/notMyShows', authCheck, persons.getNotMyShows);
   app.get('/myUpcomingEpisodes', authCheck, persons.getMyUpcomingEpisodes);
   app.post('/addToMyShows', authCheck, persons.addToMyShows);
   app.post('/removeFromMyShows', authCheck, persons.removeFromMyShows);

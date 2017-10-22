@@ -1,6 +1,7 @@
 function EpisodeService($log, $http, $q, $filter, auth) {
   var shows = [];
   var myShows = [];
+  var notMyShows = [];
   var episodes = [];
   var episodeGroupRatings = [];
   var unmatchedEpisodes = [];
@@ -56,6 +57,28 @@ function EpisodeService($log, $http, $q, $filter, auth) {
         viewingLocations = viewingResponse.data;
 
         self.updateMyUpcomingEpisodes();
+      }, function (errViewing) {
+        console.error('Error while fetching viewing location list: ' + errViewing);
+      });
+
+    }, function (errResponse) {
+      console.error('Error while fetching series list: ' + errResponse);
+    });
+  };
+
+  this.updateNotMyShowsList = function() {
+    return $http.get('/notMyShows', {params: {PersonId: auth.person_id}}).then(function (response) {
+      $log.debug("Shows returned " + response.data.length + " items.");
+      var tempShows = response.data;
+      tempShows.forEach(function (show) {
+        self.updateNumericFields(show);
+      });
+      $log.debug("Finished updating.");
+      notMyShows = tempShows;
+
+      $http.get('/viewingLocations').then(function (viewingResponse) {
+        $log.debug("Found " + viewingResponse.data.length + " viewing locations.");
+        viewingLocations = viewingResponse.data;
       }, function (errViewing) {
         console.error('Error while fetching viewing location list: ' + errViewing);
       });
@@ -369,6 +392,10 @@ function EpisodeService($log, $http, $q, $filter, auth) {
 
   this.getMyShows = function() {
     return myShows;
+  };
+
+  this.getNotMyShows = function() {
+    return notMyShows;
   };
 
   this.getEpisodeGroupRatings = function() {
