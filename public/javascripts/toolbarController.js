@@ -33,7 +33,8 @@
         store.set('accessToken', accessToken);
         store.set('refreshToken', refreshToken);
         syncPersonWithDB(profile);
-        
+
+
       }, function(error) {
         console.log(error);
       })
@@ -47,7 +48,9 @@
       self.auth.signout();
       store.remove('profile');
       store.remove('token');
+      store.remove('person_id');
       self.auth.roles = [];
+      self.auth.person_id = undefined;
       $location.path('/');
     }
 
@@ -87,6 +90,9 @@
       }).then(function (response) {
         console.log("Added successfully. Person ID: " + response.data.PersonId);
         self.auth.person_id = response.data.PersonId;
+
+        console.log("Setting store with person id: " + self.auth.person_id);
+        store.set('person_id', self.auth.person_id);
       }, function (err) {
         console.log("Error adding person to DB: " + err);
       });
@@ -100,6 +106,9 @@
       self.auth.firstName = personInfo.first_name;
       self.auth.lastName = personInfo.last_name;
       self.auth.person_id = personInfo.id;
+
+      console.log("Setting store with person id: " + self.auth.person_id);
+      store.set('person_id', self.auth.person_id);
     }
 
   }

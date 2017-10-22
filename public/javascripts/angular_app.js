@@ -123,6 +123,7 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
               auth.signout();
               store.remove('profile');
               store.remove('token');
+              store.remove('public_id');
               $location.path('/');
             }
             return $q.reject(rejection);
@@ -171,44 +172,68 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
     }])
   .run(['$rootScope', 'auth', 'store', 'jwtHelper', '$location',
     function($rootScope, auth, store, jwtHelper, $location) {
-    var refreshingToken = null;
-    auth.hookEvents();
-    $rootScope.$on('$locationChangeStart', function() {
-      // Get the JWT that is saved in local storage
-      // and if it is there, check whether it is expired.
-      // If it isn't, set the user's auth state
-      var token = store.get('token');
-      var refreshToken = store.get('refreshToken');
-      if (token) {
-        if (!jwtHelper.isTokenExpired(token)) {
-          if (!auth.isAuthenticated) {
-            auth.authenticate(store.get('profile'), token);
-          }
-        } else {
-          if (refreshToken) {
-            if (refreshingToken === null) {
-              refreshingToken = auth.refreshIdToken(refreshToken).then(function(idToken) {
-                store.set('token', idToken);
-                auth.authenticate(store.get('profile'), idToken);
-              }, function(err) {
-                console.log(err);
-                store.remove('refreshToken');
-                refreshToken = null;
-                return null;
-              }).finally(function() {
-                refreshingToken = null;
-              });
+
+      var refreshingToken = null;
+      auth.hookEvents();
+      $rootScope.$on('$locationChangeStart', function() {
+        // Get the JWT that is saved in local storage
+        // and if it is there, check whether it is expired.
+        // If it isn't, set the user's auth state
+        var token = store.get('token');
+        var refreshToken = store.get('refreshToken');
+        var profile = store.get('profile');
+        var person_id = store.get('person_id');
+
+        console.log("On Refresh: Store PersonID: " + person_id + ", Auth PersonID: " + auth.person_id);
+
+        if (token) {
+          if (!jwtHelper.isTokenExpired(token)) {
+            if (!auth.isAuthenticated) {
+              auth.authenticate(profile, token);
+              updateAuthObjectFromStore(profile);
             }
-            return refreshingToken;
           } else {
-            $location.path('/');
+            if (refreshToken) {
+              if (refreshingToken === null) {
+                refreshingToken = auth.refreshIdToken(refreshToken).then(function(idToken) {
+                  store.set('token', idToken);
+                  auth.authenticate(profile, idToken);
+                  updateAuthObjectFromStore(profile);
+                }, function(err) {
+                  console.log(err);
+                  store.remove('refreshToken');
+                  refreshToken = null;
+                  return null;
+                }).finally(function() {
+                  refreshingToken = null;
+                });
+              }
+              // do I need this here?
+              updateAuthObjectFromStore(profile);
+              return refreshingToken;
+            } else {
+              $location.path('/');
+            }
           }
+
+        } else {
+          // Otherwise, redirect to the home route
+          $location.path('/');
         }
-      } else {
-        // Otherwise, redirect to the home route
-        $location.path('/');
+      });
+
+      function updateAuthObjectFromStore(profile) {
+        if (isNaN(auth.person_id)) {
+          console.log("Setting auth person id to: " + store.get('person_id'));
+          auth.person_id = store.get('person_id');
+        }
+
+        auth.roles = profile.app_metadata.roles;
+        auth.isAdmin = function () {
+          return auth.isAuthenticated && _.contains(auth.roles, 'admin');
+        };
       }
-    });
+
   }])
   .directive('errSrc', function() {
     return {
