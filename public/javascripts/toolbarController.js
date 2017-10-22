@@ -71,8 +71,12 @@
         }
 
         self.auth.roles = profile.app_metadata.roles;
+        console.log("roles found: " + self.auth.roles.length);
         self.auth.isAdmin = function () {
           return this.isAuthenticated && _.contains(this.roles, 'admin');
+        };
+        self.auth.isUser = function () {
+          return this.isAuthenticated && _.contains(this.roles, 'user');
         };
         $location.path('/tv/shows/main');
       });

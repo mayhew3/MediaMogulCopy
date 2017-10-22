@@ -55,7 +55,7 @@ function EpisodeService($log, $http, $q, $filter, auth) {
         $log.debug("Found " + viewingResponse.data.length + " viewing locations.");
         viewingLocations = viewingResponse.data;
 
-        self.updateNextUp();
+        self.updateMyUpcomingEpisodes();
       }, function (errViewing) {
         console.error('Error while fetching viewing location list: ' + errViewing);
       });
@@ -227,7 +227,7 @@ function EpisodeService($log, $http, $q, $filter, auth) {
       tempEpisodes.forEach(function(episode) {
         var existing = self.findEpisodeWithId(episode.id);
         if (existing) {
-          self.removeFromArray(episodes, existing);
+          removeFromArray(episodes, existing);
         }
         episodes.push(episode);
       });
@@ -254,7 +254,7 @@ function EpisodeService($log, $http, $q, $filter, auth) {
         tempEpisodes.forEach(function(episode) {
           var existing = self.findEpisodeWithId(episode.id);
           if (existing) {
-            self.removeFromArray(episodes, existing);
+            removeFromArray(episodes, existing);
           }
           episodes.push(episode);
         });
@@ -289,11 +289,6 @@ function EpisodeService($log, $http, $q, $filter, auth) {
         deferred.reject(errors);
       });
     return deferred.promise;
-  };
-
-  this.removeFromArray = function(objArray, obj) {
-    var idx = objArray.indexOf(obj);
-    objArray.splice(idx, 1);
   };
 
   this.findEpisodeWithId = function(id) {
@@ -444,6 +439,12 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     });
   };
 
+  this.removeFromMyShows = function(show) {
+    return $http.post('/removeFromMyShows', {SeriesId: show.id, PersonId: auth.person_id}).then(function() {
+      removeFromArray(myShows, show);
+    });
+  };
+
   this.removeViewingLocation = function(series, episodes, viewingLocation) {
     var wasStreamingBefore = self.isStreaming(series);
 
@@ -475,6 +476,14 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     });
   };
 
+  function removeFromArray(arr, element) {
+    var indexOf = arr.indexOf(element);
+    if (indexOf < 0) {
+      $log.debug("No element found!");
+      return;
+    }
+    arr.splice(indexOf, 1);
+  }
 
   function changeStreamingOnEpisodes(series, episodes, streaming) {
     $http.post('/changeEpisodesStreaming', {SeriesId: series.id, Streaming: streaming}).then(function () {

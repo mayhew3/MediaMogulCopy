@@ -112,6 +112,7 @@ exports.addToMyShows = function(request, response) {
 exports.removeFromMyShows = function(request, response) {
   var personId = request.body.PersonId;
   var seriesId = request.body.SeriesId;
+  console.log("Server call 'removeFromMyShows': Person " + personId + ", Series " + seriesId);
 
   var sql = "DELETE FROM person_series " +
     "WHERE person_id = $1 " +

@@ -232,6 +232,9 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
         auth.isAdmin = function () {
           return auth.isAuthenticated && _.contains(auth.roles, 'admin');
         };
+        auth.isUser = function () {
+          return auth.isAuthenticated && _.contains(auth.roles, 'user');
+        };
       }
 
   }])
