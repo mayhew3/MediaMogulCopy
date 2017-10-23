@@ -445,6 +445,15 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     });
   };
 
+  this.addToMyShows = function(show) {
+    $log.debug("Adding show " + JSON.stringify(show));
+    return $http.post('/addToMyShows', {SeriesId: show.id, PersonId: auth.person_id}).then(function () {
+      show.addedSuccessfully = true;
+    }, function(errResponse) {
+      $log.debug("Error adding to my shows: " + errResponse);
+    });
+  };
+
   this.updateEpisodeGroupRating = function(episodeGroupRatingId, changedFields) {
     $log.debug('Received update for EpisodeGroupRating ' + episodeGroupRatingId + " with data " + JSON.stringify(changedFields));
     return $http.post('/updateEpisodeGroupRating', {EpisodeGroupRatingId: episodeGroupRatingId, ChangedFields: changedFields});

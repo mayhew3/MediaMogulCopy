@@ -139,6 +139,10 @@ angular.module('mediaMogulApp')
         };
       }
 
+      self.addToMyShows = function(show) {
+        EpisodeService.addToMyShows(show);
+      };
+
       self.refreshSeriesList = function() {
         EpisodeService.updateNotMyShowsList().then(function () {
           self.series = EpisodeService.getNotMyShows();
@@ -163,6 +167,8 @@ angular.module('mediaMogulApp')
       self.posterStyle = function(series) {
         if (series.recordingNow === true) {
           return {"border": "solid red"};
+        } else if (series.addedSuccessfully) {
+          return {"opacity": "0.5"}
         } else {
           return {};
         }
