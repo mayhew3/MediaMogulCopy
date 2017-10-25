@@ -143,6 +143,22 @@ exports.getNotMyShows = function(request, response) {
   return executeQueryWithResults(response, sql, values);
 };
 
+exports.rateMyShow = function(request, response) {
+  var personId = request.body.PersonId;
+  var seriesId = request.body.SeriesId;
+  var rating = request.body.Rating;
+
+  var sql = "UPDATE person_series " +
+    "SET rating = $1, rating_date = NOW() " +
+    "WHERE person_id = $2 " +
+    "AND series_id = $3 ";
+
+  var values = [
+    rating, personId, seriesId
+  ];
+
+  return executeQueryNoResults(response, sql, values);
+};
 
 // utility methods
 

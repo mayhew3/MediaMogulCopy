@@ -459,6 +459,10 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     return $http.post('/updateEpisodeGroupRating', {EpisodeGroupRatingId: episodeGroupRatingId, ChangedFields: changedFields});
   };
 
+  this.rateMyShow = function(series, rating) {
+    return $http.post('/rateMyShow', {PersonId: auth.person_id, SeriesId: series.id, Rating: rating});
+  };
+
   this.addViewingLocation = function(series, episodes, viewingLocation) {
     var wasStreamingBefore = self.isStreaming(series);
     var changedToStreaming = !wasStreamingBefore && viewingLocation.streaming;

@@ -24,6 +24,18 @@ angular.module('mediaMogulApp')
       self.series.last_tvdb_update;
 
     self.daysSinceLastUpdate = Math.floor((new Date - new Date(self.lastUpdate)) / 1000 / 60 / 60 / 24);
+/*
+
+
+    self.originalFields = {
+      my_rating: self.series.my_rating
+    };
+
+    self.interfaceFields = {
+      my_rating: self.series.my_rating
+    };
+
+*/
 
     EpisodeService.updateEpisodeList(self.series).then(function() {
       self.episodes = EpisodeService.getEpisodes();
