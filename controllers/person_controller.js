@@ -62,7 +62,7 @@ exports.getMyShows = function(request, response) {
   var personId = request.query.PersonId;
   console.log("Server call: Person " + personId);
 
-  var sql = "SELECT s.* " +
+  var sql = "SELECT s.*, ps.rating as my_rating " +
     "FROM series s " +
     "INNER JOIN person_series ps " +
     "  ON ps.series_id = s.id " +

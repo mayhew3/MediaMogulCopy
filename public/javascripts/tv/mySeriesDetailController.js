@@ -17,14 +17,11 @@ angular.module('mediaMogulApp')
 
     self.viewingLocations = EpisodeService.getViewingLocations();
 
-    self.inputViewingLocations = [];
-
     self.lastUpdate = self.series.last_tvdb_update === null ?
       self.series.last_tvdb_error :
       self.series.last_tvdb_update;
 
     self.daysSinceLastUpdate = Math.floor((new Date - new Date(self.lastUpdate)) / 1000 / 60 / 60 / 24);
-/*
 
 
     self.originalFields = {
@@ -35,7 +32,6 @@ angular.module('mediaMogulApp')
       my_rating: self.series.my_rating
     };
 
-*/
 
     EpisodeService.updateEpisodeList(self.series).then(function() {
       self.episodes = EpisodeService.getEpisodes();
@@ -83,28 +79,12 @@ angular.module('mediaMogulApp')
       }
     }
 
-    function updateViewingLocations() {
-      self.viewingLocations.forEach(function(viewingLocation) {
-        var locationObj = {
-          active: containsMatchingLocation(self.series.viewingLocations, viewingLocation.id),
-          viewingLocation: viewingLocation
-        };
-        self.inputViewingLocations.push(locationObj);
+    self.rateMyShow = function() {
+      return EpisodeService.rateMyShow(self.series, self.interfaceFields.my_rating).then(function () {
+        self.originalFields.my_rating = self.interfaceFields.my_rating;
+        self.series.my_rating = self.interfaceFields.my_rating;
       });
-      $log.debug("ViewingLocations array: " + JSON.stringify(self.inputViewingLocations));
-
-      self.isStreaming = function() {
-        return EpisodeService.isStreaming(self.series);
-      };
-    }
-
-
-    function containsMatchingLocation(arr, locationId) {
-      var foundElement = arr.find(function(element) {
-        return element.id === locationId;
-      });
-      return !(foundElement === undefined);
-    }
+    };
 
     self.getLabelInfo = function(episode) {
       if (episode.on_tivo) {
@@ -144,12 +124,6 @@ angular.module('mediaMogulApp')
         return rating;
       }
       return episode.watched === true ? "--" : "";
-    };
-
-    self.queueForManualUpdate = function() {
-      EpisodeService.updateSeries(self.series.id, {tvdb_manual_queue: true}).then(function() {
-        self.series.tvdb_manual_queue = true;
-      });
     };
 
     function isUnaired(episode) {
@@ -281,38 +255,6 @@ angular.module('mediaMogulApp')
       }).result.finally(function() {
         EpisodeService.updateDenorms(self.series, self.episodes);
       });
-    };
-
-    self.openChangePoster = function () {
-      if (self.auth.isAdmin()) {
-          $modal.open({
-              templateUrl: 'views/tv/shows/changePoster.html',
-              controller: 'changePosterController',
-              controllerAs: 'ctrl',
-              size: 'lg',
-              resolve: {
-                  series: function () {
-                      return self.series;
-                  }
-              }
-          })
-      }
-    };
-
-    self.openEditSeries = function() {
-      $modal.open({
-        templateUrl: 'views/tv/editSeries.html',
-        controller: 'editSeriesController',
-        controllerAs: 'ctrl',
-        size: 'lg',
-        resolve: {
-          series: function() {
-            return self.series;
-          }, episodes: function() {
-            return self.episodes;
-          }
-        }
-      })
     };
 
     self.ok = function() {
