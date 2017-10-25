@@ -155,13 +155,13 @@ exports.getTVDBErrors = function(req, response) {
 exports.getPrimeTV = function(req, response) {
   console.log("PrimeTV endpoint called.");
 
-  var sql = 'SELECT id, title, my_rating, metacritic, poster, (unwatched_episodes + unwatched_streaming) as unwatched, first_unwatched ' +
+  var sql = 'SELECT id, title, mayhew_rating, metacritic, poster, (unwatched_episodes + unwatched_streaming) as unwatched, first_unwatched ' +
     'FROM series ' +
     'WHERE tier = $1 ' +
     'AND unwatched_episodes + unwatched_streaming > $2 ' +
     'AND tvdb_match_status = $3 ' +
     'AND retired = $4 ' +
-    'ORDER BY my_rating DESC NULLS LAST';
+    'ORDER BY mayhew_rating DESC NULLS LAST';
 
   return executeQueryWithResults(response, sql, [1, 0, 'Match Completed', 0])
 };
@@ -232,14 +232,14 @@ var insertSeries = function(series, response) {
   console.log("Inserting series.");
 
   var sql = "INSERT INTO series (" +
-      "title, tier, metacritic, my_rating, date_added, tvdb_new, metacritic_new, tvdb_match_status) " +
+      "title, tier, metacritic, mayhew_rating, date_added, tvdb_new, metacritic_new, tvdb_match_status) " +
       "VALUES ($1, $2, $3, $4, $5, $6, $7, $8) " +
       "RETURNING id ";
   var values = [
     series.title,
     series.tier,
     series.metacritic,
-    series.my_rating,
+    series.mayhew_rating,
     new Date,
     true,
     true,

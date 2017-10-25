@@ -102,7 +102,7 @@ angular.module('mediaMogulApp')
 
     function updateFullRating(series) {
       var metacritic = series.metacritic;
-      var myRating = series.my_rating;
+      var myRating = series.mayhew_rating;
 
       series.FullRating = myRating === null ? metacritic : myRating;
 /*

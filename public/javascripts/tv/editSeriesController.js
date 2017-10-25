@@ -66,14 +66,14 @@ angular.module('mediaMogulApp')
 
     self.originalFields = {
       metacritic: self.series.metacritic,
-      my_rating: self.series.my_rating,
+      mayhew_rating: self.series.mayhew_rating,
       tvdb_hint: self.series.tvdb_hint,
       metacritic_hint: self.series.metacritic_hint
     };
 
     self.interfaceFields = {
       metacritic: self.series.metacritic,
-      my_rating: self.series.my_rating,
+      mayhew_rating: self.series.mayhew_rating,
       tvdb_hint: self.series.tvdb_hint,
       metacritic_hint: self.series.metacritic_hint
     };
@@ -117,7 +117,7 @@ angular.module('mediaMogulApp')
 
     self.changeValues = function() {
       self.series.metacritic = self.interfaceFields.metacritic;
-      self.series.my_rating = self.interfaceFields.my_rating;
+      self.series.mayhew_rating = self.interfaceFields.mayhew_rating;
       self.series.tvdb_hint = self.interfaceFields.tvdb_hint;
       self.series.metacritic_hint = self.interfaceFields.metacritic_hint;
 
