@@ -56,10 +56,12 @@ module.exports = function(app) {
   // MY SHOWS
   app.get('/myShows', authCheck, persons.getMyShows);
   app.get('/notMyShows', authCheck, persons.getNotMyShows);
+  app.get('/getMyEpisodes', authCheck, persons.getMyEpisodes);
   app.get('/myUpcomingEpisodes', authCheck, persons.getMyUpcomingEpisodes);
   app.post('/addToMyShows', authCheck, persons.addToMyShows);
   app.post('/removeFromMyShows', authCheck, persons.removeFromMyShows);
   app.post('/rateMyShow', authCheck, persons.rateMyShow);
+  app.post('/rateMyEpisode', authCheck, persons.rateMyEpisode);
 
   // error handlers
 

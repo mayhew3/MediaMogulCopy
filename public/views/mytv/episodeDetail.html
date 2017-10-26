@@ -53,7 +53,6 @@
                id="airDate"
                name="airDate"
                class="form-control"
-               ng-disabled="!ctrl.auth.isAdmin()"
                ng-model="ctrl.air_date">
       </div>
     </div>
@@ -214,6 +213,31 @@
 
       </div>
 
+      <!-- TiVo Info-->
+      <div class="form-group col-lg-6" ng-show="ctrl.episode.on_tivo">
+
+
+        <!-- Station -->
+        <div ng-show="ctrl.episode.tivo_station !== null">
+          <h3>Station</h3>
+          <span ng-bind="ctrl.episode.tivo_station"></span>
+        </div>
+
+        <!-- Channel -->
+        <div ng-show="ctrl.episode.tivo_channel !== null">
+          <h3>Channel</h3>
+          <span ng-bind="ctrl.episode.tivo_channel"></span>
+        </div>
+
+        <!-- Rating -->
+        <div ng-show="ctrl.episode.tivo_rating !== null">
+          <h3>Rating</h3>
+          <span ng-bind="ctrl.episode.tivo_rating"></span>
+        </div>
+
+
+      </div>
+
 
     </div>
 
@@ -224,7 +248,7 @@
     <input class="btn btn-primary"
            type="submit"
            value="Submit"
-           ng-show="ctrl.auth.isUser()"
+           ng-show="ctrl.auth.isAdmin()"
            ng-disabled="episodeDetail.$invalid || !ctrl.auth.isAuthenticated">
     <input class="btn btn-default"
            type="button"

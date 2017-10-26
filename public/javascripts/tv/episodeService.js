@@ -314,6 +314,56 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     return deferred.promise;
   };
 
+  this.updateMyEpisodeList = function(series) {
+    var deferred = $q.defer();
+    var urlCalls = [];
+    urlCalls.push($http.get('/getMyEpisodes', {params: {SeriesId: series.id, PersonId: auth.person_id}}));
+    urlCalls.push($http.get('/seriesViewingLocations', {params: {SeriesId: series.id}}));
+
+    $q.all(urlCalls).then(
+      function(results) {
+        episodes = [];
+        var tempEpisodes = results[0].data;
+        tempEpisodes.forEach(function(episode) {
+          var existing = self.findEpisodeWithId(episode.id);
+          if (existing) {
+            removeFromArray(episodes, existing);
+          }
+          episodes.push(episode);
+        });
+
+        series.viewingLocations = results[1].data;
+        $log.debug("Episodes has " + episodes.length + " rows.");
+        $log.debug("Locations has " + series.viewingLocations.length + " rows.");
+
+        episodes.forEach( function(episode) {
+          episode.imageResolved = episode.tvdb_filename ? 'http://thetvdb.com/banners/'+episode.tvdb_filename : 'images/GenericEpisode.gif';
+
+          episode.colorStyle = function() {
+            if (episode.watched !== true) {
+              return {};
+            } else {
+              var hue = (episode.rating_value <= 50) ? episode.rating_value * 0.5 : (50 * 0.5 + (episode.rating_value - 50) * 4.5);
+              var saturation = episode.rating_value === null ? "0%" : "50%";
+              return {
+                'background-color': 'hsla(' + hue + ', ' + saturation + ', 42%, 1)',
+                'font-size': '1.6em',
+                'text-align': 'center',
+                'font-weight': '800',
+                'color': 'white'
+              }
+            }
+          };
+          self.updateNumericEpisodeFields(episode);
+        });
+        deferred.resolve();
+      },
+      function(errors) {
+        deferred.reject(errors);
+      });
+    return deferred.promise;
+  };
+
   this.findEpisodeWithId = function(id) {
     var matching = episodes.filter(function(episode) {
       return episode.id === id;
@@ -452,6 +502,16 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     }, function(errResponse) {
       $log.debug("Error adding to my shows: " + errResponse);
     });
+  };
+
+  this.addMyEpisodeRating = function(episodeRating) {
+    $log.debug("Adding new episode rating.");
+    return $http.post('/rateMyEpisode', {IsNew: true, EpisodeRating: episodeRating});
+  };
+
+  this.updateMyEpisodeRating = function(changedFields, rating_id) {
+    $log.debug("Updating existing episode rating with id: " + rating_id + ", Changed: " + JSON.stringify(changedFields));
+    return $http.post('/rateMyEpisode', {IsNew: false, ChangedFields: changedFields, RatingId: rating_id});
   };
 
   this.updateEpisodeGroupRating = function(episodeGroupRatingId, changedFields) {

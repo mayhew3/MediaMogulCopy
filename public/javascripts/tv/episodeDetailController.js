@@ -62,7 +62,7 @@ angular.module('mediaMogulApp')
     };
 
     self.anyRatingChanged = function() {
-      return !isEmpty(self.getChangedFields())
+      return !isNotEmpty(self.getChangedFields())
     };
 
     self.onRatingChange = function() {
@@ -132,12 +132,12 @@ angular.module('mediaMogulApp')
         changedFields.air_time = EpisodeService.combineDateAndTime(self.air_date, series.air_time);
       }
 
-      if (isEmpty(changedFields)) {
+      if (isNotEmpty(changedFields)) {
         return EpisodeService.updateEpisode(self.episode.id, changedFields);
       }
     }
 
-    function isEmpty(obj) {
+    function isNotEmpty(obj) {
       return Object.keys(obj).length !== 0 && obj.constructor === Object;
     }
 

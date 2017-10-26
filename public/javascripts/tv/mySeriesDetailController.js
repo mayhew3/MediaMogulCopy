@@ -33,12 +33,11 @@ angular.module('mediaMogulApp')
     };
 
 
-    EpisodeService.updateEpisodeList(self.series).then(function() {
+    EpisodeService.updateMyEpisodeList(self.series).then(function() {
       self.episodes = EpisodeService.getEpisodes();
       $log.debug("Updated list with " + self.episodes.length + " episodes!");
     }).then(function() {
       updateSeasonLabels();
-      updateViewingLocations();
     });
 
     self.shouldHide = function(episode) {
@@ -238,8 +237,8 @@ angular.module('mediaMogulApp')
 
     self.openEpisodeDetail = function(episode) {
       $modal.open({
-        templateUrl: 'views/tv/episodeDetail.html',
-        controller: 'episodeDetailController as ctrl',
+        templateUrl: 'views/mytv/episodeDetail.html',
+        controller: 'myEpisodeDetailController as ctrl',
         size: 'lg',
         resolve: {
           episode: function() {
@@ -252,8 +251,6 @@ angular.module('mediaMogulApp')
             return series;
           }
         }
-      }).result.finally(function() {
-        EpisodeService.updateDenorms(self.series, self.episodes);
       });
     };
 
