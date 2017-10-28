@@ -189,6 +189,7 @@ exports.getMyEpisodes = function(req, response) {
     'e.episode_number, ' +
     'e.absolute_number, ' +
     'e.streaming, ' +
+    'e.on_tivo, ' +
     'te.episode_number as tvdb_episode_number, ' +
     'te.name as tvdb_episode_name, ' +
     'te.filename as tvdb_filename, ' +
@@ -227,6 +228,23 @@ exports.rateMyEpisode = function(request, response) {
   } else {
     return editRating(request.body.ChangedFields, request.body.RatingId, response);
   }
+};
+
+exports.updateMyShow = function(request, response) {
+  console.log("Update Person-Series with " + JSON.stringify(request.body.ChangedFields));
+
+  var queryConfig = buildUpdateQueryConfigNoID(
+    request.body.ChangedFields,
+    "person_series",
+    {
+      "series_id": request.body.SeriesId,
+      "person_id": request.body.PersonId
+    });
+
+  console.log("SQL: " + queryConfig.text);
+  console.log("Values: " + queryConfig.values);
+
+  return executeQueryNoResults(response, queryConfig.text, queryConfig.values);
 };
 
 function addRating(episodeRating, response) {
@@ -390,6 +408,51 @@ function buildUpdateQueryConfig(changedFields, tableName, rowID) {
   sql += (" WHERE id = $" + i);
 
   values.push(rowID);
+
+  return {
+    text: sql,
+    values: values
+  };
+}
+
+function buildUpdateQueryConfigNoID(changedFields, tableName, identifyingColumns) {
+
+  var sql = "UPDATE " + tableName + " SET ";
+  var values = [];
+  var i = 1;
+  for (var key in changedFields) {
+    if (changedFields.hasOwnProperty(key)) {
+      if (values.length !== 0) {
+        sql += ", ";
+      }
+
+      sql += (key + " = $" + i);
+
+      var value = changedFields[key];
+      values.push(value);
+
+      i++;
+    }
+  }
+
+  var lengthBeforeWheres = values.length;
+
+  sql += " WHERE ";
+
+  for (key in identifyingColumns) {
+    if (identifyingColumns.hasOwnProperty(key)) {
+      if (values.length !== lengthBeforeWheres) {
+        sql += " AND ";
+      }
+
+      sql += (key + " = $" + i);
+
+      value = identifyingColumns[key];
+      values.push(value);
+
+      i++;
+    }
+  }
 
   return {
     text: sql,

@@ -767,6 +767,125 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     return $http.post('/updateSeries', {SeriesId: series.id, ChangedFields: changedFields});
   };
 
+  self.dateHasChanged = function(originalDate, updatedDate) {
+    if (updatedDate === null && originalDate === null) {
+      return false;
+    } else if (updatedDate === null) {
+      return true;
+    } else if (originalDate === null) {
+      return true;
+    } else {
+      $log.debug("COMPARING TIMES");
+      return formatDate(updatedDate).getTime() !== formatDate(originalDate).getTime();
+    }
+  };
+
+  function formatDate(unformattedDate) {
+    var originalDate = (unformattedDate === '' || unformattedDate === null) ? null :
+      new Date(unformattedDate);
+    if (originalDate !== null) {
+      originalDate.setHours(0, 0, 0, 0);
+    }
+    return originalDate;
+  }
+
+  self.getChangedFields = function(originalObject, updatedObject) {
+    var allKeys = _.keys(updatedObject);
+    var changedFields = {};
+    allKeys.forEach(function(itsaIndex) {
+      if (updatedObject.hasOwnProperty(itsaIndex)) {
+        var updatedValue = updatedObject[itsaIndex];
+
+        var originalValue = originalObject[itsaIndex];
+
+        if (updatedValue instanceof Date || originalValue instanceof Date) {
+          if (self.dateHasChanged(originalValue, updatedValue)) {
+            changedFields[itsaIndex] = updatedValue;
+          }
+
+        } else if (updatedValue !== originalValue) {
+          changedFields[itsaIndex] = updatedValue;
+        }
+      }
+    });
+
+    return changedFields;
+  };
+
+  this.updateMySeriesDenorms = function(series, episodes) {
+    var unwatchedEpisodes = 0;
+    var unwatchedStreaming = 0;
+    var lastUnwatched = null;
+    var firstUnwatched = null;
+    var now = new Date;
+
+    episodes.forEach(function(episode) {
+
+      if (!episode.retired && episode.season !== 0) {
+
+        var onTiVo = episode.on_tivo;
+        var suggestion = episode.tivo_suggestion;
+        var deleted = (episode.tivo_deleted_date !== null);
+        var watched = episode.watched;
+        var streaming = episode.streaming;
+        var airTime = episode.air_time === null ? null : new Date(episode.air_time);
+        var canWatch = (onTiVo && !deleted) || (streaming && isBefore(airTime, now));
+
+        // UNWATCHED
+        if (onTiVo && !suggestion && !deleted && !watched) {
+          unwatchedEpisodes++;
+        }
+
+        // FIRST UNWATCHED EPISODE
+        if (canWatch && isBefore(airTime, firstUnwatched) && !suggestion && !watched) {
+          firstUnwatched = airTime;
+        }
+
+        // LAST UNWATCHED EPISODE
+        if (canWatch && isAfter(airTime, lastUnwatched) && !suggestion && !watched) {
+          lastUnwatched = airTime;
+        }
+
+        // UNWATCHED STREAMING
+        if ((!onTiVo || deleted) && canWatch && !watched) {
+          unwatchedStreaming++;
+        }
+      }
+    });
+
+    var originalFields = {
+      unwatched_episodes: series.unwatched_episodes,
+      last_unwatched: series.last_unwatched,
+      first_unwatched: series.first_unwatched,
+      unwatched_streaming: series.unwatched_streaming
+    };
+
+    var updatedFields = {
+      unwatched_episodes: unwatchedEpisodes,
+      last_unwatched: lastUnwatched,
+      first_unwatched: firstUnwatched,
+      unwatched_streaming: unwatchedStreaming
+    };
+
+    $log.debug("There are " + Object.keys(updatedFields).length + " updated fields.");
+
+    var changedFields = self.getChangedFields(originalFields, updatedFields);
+
+
+    if (Object.keys(changedFields).length > 0) {
+      return $http.post('/updateMyShow', {SeriesId: series.id, PersonId: auth.person_id, ChangedFields: changedFields}).then(function() {
+        series.unwatched_episodes = unwatchedEpisodes;
+        series.last_unwatched = lastUnwatched;
+        series.first_unwatched = firstUnwatched;
+        series.unwatched_streaming = unwatchedStreaming;
+        series.unwatched_all = unwatchedEpisodes + unwatchedStreaming;
+      });
+
+    } else {
+      return $q.when();
+    }
+  };
+
   function isBefore(newDate, trackingDate) {
     return trackingDate === null || newDate < trackingDate;
   }

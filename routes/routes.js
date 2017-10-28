@@ -60,6 +60,7 @@ module.exports = function(app) {
   app.get('/myUpcomingEpisodes', authCheck, persons.getMyUpcomingEpisodes);
   app.post('/addToMyShows', authCheck, persons.addToMyShows);
   app.post('/removeFromMyShows', authCheck, persons.removeFromMyShows);
+  app.post('/updateMyShow', authCheck, persons.updateMyShow);
   app.post('/rateMyShow', authCheck, persons.rateMyShow);
   app.post('/rateMyEpisode', authCheck, persons.rateMyEpisode);
 

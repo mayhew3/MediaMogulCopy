@@ -187,7 +187,7 @@ angular.module('mediaMogulApp')
             episode.watched = true;
           }
         });
-        EpisodeService.updateDenorms(self.series, self.episodes);
+        EpisodeService.updateMySeriesDenorms(self.series, self.episodes);
       });
 
       $log.debug("Series '" + self.series.title + "' " + self.series.id);
@@ -252,6 +252,8 @@ angular.module('mediaMogulApp')
             return series;
           }
         }
+      }).result.finally(function() {
+        EpisodeService.updateMySeriesDenorms(self.series, self.episodes);
       });
     };
 
