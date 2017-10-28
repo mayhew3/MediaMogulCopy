@@ -45,6 +45,7 @@ angular.module('mediaMogulApp')
       self.updateOrAddRating = function() {
         var changedFields = self.getChangedFields();
         if (Object.keys(changedFields).length > 0) {
+          $log.debug("Episode fields changed: " + _.keys(changedFields));
           return self.rating_id === null ?
             EpisodeService.addMyEpisodeRating(self.interfaceRating) :
             EpisodeService.updateMyEpisodeRating(changedFields, self.rating_id);
@@ -82,10 +83,7 @@ angular.module('mediaMogulApp')
           if (self.interfaceRating.hasOwnProperty(key)) {
             var value = self.interfaceRating[key];
 
-            $log.debug("In loop, key: " + key + ", value: " + value + ", old value: " + self.originalRating[key]);
-
             if (value !== self.originalRating[key]) {
-              $log.debug("Changed detected... ");
               changedFields[key] = value;
             }
           }

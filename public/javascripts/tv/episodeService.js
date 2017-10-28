@@ -775,7 +775,6 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     } else if (originalDate === null) {
       return true;
     } else {
-      $log.debug("COMPARING TIMES");
       return formatDate(updatedDate).getTime() !== formatDate(originalDate).getTime();
     }
   };
@@ -867,13 +866,12 @@ function EpisodeService($log, $http, $q, $filter, auth) {
       unwatched_streaming: unwatchedStreaming
     };
 
-    $log.debug("There are " + Object.keys(updatedFields).length + " updated fields.");
-
     var changedFields = self.getChangedFields(originalFields, updatedFields);
 
 
     if (Object.keys(changedFields).length > 0) {
       return $http.post('/updateMyShow', {SeriesId: series.id, PersonId: auth.person_id, ChangedFields: changedFields}).then(function() {
+        $log.debug("Updating my series denorms: " + _.keys(changedFields));
         series.unwatched_episodes = unwatchedEpisodes;
         series.last_unwatched = lastUnwatched;
         series.first_unwatched = firstUnwatched;
