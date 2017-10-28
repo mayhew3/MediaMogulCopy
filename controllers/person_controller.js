@@ -62,14 +62,31 @@ exports.getMyShows = function(request, response) {
   var personId = request.query.PersonId;
   console.log("Server call: Person " + personId);
 
-  var sql = "SELECT s.*, ps.rating as my_rating " +
+  var sql = "SELECT s.id, " +
+    "s.title, " +
+    "s.tier, " +
+    "s.metacritic, " +
+    "s.streaming_episodes, " +
+    "s.matched_episodes, " +
+    "s.unmatched_episodes, " +
+    "s.last_tvdb_update, " +
+    "s.last_tvdb_error, " +
+    "s.poster, " +
+    "s.air_time, " +
+    "ps.rating as my_rating, " +
+    "ps.unwatched_episodes, " +
+    "ps.unwatched_streaming, " +
+    "ps.last_unwatched, " +
+    "ps.first_unwatched " +
     "FROM series s " +
     "INNER JOIN person_series ps " +
     "  ON ps.series_id = s.id " +
     "WHERE ps.person_id = $1 " +
-    "AND s.retired = $2 ";
+    "AND s.suggestion = $2 " +
+    "AND s.tvdb_match_status = $3 " +
+    "AND s.retired = $4 ";
   var values = [
-    personId, 0
+    personId, false, 'Match Completed', 0
   ];
 
   return executeQueryWithResults(response, sql, values);
@@ -87,12 +104,12 @@ exports.getMyUpcomingEpisodes = function(request, response) {
     "WHERE ps.person_id = $1 " +
     "AND e.air_time is not null " +
     "AND e.air_time >= current_timestamp " +
-    "AND e.watched = $2 " +
-    "AND e.season <> $3 " +
-    "AND e.retired = $4 " +
+    "AND e.season <> $2 " +
+    "AND e.retired = $3 " +
+    "AND ps.tier = $4 " +
     "ORDER BY e.air_time ASC;";
 
-  return executeQueryWithResults(response, sql, [personId, false, 0, 0]);
+  return executeQueryWithResults(response, sql, [personId, 0, 0, 1]);
 };
 
 exports.addToMyShows = function(request, response) {
