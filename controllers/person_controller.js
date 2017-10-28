@@ -197,7 +197,7 @@ exports.getMyEpisodes = function(req, response) {
     'te.rating as tvdb_rating, ' +
     'te.director as tvdb_director, ' +
     'te.writer as tvdb_writer, ' +
-    'er.watched, ' +
+    '(CASE WHEN er.watched IS NULL THEN false ELSE er.watched END) AS watched, ' +
     'er.watched_date, ' +
     'er.rating_funny, ' +
     'er.rating_character, ' +

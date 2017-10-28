@@ -41,9 +41,8 @@ angular.module('mediaMogulApp')
     });
 
     self.shouldHide = function(episode) {
-      return episode.retired ||
-        // todo: remove when MM-236 is resolved.
-        episode.air_time === null;
+      // todo: remove when MM-236 is resolved.
+      return episode.air_time === null;
     };
 
 
@@ -61,6 +60,8 @@ angular.module('mediaMogulApp')
                 episode.watched === false &&
                 !self.shouldHide(episode);
       });
+
+      $log.debug("Unwatched: " + unwatchedEpisodes.length);
 
       if (unwatchedEpisodes.length > 0) {
         self.selectedSeason = unwatchedEpisodes[0].season;
