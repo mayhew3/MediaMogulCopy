@@ -21,7 +21,8 @@
     "passport-local": "~1.0.0",
     "cors": "2.7.1",
     "express-jwt": "3.4.0",
-    "async": "~0.8.0"
+    "async": "~0.8.0",
+    "underscore": "1.8.3"
   },
   "engines": {
     "node": "6.11.1"

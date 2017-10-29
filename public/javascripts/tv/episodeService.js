@@ -259,7 +259,7 @@ function EpisodeService($log, $http, $q, $filter, auth) {
 
       episodes.forEach( function(episode) {
         episode.imageResolved = episode.tvdb_filename ? 'http://thetvdb.com/banners/' + episode.tvdb_filename : 'images/GenericEpisode.gif';
-        self.updateNumericEpisodeFields(episode);
+        self.updateRatingFields(episode);
       });
     });
   };
@@ -304,7 +304,7 @@ function EpisodeService($log, $http, $q, $filter, auth) {
               }
             }
           };
-          self.updateNumericEpisodeFields(episode);
+          self.updateRatingFields(episode);
         });
         deferred.resolve();
       },
@@ -354,7 +354,7 @@ function EpisodeService($log, $http, $q, $filter, auth) {
               }
             }
           };
-          self.updateNumericEpisodeFields(episode);
+          self.updateRatingFields(episode);
         });
         deferred.resolve();
       },
@@ -374,7 +374,23 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     return null;
   };
 
-  this.updateNumericEpisodeFields = function(episode) {
+  this.updateRatingFields = function(episode) {
+    var optionalFields = [
+      "rating_value",
+      "rating_funny",
+      "rating_character",
+      "rating_story",
+      "rating_id",
+      "review",
+      "watched",
+      "watched_date"
+    ];
+    optionalFields.forEach(function(fieldName) {
+      if (_.isUndefined(episode[fieldName])) {
+        episode[fieldName] = null;
+      }
+    });
+
     if (episode.rating_funny !== null) {
       episode.rating_funny = parseInt(episode.rating_funny);
     }
@@ -384,8 +400,11 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     if (episode.rating_story !== null) {
       episode.rating_story = parseInt(episode.rating_story);
     }
-    if (episode.rating_value !== null) {
+    if (_.isString(episode.rating_value)) {
       episode.rating_value = parseInt(episode.rating_value);
+    }
+    if (episode.watched === null) {
+      episode.watched = false;
     }
   };
 

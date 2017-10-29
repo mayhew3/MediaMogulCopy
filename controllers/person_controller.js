@@ -1,4 +1,5 @@
 var pg = require('pg');
+var _ = require('underscore');
 var config = process.env.DATABASE_URL;
 
 exports.getPersonInfo = function(request, response) {
@@ -177,8 +178,10 @@ exports.rateMyShow = function(request, response) {
   return executeQueryNoResults(response, sql, values);
 };
 
-exports.getMyEpisodes = function(req, response) {
-  console.log("Episode call received. Params: " + req.query.SeriesId + ", Person: " + req.query.PersonId);
+exports.getMyEpisodes = function(request, response) {
+  var seriesId = request.query.SeriesId;
+  var personId = request.query.PersonId;
+  console.log("Episode call received. Params: " + seriesId + ", Person: " + personId);
 
   var sql = 'SELECT e.id, ' +
     'e.air_date, ' +
@@ -197,29 +200,59 @@ exports.getMyEpisodes = function(req, response) {
     'te.production_code as tvdb_production_code, ' +
     'te.rating as tvdb_rating, ' +
     'te.director as tvdb_director, ' +
-    'te.writer as tvdb_writer, ' +
-    '(CASE WHEN er.watched IS NULL THEN false ELSE er.watched END) AS watched, ' +
-    'er.watched_date, ' +
-    'er.rating_funny, ' +
-    'er.rating_character, ' +
-    'er.rating_story, ' +
-    'er.rating_value, ' +
-    'er.review, ' +
-    'er.id as rating_id ' +
+    'te.writer as tvdb_writer ' +
     'FROM episode e ' +
     'LEFT OUTER JOIN tvdb_episode te ' +
     ' ON e.tvdb_episode_id = te.id ' +
     'LEFT OUTER JOIN edge_tivo_episode ete ' +
     ' ON e.id = ete.episode_id ' +
-    'LEFT OUTER JOIN episode_rating er ' +
-    ' ON er.episode_id = e.id ' +
     'WHERE e.series_id = $1 ' +
     'AND e.retired = $2 ' +
     'AND te.retired = $3 ' +
-    'AND (er.person_id = $4 OR er.person_id IS NULL) ' +
     'ORDER BY e.season, e.episode_number';
 
-  return executeQueryWithResults(response, sql, [req.query.SeriesId, 0, 0, req.query.PersonId]);
+  return updateWithJSON(sql, [seriesId, 0, 0]).then(function (episodeResult) {
+
+    var sql =
+      'SELECT er.episode_id, ' +
+      'er.watched_date,' +
+      'er.watched,' +
+      'er.rating_funny,' +
+      'er.rating_character,' +
+      'er.rating_story,' +
+      'er.rating_value,' +
+      'er.review,' +
+      'er.id as rating_id ' +
+      'FROM episode_rating er ' +
+      'INNER JOIN episode e ' +
+      ' ON er.episode_id = e.id ' +
+      'WHERE e.series_id = $1 ' +
+      'AND e.retired = $2 ' +
+      'AND er.person_id = $3 ';
+
+    return updateWithJSON(sql, [seriesId, 0, personId]).then(function (ratingResult) {
+
+      ratingResult.forEach(function (episodeRating) {
+        var episodeMatch = _.find(episodeResult, function (episode) {
+          return episode.id === episodeRating.episode_id;
+        });
+
+        if (episodeMatch !== null) {
+          episodeMatch.watched_date = episodeRating.watched_date;
+          episodeMatch.watched = episodeRating.watched;
+          episodeMatch.rating_funny = episodeRating.rating_funny;
+          episodeMatch.rating_character = episodeRating.rating_character;
+          episodeMatch.rating_story = episodeRating.rating_story;
+          episodeMatch.rating_value = episodeRating.rating_value;
+          episodeMatch.review = episodeRating.review;
+          episodeMatch.rating_id = episodeRating.rating_id;
+        }
+      });
+
+      return response.send(episodeResult);
+    });
+
+  });
 };
 
 exports.rateMyEpisode = function(request, response) {
@@ -414,6 +447,41 @@ function executeQueryWithResults(response, sql, values) {
   })
 }
 
+function updateWithJSON(sql, values) {
+  return new Promise(function(resolve, reject) {
+
+    var results = [];
+
+    var queryConfig = {
+      text: sql,
+      values: values
+    };
+
+    var client = new pg.Client(config);
+    if (client === null) {
+      return console.error('null client');
+    }
+
+    client.connect(function(err) {
+      if (err) {
+        console.error(err);
+        reject("Error " + err);
+      }
+
+      var query = client.query(queryConfig);
+
+      query.on('row', function(row) {
+        results.push(row);
+      });
+
+      query.on('end', function() {
+        client.end();
+        resolve(results);
+      });
+    })
+
+  });
+}
 
 function executeQueryNoResults(response, sql, values) {
 
