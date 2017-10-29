@@ -204,8 +204,6 @@ exports.getMyEpisodes = function(request, response) {
     'FROM episode e ' +
     'LEFT OUTER JOIN tvdb_episode te ' +
     ' ON e.tvdb_episode_id = te.id ' +
-    'LEFT OUTER JOIN edge_tivo_episode ete ' +
-    ' ON e.id = ete.episode_id ' +
     'WHERE e.series_id = $1 ' +
     'AND e.retired = $2 ' +
     'AND te.retired = $3 ' +
