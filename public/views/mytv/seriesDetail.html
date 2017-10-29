@@ -63,7 +63,7 @@
           <button type="button"
                   class="btn btn-success"
                   ng-click="ctrl.markAllPastWatched()"
-                  ng-show="ctrl.auth.isAdmin()"
+                  ng-show="ctrl.auth.isUser()"
                   ng-disabled="!ctrl.auth.isAuthenticated">All Past Watched</button>
         </div>
         <div class="col-lg-8">
