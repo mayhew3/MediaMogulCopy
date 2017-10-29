@@ -164,18 +164,22 @@ angular.module('mediaMogulApp')
       }
 
       function updateEpisodeFields() {
-        episode.rating_funny = self.interfaceRating.rating_funny;
-        episode.rating_character = self.interfaceRating.rating_character;
-        episode.rating_story = self.interfaceRating.rating_story;
-        episode.rating_value = self.interfaceRating.rating_value;
-        episode.review = self.interfaceRating.review;
+        self.episode.rating_funny = self.interfaceRating.rating_funny;
+        self.episode.rating_character = self.interfaceRating.rating_character;
+        self.episode.rating_story = self.interfaceRating.rating_story;
+        self.episode.rating_value = self.interfaceRating.rating_value;
+        self.episode.review = self.interfaceRating.review;
 
-        episode.watched = self.interfaceRating.watched;
-        episode.watched_date = self.watched_date;
+        self.episode.watched = self.interfaceRating.watched;
+        self.episode.watched_date = self.watched_date;
 
         if (auth.isAdmin()) {
-          episode.air_date = self.air_date;
-          episode.air_time = EpisodeService.combineDateAndTime(self.air_date, series.air_time);
+          var originalAirDate = formatDate(self.episode.air_date);
+
+          if (dateHasChanged(originalAirDate, self.air_date)) {
+            self.episode.air_date = self.air_date;
+            self.episode.air_time = EpisodeService.combineDateAndTime(self.air_date, series.air_time);
+          }
         }
       }
 

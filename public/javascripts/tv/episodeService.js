@@ -813,44 +813,38 @@ function EpisodeService($log, $http, $q, $filter, auth) {
 
   this.updateMySeriesDenorms = function(series, episodes) {
     var unwatchedEpisodes = 0;
-    var unwatchedStreaming = 0;
     var lastUnwatched = null;
     var firstUnwatched = null;
     var now = new Date;
 
-    episodes.forEach(function(episode) {
-
-      if (!episode.retired && episode.season !== 0) {
-
-        var onTiVo = episode.on_tivo;
-        var suggestion = episode.tivo_suggestion;
-        var deleted = (episode.tivo_deleted_date !== null);
-        var watched = episode.watched;
-        var streaming = episode.streaming;
-        var airTime = episode.air_time === null ? null : new Date(episode.air_time);
-        var canWatch = (onTiVo && !deleted) || (streaming && isBefore(airTime, now));
-
-        // UNWATCHED
-        if (onTiVo && !suggestion && !deleted && !watched) {
-          unwatchedEpisodes++;
-        }
-
-        // FIRST UNWATCHED EPISODE
-        if (canWatch && isBefore(airTime, firstUnwatched) && !suggestion && !watched) {
-          firstUnwatched = airTime;
-        }
-
-        // LAST UNWATCHED EPISODE
-        if (canWatch && isAfter(airTime, lastUnwatched) && !suggestion && !watched) {
-          lastUnwatched = airTime;
-        }
-
-        // UNWATCHED STREAMING
-        if ((!onTiVo || deleted) && canWatch && !watched) {
-          unwatchedStreaming++;
-        }
-      }
+    var eligibleEpisodes = _.filter(episodes, function(episode) {
+      return episode.season !== 0;
     });
+
+    this.hasAired = function(episode) {
+      var airTime = episode.air_time === null ? null : new Date(episode.air_time);
+      episode.air_time = airTime;
+      return isBefore(airTime, now);
+    };
+
+    var airedEpisodes = _.filter(eligibleEpisodes, this.hasAired);
+
+    $log.debug("There are " + airedEpisodes.length + " episodes.");
+
+    this.isUnwatched = function(episode) {
+      return !episode.watched;
+    };
+
+    var arr = _.filter(airedEpisodes, this.isUnwatched);
+    var unwatchedEpisodesList = _.sortBy(arr, function(episode) {
+      return episode.absolute_number;
+    });
+
+    $log.debug("Found " + unwatchedEpisodesList.length + " unwatched episodes.");
+
+    unwatchedEpisodes = unwatchedEpisodesList.length;
+    firstUnwatched = unwatchedEpisodes === 0 ? null : _.first(unwatchedEpisodesList).air_time;
+    lastUnwatched = unwatchedEpisodes === 0 ? null : _.last(unwatchedEpisodesList).air_time;
 
     var originalFields = {
       unwatched_episodes: series.unwatched_episodes,
@@ -863,7 +857,7 @@ function EpisodeService($log, $http, $q, $filter, auth) {
       unwatched_episodes: unwatchedEpisodes,
       last_unwatched: lastUnwatched,
       first_unwatched: firstUnwatched,
-      unwatched_streaming: unwatchedStreaming
+      unwatched_streaming: 0
     };
 
     var changedFields = self.getChangedFields(originalFields, updatedFields);
@@ -875,8 +869,8 @@ function EpisodeService($log, $http, $q, $filter, auth) {
         series.unwatched_episodes = unwatchedEpisodes;
         series.last_unwatched = lastUnwatched;
         series.first_unwatched = firstUnwatched;
-        series.unwatched_streaming = unwatchedStreaming;
-        series.unwatched_all = unwatchedEpisodes + unwatchedStreaming;
+        series.unwatched_streaming = 0;
+        series.unwatched_all = unwatchedEpisodes;
       });
 
     } else {
