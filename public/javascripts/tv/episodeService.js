@@ -609,6 +609,15 @@ function EpisodeService($log, $http, $q, $filter, auth) {
       $log.debug("Error calling the method: " + errResponse);
     });
   };
+
+  this.markMyPastWatched = function(SeriesId, lastWatched) {
+    return $http.post('/markMyPastWatched', {SeriesId: SeriesId, LastWatched: lastWatched, PersonId: auth.person_id}).then(function() {
+      $log.debug("Success?")
+    }, function(errResponse) {
+      $log.debug("Error calling the method: " + errResponse);
+    });
+  };
+
   this.matchTiVoEpisodes = function (tivoID, tvdbIDs) {
     return $http.post('/matchTiVoEpisodes', {TiVoID: tivoID, TVDBEpisodeIds: tvdbIDs}).then(function () {
       $log.debug("Success?")

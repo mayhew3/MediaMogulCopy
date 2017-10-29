@@ -314,6 +314,67 @@ function editRating(changedFields, rating_id, response) {
   return executeQueryNoResults(response, queryConfig.text, queryConfig.values);
 }
 
+
+// Mark All Watched
+
+
+exports.markAllPastEpisodesAsWatched = function(request, response) {
+  var seriesId = request.body.SeriesId;
+  var lastWatched = request.body.LastWatched;
+  var personId = request.body.PersonId;
+
+  console.log("Updating episodes as Watched, before episode " + lastWatched);
+
+  var sql = 'UPDATE episode_rating ' +
+    'SET watched = $1 ' +
+    'WHERE watched <> $2 ' +
+    'AND person_id = $3 ' +
+    'AND episode_id IN (SELECT e.id ' +
+                        'FROM episode e ' +
+                        'WHERE e.series_id = $4 ' +
+                        'AND e.absolute_number IS NOT NULL ' +
+                        'AND e.absolute_number < $5 ' +
+                        'AND e.season <> $6 ' +
+                        'AND retired = $7) ';
+
+  var values = [true, // watched
+    true,             // !watched
+    personId,         // person_id
+    seriesId,         // series_id
+    lastWatched,      // absolute_number <
+    0,                // season
+    0                 // retired
+  ];
+
+  return updateNoJSON(sql, values).then(function() {
+    var sql = "INSERT INTO episode_rating (episode_id, person_id, watched, date_added) " +
+      "SELECT e.id, $1, $2, now() " +
+      "FROM episode e " +
+      "WHERE e.series_id = $3 " +
+      "AND e.retired = $4 " +
+      'AND e.absolute_number IS NOT NULL ' +
+      'AND e.absolute_number < $5 ' +
+      'AND e.season <> $6 ' +
+      "AND e.id NOT IN (SELECT er.episode_id " +
+                         "FROM episode_rating er " +
+                          "WHERE er.person_id = $7" +
+                          "AND er.retired = $8)";
+    var values = [
+      personId,    // person
+      true,        // watched
+      seriesId,    // series
+      0,           // retired
+      lastWatched, // absolute number
+      0,           // !season
+      personId,    // person
+      0            // retired
+    ];
+
+    return executeQueryNoResults(response, sql, values);
+  });
+};
+
+
 // utility methods
 
 
@@ -413,6 +474,37 @@ function buildUpdateQueryConfig(changedFields, tableName, rowID) {
     text: sql,
     values: values
   };
+}
+
+function updateNoJSON(sql, values) {
+  return new Promise(function(resolve, reject) {
+
+    var queryConfig = {
+      text: sql,
+      values: values
+    };
+
+    var client = new pg.Client(config);
+    if (client === null) {
+      return console.error('null client');
+    }
+
+    client.connect(function(err) {
+      if (err) {
+        console.error(err);
+        reject(Error(err));
+      }
+
+      var query = client.query(queryConfig);
+
+      query.on('end', function() {
+        client.end();
+        resolve("Success!");
+      });
+
+    });
+
+  });
 }
 
 function buildUpdateQueryConfigNoID(changedFields, tableName, identifyingColumns) {
