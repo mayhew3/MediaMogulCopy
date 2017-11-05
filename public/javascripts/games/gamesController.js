@@ -1,7 +1,9 @@
 angular.module('mediaMogulApp')
-.controller('gamesController', ['$log', '$modal', 'GamesService',
-  function($log, $modal, GamesService) {
+.controller('gamesController', ['$log', '$modal', 'GamesService', 'auth',
+  function($log, $modal, GamesService, auth) {
     var self = this;
+
+    self.auth = auth;
 
     self.steamCloud = false;
     self.manyHours = false;
