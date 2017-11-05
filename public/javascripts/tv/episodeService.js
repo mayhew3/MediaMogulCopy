@@ -850,14 +850,17 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     });
 
     this.hasAired = function(episode) {
-      var airTime = episode.air_time === null ? null : new Date(episode.air_time);
+      if (episode.air_time === null) {
+        return false;
+      }
+      var airTime = new Date(episode.air_time);
       episode.air_time = airTime;
       return isBefore(airTime, now);
     };
 
     var airedEpisodes = _.filter(eligibleEpisodes, this.hasAired);
 
-    $log.debug("There are " + airedEpisodes.length + " episodes.");
+    $log.debug("There are " + airedEpisodes.length + " aired episodes.");
 
     this.isUnwatched = function(episode) {
       return !episode.watched;
@@ -868,7 +871,11 @@ function EpisodeService($log, $http, $q, $filter, auth) {
       return episode.absolute_number;
     });
 
-    $log.debug("Found " + unwatchedEpisodesList.length + " unwatched episodes.");
+    $log.debug("Found " + unwatchedEpisodesList.length + " unwatched episodes:");
+
+    unwatchedEpisodesList.forEach(function(episode) {
+      $log.debug(" - " + episode.season + "x" + episode.episode_number + ": " + episode.title);
+    });
 
     unwatchedEpisodes = unwatchedEpisodesList.length;
     firstUnwatched = unwatchedEpisodes === 0 ? null : _.first(unwatchedEpisodesList).air_time;
