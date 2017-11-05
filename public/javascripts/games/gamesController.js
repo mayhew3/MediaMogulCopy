@@ -18,8 +18,10 @@ angular.module('mediaMogulApp')
     self.computerFilter = true;
     self.noneFilter = false;
 
-    var consoles = ["PS3", "Wii", "Xbox 360", "Xbox", "DS", "Wii U", "Xbox One", "PS4"];
+    var consoles = ["PS3", "Wii", "Xbox 360", "Xbox", "DS", "Wii U", "Xbox One", "PS4", "Switch"];
     var computers = ["Steam", "PC"];
+
+    var startAsDisabled = ["Wii", "Xbox", "PS3", "DS"];
 
     self.platformFilters = [];
 
@@ -142,11 +144,10 @@ angular.module('mediaMogulApp')
 
     self.initPlatformFilters = function () {
       self.platforms.forEach(function (platform) {
-        self.platformFilters[platform] = true;
+        if (!_.contains(startAsDisabled, platform)) {
+          self.platformFilters[platform] = true;
+        }
       });
-      if (self.platformFilters.hasOwnProperty("Xbox")) {
-        self.platformFilters["Xbox"] = false;
-      }
     };
 
 

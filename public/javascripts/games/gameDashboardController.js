@@ -5,7 +5,7 @@ angular.module('mediaMogulApp')
 
       var MAX_GAMES = 8;
 
-      self.platforms = ["Wii U", "Xbox One", "PS4", "Steam", "PC"];
+      self.platforms = ["Switch", "Wii U", "Xbox One", "PS4", "Steam", "PC"];
       self.games = [];
 
       self.recentGames = [];
