@@ -153,9 +153,10 @@ exports.getNotMyShows = function(request, response) {
     "                 FROM person_series ps " +
     "                 WHERE person_id = $1) " +
     "AND s.retired = $2 " +
-    "AND s.tier = $3 ";
+    "AND s.tier = $3 " +
+    "AND s.tvdb_match_status = $4 ";
   var values = [
-    personId, 0, 1
+    personId, 0, 1, 'Match Completed'
   ];
 
   return executeQueryWithResults(response, sql, values);
