@@ -118,10 +118,19 @@ exports.addToMyShows = function(request, response) {
   var seriesId = request.body.SeriesId;
 
   var sql = "INSERT INTO person_series " +
-    "(person_id, series_id, tier) " +
-    "VALUES ($1, $2, $3) ";
+    "(person_id, series_id, tier, unwatched_episodes) " +
+    "VALUES ($1, $2, $3, (SELECT COUNT(1) " +
+    "                     FROM episode e " +
+    "                     WHERE e.retired = $4 " +
+    "                     AND e.series_id = $5 " +
+    "                     AND e.air_time < now() " +
+    "                     AND e.season <> $6 " +
+    "                     AND e.id NOT IN (SELECT er.episode_id " +
+    "                                       FROM episode_rating er " +
+    "                                       WHERE er.person_id = $7" +
+    "                                       AND er.watched = $8))) ";
   var values = [
-    personId, seriesId, 1
+    personId, seriesId, 1, 0, seriesId, 0, personId, true
   ];
 
   return executeQueryNoResults(response, sql, values);
@@ -501,15 +510,18 @@ function executeQueryNoResults(response, sql, values) {
 
     var query = client.query(queryConfig);
 
+    query.on('error', function(err) {
+      if (err) {
+        console.error(err.stack);
+        return response.send("Error " + err);
+      }
+    });
+
     query.on('end', function() {
       client.end();
       return response.json({msg: "Success"});
     });
 
-    if (err) {
-      console.error(err);
-      response.send("Error " + err);
-    }
   });
 }
 
