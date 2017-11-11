@@ -45,6 +45,11 @@ angular.module('mediaMogulApp')
       return episode.air_time === null;
     };
 
+    function isUnwatchedEpisode(episode) {
+      return episode.season !== null && episode.season > 0 &&
+        episode.watched === false &&
+        !self.shouldHide(episode);
+    }
 
     function updateSeasonLabels() {
       self.episodes.forEach(function (episode) {
@@ -53,18 +58,38 @@ angular.module('mediaMogulApp')
         if (season !== null && !(self.seasonLabels.indexOf(season) > -1) && !self.shouldHide(episode)) {
           self.seasonLabels.push(season);
         }
+        if (isUnaired(episode)) {
+          episode.unaired = true;
+        }
       });
 
+      self.rowClass = function(episode) {
+        var classString = "";
+
+        if (episode.unaired) {
+          classString += " unairedRow";
+        } else if (isUnwatchedEpisode(episode)) {
+          classString += " unwatchedRow";
+        }
+
+        if (episode.nextUp) {
+          classString += " nextUpRow";
+        }
+        return classString;
+      };
+
       var unwatchedEpisodes = self.episodes.filter(function (episode) {
-        return episode.season !== null && episode.season > 0 &&
-                episode.watched === false &&
-                !self.shouldHide(episode);
+        return isUnwatchedEpisode(episode);
       });
 
       $log.debug("Unwatched: " + unwatchedEpisodes.length);
 
       if (unwatchedEpisodes.length > 0) {
-        self.selectedSeason = unwatchedEpisodes[0].season;
+        var firstUnwatched = unwatchedEpisodes[0];
+        self.selectedSeason = firstUnwatched.season;
+        if (!firstUnwatched.unaired) {
+          firstUnwatched.nextUp = true;
+        }
       } else {
         var allEpisodes = self.episodes.filter(function (episode) {
           return episode.season !== null && episode.season > 0 &&
