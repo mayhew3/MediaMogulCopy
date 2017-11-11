@@ -51,6 +51,20 @@ angular.module('mediaMogulApp')
         !self.shouldHide(episode);
     }
 
+    function updateNextUp() {
+
+      var unwatchedEpisodes = self.episodes.filter(function (episode) {
+        return isUnwatchedEpisode(episode);
+      });
+
+      if (unwatchedEpisodes.length > 0) {
+        var firstUnwatched = unwatchedEpisodes[0];
+        if (!firstUnwatched.unaired) {
+          firstUnwatched.nextUp = true;
+        }
+      }
+    }
+
     function updateSeasonLabels() {
       self.episodes.forEach(function (episode) {
         // $log.debug("AIR DATE: " + episode.air_date);
@@ -276,6 +290,7 @@ angular.module('mediaMogulApp')
         }
       }).result.finally(function() {
         EpisodeService.updateMySeriesDenorms(self.series, self.episodes);
+        updateNextUp();
       });
     };
 
