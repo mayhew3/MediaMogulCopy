@@ -64,18 +64,15 @@ angular.module('mediaMogulApp')
       });
 
       self.rowClass = function(episode) {
-        var classString = "";
-
-        if (episode.unaired) {
-          classString += " unairedRow";
-        } else if (isUnwatchedEpisode(episode)) {
-          classString += " unwatchedRow";
-        }
-
         if (episode.nextUp) {
-          classString += " nextUpRow";
+          return "nextUpRow";
+        } else if (episode.unaired) {
+          return "unairedRow";
+        } else if (isUnwatchedEpisode(episode)) {
+          return "unwatchedRow";
         }
-        return classString;
+
+        return "";
       };
 
       var unwatchedEpisodes = self.episodes.filter(function (episode) {

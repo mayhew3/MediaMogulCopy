@@ -93,11 +93,12 @@ h1 {
 }
 
 .nextUpRow {
-  border: solid 2px greenyellow;
+  border: solid 2px lime;
+  color: lime;
 }
 
 .unwatchedRow {
-  color: greenyellow;
+  color: lightgreen;
 }
 
 .unairedRow {
