@@ -49,6 +49,10 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
           url: '/main',
           templateUrl: 'views/mytv/shows/main.html'
         })
+        .state('mytv.shows.unmatched', {
+          url: '/unmatched',
+          templateUrl: 'views/mytv/shows/unmatched.html'
+        })
         .state('mytv.rate', {
           url: '/mytv/rate/yearly',
           controller: 'yearlyRatingController',

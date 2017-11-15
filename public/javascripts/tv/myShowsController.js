@@ -206,6 +206,20 @@ angular.module('mediaMogulApp')
       });
     };
 
+    self.tryToMatch = function(series) {
+      $log.debug("Executing!");
+      $modal.open({
+        templateUrl: 'views/mytv/episodeMatcher.html',
+        controller: 'episodeMatcherController as ctrl',
+        size: 'lg',
+        resolve: {
+          series: function() {
+            return series;
+          }
+        }
+      });
+    };
+
     self.addSeries = function() {
       $log.debug("Adding window.");
       $modal.open({

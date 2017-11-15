@@ -5,8 +5,19 @@
 
   <ul class="nav nav-pills nav-stacked btn-sm">
     <li role="tv" ng-class="ctrl.isActive('Main')">
-      <a href ui-sref="tv.shows.main" ng-click="ctrl.selectedPill='Main'">
+      <a href ui-sref="mytv.shows.main" ng-click="ctrl.selectedPill='Main'">
         Main<span class="badge" ng-show="ctrl.countWhere(ctrl.showInQueue) > 0" ng-bind="ctrl.countWhere(ctrl.showInQueue)"></span>
+      </a>
+    </li>
+    <li role="tv" ng-class="ctrl.isActive('Unmatched')" ng-show="ctrl.auth.isAdmin()">
+      <a href ui-sref="mytv.shows.unmatched" ng-click="ctrl.selectedPill='Unmatched'">
+        Unmatched
+        <span class="badge pillTabRed"
+              ng-show="ctrl.countWhere(ctrl.hasImportantUnmatched) > 0"
+              ng-bind="ctrl.countWhere(ctrl.hasImportantUnmatched)"></span>
+        <span class="badge"
+              ng-show="ctrl.countWhere(ctrl.hasInactiveUnmatched) > 0"
+              ng-bind="ctrl.countWhere(ctrl.hasInactiveUnmatched)"></span>
       </a>
     </li>
   </ul>
