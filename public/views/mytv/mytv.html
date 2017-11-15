@@ -19,6 +19,9 @@
       <li ui-sref="mytv.addshows.main" ui-sref-active="active">
         <a>Add More</a>
       </li>
+      <li ui-sref="mytv.match.seriesmatching" ui-sref-active="active" ng-show="ctrl.auth.isAdmin()">
+        <a>Match</a>
+      </li>
     </ul>
 
   </div>
