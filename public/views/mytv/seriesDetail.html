@@ -21,7 +21,13 @@
                             ng-style="ctrl.colorStyle(ctrl.series.metacritic)"
                             style="padding: 10px 15px;"></span>
         </div>
-
+        <div class="col-lg-4">
+          <button type="button"
+                  class="btn btn-default"
+                  ng-click="ctrl.openEditSeries()"
+                  ng-show="ctrl.auth.isAdmin()"
+                  ng-disabled="!ctrl.auth.isAuthenticated">Edit Details</button>
+        </div>
       </div>
 
       <div id="MyRating" class="col-lg-12" style="vertical-align: bottom; margin-top: 25px">

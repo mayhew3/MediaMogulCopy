@@ -70,6 +70,7 @@ exports.getMyShows = function(request, response) {
     "s.streaming_episodes, " +
     "s.matched_episodes, " +
     "s.unmatched_episodes, " +
+    "s.tvdb_series_id, " +
     "s.last_tvdb_update, " +
     "s.last_tvdb_error, " +
     "s.poster, " +

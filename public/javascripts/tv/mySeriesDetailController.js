@@ -294,6 +294,38 @@ angular.module('mediaMogulApp')
       });
     };
 
+    self.openChangePoster = function () {
+      if (self.auth.isAdmin()) {
+        $modal.open({
+          templateUrl: 'views/tv/shows/changePoster.html',
+          controller: 'changePosterController',
+          controllerAs: 'ctrl',
+          size: 'lg',
+          resolve: {
+            series: function () {
+              return self.series;
+            }
+          }
+        })
+      }
+    };
+
+    self.openEditSeries = function() {
+      $modal.open({
+        templateUrl: 'views/tv/editSeries.html',
+        controller: 'editSeriesController',
+        controllerAs: 'ctrl',
+        size: 'lg',
+        resolve: {
+          series: function() {
+            return self.series;
+          }, episodes: function() {
+            return self.episodes;
+          }
+        }
+      })
+    };
+
     self.ok = function() {
       $modalInstance.close();
     };
