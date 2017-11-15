@@ -71,6 +71,7 @@ exports.getMyShows = function(request, response) {
     "s.matched_episodes, " +
     "s.unmatched_episodes, " +
     "s.tvdb_series_id, " +
+    "s.tvdb_manual_queue, " +
     "s.last_tvdb_update, " +
     "s.last_tvdb_error, " +
     "s.poster, " +

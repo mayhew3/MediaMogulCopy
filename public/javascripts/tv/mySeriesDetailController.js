@@ -162,6 +162,12 @@ angular.module('mediaMogulApp')
       return episode.watched === true ? "--" : "";
     };
 
+    self.queueForManualUpdate = function() {
+      EpisodeService.updateSeries(self.series.id, {tvdb_manual_queue: true}).then(function() {
+        self.series.tvdb_manual_queue = true;
+      });
+    };
+
     function isUnaired(episode) {
       // unaired if the air time is after now.
 
