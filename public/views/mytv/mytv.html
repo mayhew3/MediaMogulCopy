@@ -13,6 +13,9 @@
       <li ui-sref="mytv.shows.main" ui-sref-active="active">
         <a>My Shows</a>
       </li>
+      <li ui-sref="mytv.rate" ui-sref-active="active" ng-show="ctrl.auth.isAdmin()">
+        <a>Rate</a>
+      </li>
       <li ui-sref="mytv.addshows.main" ui-sref-active="active">
         <a>Add More</a>
       </li>

@@ -35,6 +35,8 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
         })
         .state('mytv', {
           url: '/mytv',
+          controller: 'mytvTopController',
+          controllerAs: 'ctrl',
           templateUrl: 'views/mytv/mytv.html'
         })
         .state('mytv.shows', {
@@ -46,6 +48,12 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
         .state('mytv.shows.main', {
           url: '/main',
           templateUrl: 'views/mytv/shows/main.html'
+        })
+        .state('mytv.rate', {
+          url: '/mytv/rate/yearly',
+          controller: 'yearlyRatingController',
+          controllerAs: 'ctrl',
+          templateUrl: 'views/mytv/rate/tvyearly.html'
         })
         .state('mytv.addshows', {
           url: '/addshows',
