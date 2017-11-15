@@ -206,5 +206,17 @@ angular.module('mediaMogulApp')
       });
     };
 
+    self.addSeries = function() {
+      $log.debug("Adding window.");
+      $modal.open({
+        templateUrl: 'views/mytv/addSeries.html',
+        controller: 'addSeriesController as ctrl',
+        size: 'lg',
+        resolve: {
+        }
+      }).result.finally(function() {
+        self.refreshSeriesList();
+      });
+    };
   }
 ]);
