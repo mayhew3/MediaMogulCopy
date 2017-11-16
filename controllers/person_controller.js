@@ -96,6 +96,15 @@ exports.getMyShows = function(request, response) {
   return executeQueryWithResults(response, sql, values);
 };
 
+exports.getShowBasicInfo = function(request, response) {
+  var sql =
+    "SELECT id, title, poster " +
+    "FROM series " +
+    "WHERE retired = $1";
+
+  return executeQueryWithResults(response, sql, [0]);
+};
+
 exports.getMyUpcomingEpisodes = function(request, response) {
   var personId = request.query.PersonId;
 

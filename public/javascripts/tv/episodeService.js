@@ -2,6 +2,7 @@ function EpisodeService($log, $http, $q, $filter, auth) {
   var shows = [];
   var myShows = [];
   var notMyShows = [];
+  var allShowInfo = [];
   var episodes = [];
   var episodeGroupRatings = [];
   var unmatchedEpisodes = [];
@@ -364,6 +365,21 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     return deferred.promise;
   };
 
+  this.updateAllShowsWithBasicInfo = function() {
+    return $http.get('/showBasicInfo').then(function (response) {
+      $log.debug("Shows returned " + response.data.length + " items.");
+      var tempShows = response.data;
+      tempShows.forEach(function (show) {
+        updatePosterLocation(show);
+      });
+      $log.debug("Finished updating.");
+      allShowInfo = tempShows;
+
+    }, function (errResponse) {
+      console.error('Error while fetching series list: ' + errResponse);
+    });
+  };
+
   this.findEpisodeWithId = function(id) {
     var matching = episodes.filter(function(episode) {
       return episode.id === id;
@@ -465,6 +481,10 @@ function EpisodeService($log, $http, $q, $filter, auth) {
 
   this.getNotMyShows = function() {
     return notMyShows;
+  };
+
+  this.getAllShowInfo = function() {
+    return allShowInfo;
   };
 
   this.getEpisodeGroupRatings = function() {
