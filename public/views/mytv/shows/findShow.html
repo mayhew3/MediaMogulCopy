@@ -1,0 +1,21 @@
+
+<div class="container" style="margin-top: 10px">
+
+  <div class="container col-lg-2">
+
+    <ul class="nav nav-pills nav-stacked btn-sm">
+      <li role="tv" ng-class="ctrl.isActive('Main')">
+        <a href ui-sref="mytv.findshow.main" ng-click="ctrl.selectedPill='Main'">
+          Main
+        </a>
+      </li>
+    </ul>
+
+
+  </div>
+
+  <div class="container col-lg-10">
+    <div ui-view></div>
+  </div>
+
+</div>
