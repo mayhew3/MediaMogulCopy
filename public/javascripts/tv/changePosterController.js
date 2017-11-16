@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-  .controller('changePosterController', ['$log', 'EpisodeService', '$modalInstance', 'series', '$modal', '$filter', 'auth',
-    function($log, EpisodeService, $modalInstance, series, $modal, $filter, auth) {
+  .controller('changePosterController', ['$log', 'EpisodeService', '$uibModalInstance', 'series', '$uibModal', '$filter', 'auth',
+    function($log, EpisodeService, $uibModalInstance, series, $uibModal, $filter, auth) {
       var self = this;
 
       self.auth = auth;
@@ -45,10 +45,10 @@ angular.module('mediaMogulApp')
             series.posterResolved = self.selectedPoster.posterResolved;
           });
         }
-        $modalInstance.close();
+        $uibModalInstance.close();
       };
 
       self.cancel = function() {
-        $modalInstance.dismiss();
+        $uibModalInstance.dismiss();
       };
     }]);

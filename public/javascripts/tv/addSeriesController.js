@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-  .controller('addSeriesController', ['$log', 'EpisodeService', '$modalInstance', 'auth',
-  function($log, EpisodeService, $modalInstance, auth) {
+  .controller('addSeriesController', ['$log', 'EpisodeService', '$uibModalInstance', 'auth',
+  function($log, EpisodeService, $uibModalInstance, auth) {
     var self = this;
 
     self.auth = auth;
@@ -40,11 +40,11 @@ angular.module('mediaMogulApp')
       if (errorResponse) {
         $log.debug("Error adding series. Response: " + errorResponse);
       } else {
-        $modalInstance.close();
+        $uibModalInstance.close();
       }
     };
 
     self.cancel = function() {
-      $modalInstance.close();
+      $uibModalInstance.close();
     }
   }]);

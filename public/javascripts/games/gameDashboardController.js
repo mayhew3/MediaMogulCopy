@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-  .controller('gameDashboardController', ['$log', '$modal', 'GamesService',
-    function($log, $modal, GamesService) {
+  .controller('gameDashboardController', ['$log', '$uibModal', 'GamesService',
+    function($log, $uibModal, GamesService) {
       var self = this;
 
       var MAX_GAMES = 8;
@@ -218,7 +218,7 @@ angular.module('mediaMogulApp')
       // UI POPUPS
 
       self.open = function(game) {
-        $modal.open({
+        $uibModal.open({
           templateUrl: 'views/games/gameDetail.html',
           controller: 'gameDetailController as ctrl',
           size: 'lg',

@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-  .controller('seriesController', ['$log', '$modal', '$interval', 'EpisodeService', 'auth', '$state',
-  function($log, $modal, $interval, EpisodeService, auth, $state) {
+  .controller('seriesController', ['$log', '$uibModal', '$interval', 'EpisodeService', 'auth', '$state',
+  function($log, $uibModal, $interval, EpisodeService, auth, $state) {
     var self = this;
 
     self.auth = auth;
@@ -194,7 +194,7 @@ angular.module('mediaMogulApp')
     };
 
     self.open = function(series) {
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'views/tv/seriesDetail.html',
         controller: 'seriesDetailController as ctrl',
         size: 'lg',
@@ -208,7 +208,7 @@ angular.module('mediaMogulApp')
 
     self.tryToMatch = function(series) {
       $log.debug("Executing!");
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'views/tv/episodeMatcher.html',
         controller: 'episodeMatcherController as ctrl',
         size: 'lg',
@@ -222,7 +222,7 @@ angular.module('mediaMogulApp')
 
     self.addSeries = function() {
       $log.debug("Adding window.");
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'views/tv/addSeries.html',
         controller: 'addSeriesController as ctrl',
         size: 'lg',

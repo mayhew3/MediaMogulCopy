@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-  .controller('yearlyRatingController', ['$log', '$modal', 'EpisodeService', 'auth',
-  function($log, $modal, EpisodeService, auth) {
+  .controller('yearlyRatingController', ['$log', '$uibModal', 'EpisodeService', 'auth',
+  function($log, $uibModal, EpisodeService, auth) {
     var self = this;
 
     self.auth = auth;
@@ -228,7 +228,7 @@ angular.module('mediaMogulApp')
     };
 
     self.openSeriesRating = function(episodeGroup) {
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'views/mytv/rate/seriesRating.html',
         controller: 'seriesRatingController as ctrl',
         size: 'lg',

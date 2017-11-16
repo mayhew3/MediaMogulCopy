@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-.controller('gameDetailController', ['$log', 'GamesService', '$modalInstance', 'game', 'auth',
-  function($log, GamesService, $modalInstance, game, auth) {
+.controller('gameDetailController', ['$log', 'GamesService', '$uibModalInstance', 'game', 'auth',
+  function($log, GamesService, $uibModalInstance, game, auth) {
     var self = this;
 
     self.auth = auth;
@@ -141,11 +141,11 @@ angular.module('mediaMogulApp')
         });
       }
 
-      $modalInstance.close();
+      $uibModalInstance.close();
     };
 
     self.cancel = function() {
-      $modalInstance.dismiss();
+      $uibModalInstance.dismiss();
     }
   }
   ]);

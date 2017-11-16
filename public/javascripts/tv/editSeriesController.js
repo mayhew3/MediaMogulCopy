@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-  .controller('editSeriesController', ['$log', 'EpisodeService', '$modalInstance', 'series', 'episodes', 'auth', '$q',
-  function($log, EpisodeService, $modalInstance, series, episodes, auth, $q) {
+  .controller('editSeriesController', ['$log', 'EpisodeService', '$uibModalInstance', 'series', 'episodes', 'auth', '$q',
+  function($log, EpisodeService, $uibModalInstance, series, episodes, auth, $q) {
     var self = this;
 
     self.auth = auth;
@@ -138,11 +138,11 @@ angular.module('mediaMogulApp')
       $log.debug("Changed fields: " + JSON.stringify(changedFields));
 
       self.executeDatabaseUpdates(changedFields).then(function () {
-        $modalInstance.close();
+        $uibModalInstance.close();
       });
     };
 
     self.cancel = function() {
-      $modalInstance.dismiss();
+      $uibModalInstance.dismiss();
     };
   }]);

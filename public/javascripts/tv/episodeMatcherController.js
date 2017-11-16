@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-  .controller('episodeMatcherController', ['$log', 'EpisodeService', '$modalInstance', 'series', 'auth',
-  function($log, EpisodeService, $modalInstance, series, auth) {
+  .controller('episodeMatcherController', ['$log', 'EpisodeService', '$uibModalInstance', 'series', 'auth',
+  function($log, EpisodeService, $uibModalInstance, series, auth) {
     var self = this;
 
     self.auth = auth;
@@ -239,6 +239,6 @@ angular.module('mediaMogulApp')
 
 
     self.ok = function() {
-      $modalInstance.close();
+      $uibModalInstance.close();
     };
   }]);

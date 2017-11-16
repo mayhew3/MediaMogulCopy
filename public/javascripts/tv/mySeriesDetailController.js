@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-  .controller('mySeriesDetailController', ['$log', 'EpisodeService', '$modalInstance', 'series', '$modal', '$filter', 'auth',
-  function($log, EpisodeService, $modalInstance, series, $modal, $filter, auth) {
+  .controller('mySeriesDetailController', ['$log', 'EpisodeService', '$uibModalInstance', 'series', '$uibModal', '$filter', 'auth',
+  function($log, EpisodeService, $uibModalInstance, series, $uibModal, $filter, auth) {
     var self = this;
 
     self.auth = auth;
@@ -279,7 +279,7 @@ angular.module('mediaMogulApp')
     };
 
     self.openEpisodeDetail = function(episode) {
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'views/mytv/episodeDetail.html',
         controller: 'myEpisodeDetailController as ctrl',
         size: 'lg',
@@ -302,7 +302,7 @@ angular.module('mediaMogulApp')
 
     self.openChangePoster = function () {
       if (self.auth.isAdmin()) {
-        $modal.open({
+        $uibModal.open({
           templateUrl: 'views/tv/shows/changePoster.html',
           controller: 'changePosterController',
           controllerAs: 'ctrl',
@@ -317,7 +317,7 @@ angular.module('mediaMogulApp')
     };
 
     self.openEditSeries = function() {
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'views/tv/editSeries.html',
         controller: 'editSeriesController',
         controllerAs: 'ctrl',
@@ -333,6 +333,6 @@ angular.module('mediaMogulApp')
     };
 
     self.ok = function() {
-      $modalInstance.close();
+      $uibModalInstance.close();
     };
   }]);

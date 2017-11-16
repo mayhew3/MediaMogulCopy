@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-  .controller('tvdbErrorsController', ['$log', '$modal', 'EpisodeService', 'auth',
-    function($log, $modal, EpisodeService, auth) {
+  .controller('tvdbErrorsController', ['$log', '$uibModal', 'EpisodeService', 'auth',
+    function($log, $uibModal, EpisodeService, auth) {
       var self = this;
 
       self.auth = auth;

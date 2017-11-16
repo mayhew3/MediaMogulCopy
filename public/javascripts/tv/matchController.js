@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-  .controller('matchController', ['$log', '$modal', 'EpisodeService', 'auth',
-    function($log, $modal, EpisodeService, auth) {
+  .controller('matchController', ['$log', '$uibModal', 'EpisodeService', 'auth',
+    function($log, $uibModal, EpisodeService, auth) {
       var self = this;
 
       self.series = [];
@@ -116,7 +116,7 @@ angular.module('mediaMogulApp')
       };
 
       self.open = function(series) {
-        $modal.open({
+        $uibModal.open({
           templateUrl: 'views/mytv/match/matchConfirmation.html',
           controller: 'matchConfirmationController as ctrl',
           size: 'lg',

@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-  .controller('addGameController', ['$log', 'GamesService', '$modalInstance', 'auth',
-    function($log, GamesService, $modalInstance, auth) {
+  .controller('addGameController', ['$log', 'GamesService', '$uibModalInstance', 'auth',
+    function($log, GamesService, $uibModalInstance, auth) {
       var self = this;
 
       self.auth = auth;
@@ -24,11 +24,11 @@ angular.module('mediaMogulApp')
         if (errorResponse) {
           $log.debug("Error adding Game. Response: " + errorResponse);
         } else {
-          $modalInstance.close();
+          $uibModalInstance.close();
         }
       };
 
       self.cancel = function() {
-        $modalInstance.close();
+        $uibModalInstance.close();
       }
     }]);

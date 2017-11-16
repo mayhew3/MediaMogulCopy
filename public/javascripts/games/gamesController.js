@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-.controller('gamesController', ['$log', '$modal', 'GamesService', 'auth',
-  function($log, $modal, GamesService, auth) {
+.controller('gamesController', ['$log', '$uibModal', 'GamesService', 'auth',
+  function($log, $uibModal, GamesService, auth) {
     var self = this;
 
     self.auth = auth;
@@ -174,7 +174,7 @@ angular.module('mediaMogulApp')
     }
 
     self.open = function(game) {
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'views/games/gameDetail.html',
         controller: 'gameDetailController as ctrl',
         size: 'lg',
@@ -188,7 +188,7 @@ angular.module('mediaMogulApp')
 
     self.addGame = function() {
       $log.debug("Adding window.");
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'views/games/addGame.html',
         controller: 'addGameController as ctrl',
         size: 'lg',

@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-  .controller('seriesRatingController', ['$log', 'EpisodeService', '$modalInstance', 'episodeGroup', '$modal', '$filter', 'auth',
-  function($log, EpisodeService, $modalInstance, episodeGroup, $modal, $filter, auth) {
+  .controller('seriesRatingController', ['$log', 'EpisodeService', '$uibModalInstance', 'episodeGroup', '$uibModal', '$filter', 'auth',
+  function($log, EpisodeService, $uibModalInstance, episodeGroup, $uibModal, $filter, auth) {
     var self = this;
 
     self.auth = auth;
@@ -161,7 +161,7 @@ angular.module('mediaMogulApp')
     };
 
     self.openEpisodeDetail = function(episode) {
-      $modal.open({
+      $uibModal.open({
         templateUrl: 'views/tv/episodeDetail.html',
         controller: 'episodeDetailController as ctrl',
         size: 'lg',
@@ -213,11 +213,11 @@ angular.module('mediaMogulApp')
     self.updateAndClose = function() {
       self.updateRating()
         .then(function () {
-          $modalInstance.close();
+          $uibModalInstance.close();
         });
     };
 
     self.cancel = function() {
-      $modalInstance.dismiss();
+      $uibModalInstance.dismiss();
     }
   }]);

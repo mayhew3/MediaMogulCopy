@@ -1,6 +1,6 @@
 angular.module('mediaMogulApp')
-  .controller('myEpisodeDetailController', ['$log', 'EpisodeService', '$modalInstance', 'episode', 'previousEpisodes', 'series', 'auth',
-    function($log, EpisodeService, $modalInstance, episode, previousEpisodes, series, auth) {
+  .controller('myEpisodeDetailController', ['$log', 'EpisodeService', '$uibModalInstance', 'episode', 'previousEpisodes', 'series', 'auth',
+    function($log, EpisodeService, $uibModalInstance, episode, previousEpisodes, series, auth) {
       var self = this;
       self.rating_id = episode.rating_id;
       self.auth = auth;
@@ -197,11 +197,11 @@ angular.module('mediaMogulApp')
             return updateWatchedStatus();
           }).then(function () {
           updateEpisodeFields();
-          $modalInstance.close();
+          $uibModalInstance.close();
         });
       };
 
       self.cancel = function() {
-        $modalInstance.dismiss();
+        $uibModalInstance.dismiss();
       }
     }]);
