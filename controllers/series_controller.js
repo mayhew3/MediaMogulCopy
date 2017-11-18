@@ -155,15 +155,24 @@ exports.getTVDBErrors = function(req, response) {
 exports.getPrimeTV = function(req, response) {
   console.log("PrimeTV endpoint called.");
 
-  var sql = 'SELECT id, title, mayhew_rating, metacritic, poster, (unwatched_episodes + unwatched_streaming) as unwatched, first_unwatched ' +
+  var sql = 'SELECT s.id, ' +
+    's.title, ' +
+    'ps.rating, ' +
+    's.metacritic, ' +
+    's.poster, ' +
+    'ps.unwatched_episodes, ' +
+    'ps.first_unwatched ' +
     'FROM series ' +
-    'WHERE tier = $1 ' +
-    'AND unwatched_episodes + unwatched_streaming > $2 ' +
-    'AND tvdb_match_status = $3 ' +
-    'AND retired = $4 ' +
-    'ORDER BY mayhew_rating DESC NULLS LAST';
+    'INNER JOIN person_series ps ' +
+    ' ON ps.series_id = s.id ' +
+    'WHERE ps.tier = $1 ' +
+    'AND ps.unwatched_episodes > $2 ' +
+    'AND s.tvdb_match_status = $3 ' +
+    'AND s.retired = $4 ' +
+    'AND ps.person_id = $5 ' +
+    'ORDER BY CASE WHEN ps.rating IS NULL THEN s.metacritic ELSE ps.rating END DESC NULLS LAST';
 
-  return executeQueryWithResults(response, sql, [1, 0, 'Match Completed', 0])
+  return executeQueryWithResults(response, sql, [1, 0, 'Match Completed', 0, 1])
 };
 
 exports.getPrimeSeriesInfo = function(req, response) {
@@ -178,7 +187,7 @@ exports.getPrimeSeriesInfo = function(req, response) {
     'e.watched_date, ' +
     'e.air_time, ' +
     'e.on_tivo, ' +
-    'e.watched, ' +
+    'er.watched, ' +
     // 'e.streaming, ' +
     'te.filename as tvdb_filename, ' +
     'te.overview as tvdb_overview ' +
@@ -192,21 +201,17 @@ exports.getPrimeSeriesInfo = function(req, response) {
     'FROM episode e ' +
     'LEFT OUTER JOIN tvdb_episode te ' +
     ' ON e.tvdb_episode_id = te.id ' +
-    'LEFT OUTER JOIN edge_tivo_episode ete ' +
-    ' ON e.id = ete.episode_id ' +
-    'LEFT OUTER JOIN tivo_episode ti ' +
-    ' ON ete.tivo_episode_id = ti.id ' +
     'LEFT OUTER JOIN episode_rating er ' +
     ' ON er.episode_id = e.id ' +
     'WHERE e.series_id = $1 ' +
     'AND e.retired = $2 ' +
     'AND te.retired = $3 ' +
     'AND e.season <> $4 ' +
-    'AND e.watched = $5 ' +
-    'ORDER BY e.season, e.episode_number, ti.id ' +
+    'AND (er.person_id = $5 OR er.person_id IS NULL) ' +
+    'ORDER BY e.season, e.episode_number ' +
     'LIMIT 1';
 
-  return executeQueryWithResults(response, sql, [req.query.SeriesId, 0, 0, 0, false]);
+  return executeQueryWithResults(response, sql, [req.query.SeriesId, 0, 0, 0, 1]);
 };
 
 exports.changeTier = function(req, response) {
