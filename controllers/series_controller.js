@@ -157,10 +157,10 @@ exports.getPrimeTV = function(req, response) {
 
   var sql = 'SELECT s.id, ' +
     's.title, ' +
-    'ps.rating, ' +
+    'ps.rating as my_rating, ' +
     's.metacritic, ' +
     's.poster, ' +
-    'ps.unwatched_episodes, ' +
+    'ps.unwatched_episodes as unwatched, ' +
     'ps.first_unwatched ' +
     'FROM series s ' +
     'INNER JOIN person_series ps ' +
