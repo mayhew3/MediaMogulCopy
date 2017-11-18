@@ -60,7 +60,7 @@
         <label ng-repeat="tier in ctrl.tiers"
                ng-class="ctrl.getTierButtonClass(tier)"
                ng-model="ctrl.series.tier"
-               btn-radio="tier"
+               uib-btn-radio="tier"
                ng-change="ctrl.changeTier()">
           <span ng-bind="tier"></span>
         </label>

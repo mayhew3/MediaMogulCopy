@@ -55,7 +55,7 @@
             <label ng-repeat="tier in ctrl.tiers"
                    ng-class="ctrl.getButtonClass(tier)"
                    ng-model="ctrl.series.tier"
-                   btn-radio="tier">
+                   uib-btn-radio="tier">
               <span ng-bind="tier"></span>
             </label>
           </div>
@@ -67,7 +67,7 @@
             <label ng-repeat="location in ctrl.viewingLocations"
                    ng-class="ctrl.getLocButtonClass(location)"
                    ng-model="ctrl.selectedLocation"
-                   btn-radio="location">
+                   uib-btn-radio="location">
               <span ng-bind="location.name"></span>
             </label>
           </div>
