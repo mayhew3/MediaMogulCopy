@@ -12,6 +12,8 @@ angular.module('mediaMogulApp')
 
     self.selectedPill = "Main";
 
+    self.quickFindResult = undefined;
+
     self.isActive = function(pillName) {
       return (pillName === self.selectedPill) ? "active" : null;
     };
@@ -203,6 +205,8 @@ angular.module('mediaMogulApp')
             return series;
           }
         }
+      }).result.finally(function() {
+        self.quickFindResult = undefined;
       });
     };
 

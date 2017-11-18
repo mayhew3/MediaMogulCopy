@@ -100,7 +100,7 @@ exports.getRecordingNow = function(req, response) {
 };
 
 exports.getPossibleMatches = function(req, response) {
-  console.log("Episode call received. Params: " + req.query.SeriesId);
+  console.log("Possible matches call received. Params: " + req.query.SeriesId);
 
   var sql = 'SELECT psm.* ' +
       'FROM possible_series_match psm ' +
@@ -289,7 +289,7 @@ var insertSeries = function(series, response) {
 };
 
 exports.getSeriesViewingLocations = function(req, response) {
-  console.log("Episode call received. Params: " + req.query.SeriesId);
+  console.log("Series Viewing Locations call received. Params: " + req.query.SeriesId);
 
   var seriesId = req.query.SeriesId;
 

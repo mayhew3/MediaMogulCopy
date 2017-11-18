@@ -79,17 +79,6 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
           url: '/seriesmatching',
           templateUrl: 'views/mytv/match/seriesMatching.html'
         })
-
-        .state('mytv.findshow', {
-          url: '/findshow',
-          controller: 'findShowController',
-          controllerAs: 'ctrl',
-          templateUrl: 'views/mytv/shows/findShow.html'
-        })
-        .state('mytv.findshow.main', {
-          url: '/main',
-          templateUrl: 'views/mytv/shows/findShowMain.html'
-        })
         .state('tv_list', {
           url: '/tvbacklog',
           templateUrl: 'views/tv/tvbacklog.html'

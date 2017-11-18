@@ -41,6 +41,18 @@
     </li>
   </ul>
 
+  <ul class="nav nav-pills nav-stacked">
+    <li>
+      <label>Quick Find:
+        <input type="text"
+               ng-model="ctrl.quickFindResult"
+               uib-typeahead="show as show.title for show in ctrl.series | filter:{title:$viewValue} | limitTo:5"
+               typeahead-on-select="ctrl.open(ctrl.quickFindResult)"
+               class="form-control">
+      </label>
+    </li>
+  </ul>
+
 </div>
 
 <div class="container col-lg-10">
