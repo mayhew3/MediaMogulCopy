@@ -162,7 +162,7 @@ exports.getPrimeTV = function(req, response) {
     's.poster, ' +
     'ps.unwatched_episodes, ' +
     'ps.first_unwatched ' +
-    'FROM series ' +
+    'FROM series s ' +
     'INNER JOIN person_series ps ' +
     ' ON ps.series_id = s.id ' +
     'WHERE ps.tier = $1 ' +
