@@ -215,8 +215,7 @@ exports.getPrimeSeriesInfo = function(req, response) {
     0,    // e.season
     1,    // er.person_id
     true, // er.watched
-    0,    // er.retired
-    false]);  // er.watched
+    0]);  // er.watched
 };
 
 exports.changeTier = function(req, response) {
