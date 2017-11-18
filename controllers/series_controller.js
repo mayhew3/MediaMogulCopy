@@ -187,7 +187,6 @@ exports.getPrimeSeriesInfo = function(req, response) {
     'e.watched_date, ' +
     'e.air_time, ' +
     'e.on_tivo, ' +
-    'er.watched, ' +
     // 'e.streaming, ' +
     'te.filename as tvdb_filename, ' +
     'te.overview as tvdb_overview ' +
@@ -201,17 +200,23 @@ exports.getPrimeSeriesInfo = function(req, response) {
     'FROM episode e ' +
     'LEFT OUTER JOIN tvdb_episode te ' +
     ' ON e.tvdb_episode_id = te.id ' +
-    'LEFT OUTER JOIN episode_rating er ' +
-    ' ON er.episode_id = e.id ' +
     'WHERE e.series_id = $1 ' +
     'AND e.retired = $2 ' +
     'AND te.retired = $3 ' +
     'AND e.season <> $4 ' +
-    'AND (er.person_id = $5 OR er.person_id IS NULL) ' +
+    'AND e.id NOT IN (SELECT episode_id FROM episode_rating WHERE person_id = $5 AND watched = $6 AND retired = $7) ' +
     'ORDER BY e.season, e.episode_number ' +
-    'LIMIT 1';
+    'LIMIT 1 ';
 
-  return executeQueryWithResults(response, sql, [req.query.SeriesId, 0, 0, 0, 1]);
+  return executeQueryWithResults(response, sql, [
+    req.query.SeriesId,
+    0,    // e.retired
+    0,    // te.retired
+    0,    // e.season
+    1,    // er.person_id
+    true, // er.watched
+    0,    // er.retired
+    false]);  // er.watched
 };
 
 exports.changeTier = function(req, response) {
