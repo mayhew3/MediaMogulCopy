@@ -9,6 +9,11 @@
         Main<span class="badge" ng-show="ctrl.countWhere(ctrl.showInQueue) > 0" ng-bind="ctrl.countWhere(ctrl.showInQueue)"></span>
       </a>
     </li>
+    <li role="tv" ng-class="ctrl.isActive('Backlog')">
+      <a href ui-sref="mytv.shows.backlog" ng-click="ctrl.selectedPill='Backlog'">
+        Backlog
+      </a>
+    </li>
     <li role="tv" ng-class="ctrl.isActive('Unmatched')" ng-show="ctrl.auth.isAdmin()">
       <a href ui-sref="mytv.shows.unmatched" ng-click="ctrl.selectedPill='Unmatched'">
         Unmatched

@@ -7,8 +7,7 @@
   <div class="panel-body">
     <div class="row">
       <div class="fade-repeat col-xs-4 col-md-3 posterRow" ng-repeat="show in ctrl.series |
-                filter:ctrl.showInQueue |
-                orderBy:[ctrl.orderByRating].concat('-FullRating')">
+                filter:ctrl.showInQueue">
         <a ng-click="ctrl.open(show)" href="">
           <img class="img-rounded"
                ng-style="ctrl.posterStyle(show)"
@@ -33,8 +32,7 @@
   <div class="panel-body">
     <div class="row">
       <div class="fade-repeat col-xs-4 col-md-3 posterRow" ng-repeat="show in ctrl.series |
-                filter:ctrl.otherActive |
-                orderBy:[ctrl.orderByRating].concat('-FullRating')">
+                filter:ctrl.otherActive">
         <a ng-click="ctrl.open(show)" href="">
           <img class="img-rounded"
                ng-style="ctrl.posterStyle(show)"

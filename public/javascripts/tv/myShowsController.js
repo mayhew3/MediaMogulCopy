@@ -14,6 +14,9 @@ angular.module('mediaMogulApp')
 
     self.quickFindResult = undefined;
 
+    self.currentPage = 1;
+    self.pageSize = 12;
+
     self.isActive = function(pillName) {
       return (pillName === self.selectedPill) ? "active" : null;
     };
@@ -106,27 +109,11 @@ angular.module('mediaMogulApp')
       var metacritic = series.metacritic;
       var myRating = series.my_rating;
 
-      series.FullRating = myRating === null ? metacritic : myRating;
-/*
-
-      if (metacritic === null) {
-        series.FullRating = myRating;
-      } else if (myRating === null) {
-        series.FullRating = metacritic;
-      } else {
-        var watched = series.watched_episodes;
-        if (watched > 4) {
-          watched = 4;
-        }
-        var myWeight = 0.40 + (watched * 0.15);
-        var metaWeight = 1 - myWeight;
-
-        series.FullRating = (myRating * myWeight) + (metacritic * metaWeight);
-      }
-*/
+      series.FullRating = myRating === null ?
+        (metacritic === null ? 0 : metacritic) : myRating;
 
       series.colorStyle = function() {
-        if (series.FullRating === null) {
+        if (series.FullRating === null || series.FullRating === 0) {
           return {};
         } else {
           var hue = (series.FullRating <= 50) ? series.FullRating * 0.5 : (50 * 0.5 + (series.FullRating - 50) * 4.5);
@@ -147,6 +134,9 @@ angular.module('mediaMogulApp')
         $log.debug("Controller has " + self.series.length + " shows.");
         self.series.forEach(function (seri) {
           updateFullRating(seri);
+        });
+        self.series = _.sortBy(self.series, function(show) {
+          return 0 - show.FullRating;
         });
       });
     };
