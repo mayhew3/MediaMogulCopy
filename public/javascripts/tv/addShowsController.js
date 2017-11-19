@@ -1,4 +1,11 @@
 angular.module('mediaMogulApp')
+  .filter("filterByTitle", function() {
+    return function (shows, titleFragment) {
+      return _.filter(shows, function(show) {
+        return titleFragment === undefined || show.title.indexOf(titleFragment) > -1;
+      });
+    }
+  })
   .controller('addShowsController', ['$log', '$uibModal', '$interval', 'EpisodeService', 'auth',
     function($log, $uibModal, $interval, EpisodeService, auth) {
       var self = this;
@@ -14,6 +21,8 @@ angular.module('mediaMogulApp')
 
       self.currentPage = 1;
       self.pageSize = 12;
+
+      self.titleSearch = undefined;
 
       self.isActive = function(pillName) {
         return (pillName === self.selectedPill) ? "active" : null;

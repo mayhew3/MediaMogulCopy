@@ -7,14 +7,22 @@
   <div class="panel-body">
 
     <div class="row">
-      <ul uib-pagination
-          total-items="ctrl.series.length"
-          ng-model="ctrl.currentPage"
-          items-per-page="ctrl.pageSize"></ul>
+      <div class="col-lg-6">
+        <ul uib-pagination
+            total-items="ctrl.series.length"
+            ng-model="ctrl.currentPage"
+            items-per-page="ctrl.pageSize"></ul>
+      </div>
+      <div class="col-lg-6">
+        <label>Filter:
+          <input type="text" ng-model="ctrl.titleSearch">
+        </label>
+      </div>
     </div>
 
     <div class="row">
       <div class="fade-repeat col-xs-4 col-md-3 posterRow" ng-repeat="show in ctrl.series |
+                filterByTitle: ctrl.titleSearch |
                 limitTo : ctrl.pageSize : (ctrl.currentPage - 1) * ctrl.pageSize">
         <a ng-click="ctrl.open(show)" href="">
           <img class="img-rounded"

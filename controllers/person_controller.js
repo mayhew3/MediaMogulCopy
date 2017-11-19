@@ -65,7 +65,7 @@ exports.getMyShows = function(request, response) {
 
   var sql = "SELECT s.id, " +
     "s.title, " +
-    "s.tier, " +
+    "ps.tier, " +
     "s.metacritic, " +
     "s.streaming_episodes, " +
     "s.matched_episodes, " +
