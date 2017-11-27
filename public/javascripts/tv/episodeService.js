@@ -122,6 +122,7 @@ function EpisodeService($log, $http, $q, $filter, auth) {
   };
 
   function updatePosterLocation(show) {
+    show.imageDoesNotExist = !show.poster;
     show.posterResolved = amendPosterLocation(show.poster);
   }
 

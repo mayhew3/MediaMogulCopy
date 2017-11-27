@@ -16,7 +16,9 @@
           <div class="posterBadgeRed">
             <span ng-bind="show.unmatched_episodes"></span>
           </div>
-
+          <div class="posterTitle" ng-show="show.imageDoesNotExist">
+            <span ng-bind="show.title"></span>
+          </div>
         </a>
       </div>
     </div>
@@ -36,6 +38,9 @@
                ng-src="{{show.posterResolved}}"
                err-src="images/GenericSeries.gif"
                width="100%"/>
+          <div class="posterTitle" ng-show="show.imageDoesNotExist">
+            <span ng-bind="show.title"></span>
+          </div>
           <div class="posterBadgeRed">
             <span ng-bind="show.unmatched_episodes"></span>
           </div>

@@ -280,6 +280,11 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
         element.bind('error', function() {
           if (attrs.src != attrs.errSrc) {
             attrs.$set('src', attrs.errSrc);
+            if (scope.show) {
+              console.log("Error reading image for series '" + scope.show.title + "'.");
+              scope.show.imageDoesNotExist = true;
+              scope.$apply();
+            }
           }
         });
       }

@@ -17,7 +17,9 @@
           <div class="posterBadge">
             <span ng-bind="show.unwatched_all"></span>
           </div>
-
+          <div class="posterTitle" ng-show="show.imageDoesNotExist">
+            <span ng-bind="show.title"></span>
+          </div>
         </a>
       </div>
     </div>
@@ -43,6 +45,9 @@
             <span ng-bind="show.unwatched_all"></span>
           </div>
 
+          <div class="posterTitle" ng-show="show.imageDoesNotExist">
+            <span ng-bind="show.title"></span>
+          </div>
         </a>
       </div>
     </div>
@@ -66,6 +71,9 @@
                  err-src="images/GenericSeries.gif"
                  width="100%"/>
           </a>
+          <div class="posterTitle" ng-show="show.imageDoesNotExist">
+            <span ng-bind="show.title"></span>
+          </div>
         </div>
         <div align="right">
           <h5 ng-bind="show.nextAirDateFormatted"></h5>

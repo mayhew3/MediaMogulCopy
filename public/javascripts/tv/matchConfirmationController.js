@@ -45,6 +45,7 @@ angular.module('mediaMogulApp')
             series.tvdb_series_title = self.selectedMatch.tvdb_series_title;
             series.poster = self.selectedMatch.poster;
             series.posterResolved = self.selectedMatch.posterResolved;
+            series.imageDoesNotExist = false;
           });
         }
         $uibModalInstance.close();

@@ -42,6 +42,7 @@ angular.module('mediaMogulApp')
           };
           EpisodeService.updateSeries(series.id, changedFields).then(function() {
             series.poster = self.selectedPoster.poster_path;
+            series.imageDoesNotExist = !series.poster;
             series.posterResolved = self.selectedPoster.posterResolved;
           });
         }

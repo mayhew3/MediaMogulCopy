@@ -45,6 +45,12 @@ h1 {
 
 .posterRow {
   margin-bottom: 15px;
+  text-align: center;
+}
+
+.posterImage {
+  position: relative;
+  display: block;
 }
 
 .posterBadge {
@@ -59,6 +65,18 @@ h1 {
   margin-top: 0;
   padding: 0 5pt;
   border-radius: 3pt;
+}
+
+.posterTitle {
+  color: black;
+  font-size: 13pt;
+  font-weight: bolder;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  vertical-align: middle;
+  text-align: center;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .addShowButton {
