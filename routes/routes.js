@@ -22,6 +22,7 @@ module.exports = function(app) {
   app.get('/episodeList', authCheck, series.getEpisodes);
   app.get('/recordingNow', authCheck, series.getRecordingNow);
   app.get('/possibleMatches', authCheck, series.getPossibleMatches);
+  app.get('/numPendingMatches', authCheck, series.getNumberOfPendingMatches);
   app.get('/viewingLocations', authCheck, series.getViewingLocations);
   app.get('/allPosters', authCheck, series.getAllPosters);
   app.get('/seriesViewingLocations', authCheck, series.getSeriesViewingLocations);

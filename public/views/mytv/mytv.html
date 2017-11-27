@@ -20,7 +20,13 @@
         <a>Add More</a>
       </li>
       <li ui-sref="mytv.match.seriesmatching" ui-sref-active="active" ng-show="ctrl.auth.isAdmin()">
-        <a>Match</a>
+        <a>
+          Match
+          <span class="badge pillTabRed"
+                      ng-show="ctrl.getNumberOfPendingMatches() > 0"
+                      ng-bind="ctrl.getNumberOfPendingMatches()"></span>
+        </a>
+
       </li>
     </ul>
 

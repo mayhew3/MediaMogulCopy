@@ -82,7 +82,7 @@
           <br/>
           <br/>
           <input type="button"
-                 ng-show="!series.temp_ignored && ctrl.auth.isAdmin()"
+                 ng-show="!series.temp_confirmed && ctrl.auth.isAdmin()"
                  class="btn btn-sm btn-success"
                  ng-disabled="series.temp_ignored"
                  ng-click="ctrl.confirmMatch(series)"

@@ -10,6 +10,7 @@ function EpisodeService($log, $http, $q, $filter, auth) {
   var viewingLocations = [];
   var allPosters = [];
   var tvdbErrors = [];
+  var pendingMatches = 0;
   var self = this;
 
   this.getSeriesWithTitle = function(SeriesTitle) {
@@ -111,6 +112,24 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     }, function (errResponse) {
       console.error('Error while fetching series list: ' + errResponse);
     });
+  };
+
+  this.updateNumberOfPendingMatches = function() {
+    return $http.get('/numPendingMatches').then(function (response) {
+      pendingMatches = response.data[0].num_matches;
+    });
+  };
+
+  this.getNumberOfPendingMatches = function() {
+    return pendingMatches;
+  };
+
+  this.incrementPendingMatches = function() {
+    pendingMatches++;
+  };
+
+  this.decrementPendingMatches = function() {
+    pendingMatches--;
   };
 
   this.updateEpisodeGroupRatings = function(year) {

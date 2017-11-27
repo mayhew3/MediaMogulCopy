@@ -29,6 +29,16 @@ exports.getSeriesWithPossibleMatchInfo = function(request, response) {
   return executeQueryWithResults(response, sql, [false, 'Match Completed', 0]);
 };
 
+exports.getNumberOfPendingMatches = function(request, response) {
+  var sql = 'SELECT COUNT(1) AS num_matches ' +
+    'FROM series ' +
+    'WHERE suggestion = $1 ' +
+    'AND retired = $2 ' +
+    'AND tvdb_match_status IN ($3, $4) ';
+
+  return executeQueryWithResults(response, sql, [false, 0, 'Needs Confirmation', 'Duplicate'])
+};
+
 exports.getEpisodeGroupRatings = function(request, response) {
   var year = request.query.Year;
 

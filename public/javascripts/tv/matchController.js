@@ -76,6 +76,7 @@ angular.module('mediaMogulApp')
           series.temp_ignored = true;
           series.previous_status = series.tvdb_match_status;
           series.tvdb_match_status = 'Ignored';
+          EpisodeService.decrementPendingMatches();
         });
       };
 
@@ -88,6 +89,7 @@ angular.module('mediaMogulApp')
           series.temp_ignored = false;
           series.tvdb_match_status = series.previous_status;
           series.previous_status = null;
+          EpisodeService.incrementPendingMatches();
         });
       };
 
@@ -100,6 +102,7 @@ angular.module('mediaMogulApp')
           series.temp_confirmed = true;
           series.previous_status = series.tvdb_match_status;
           series.tvdb_match_status = 'Match Confirmed';
+          EpisodeService.decrementPendingMatches();
         });
       };
 
@@ -112,6 +115,7 @@ angular.module('mediaMogulApp')
           series.temp_confirmed = false;
           series.tvdb_match_status = series.previous_status;
           series.previous_status = null;
+          EpisodeService.incrementPendingMatches();
         });
       };
 
