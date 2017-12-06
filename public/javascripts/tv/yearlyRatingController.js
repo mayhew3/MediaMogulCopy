@@ -125,7 +125,7 @@ angular.module('mediaMogulApp')
 
     self.unairedGroupFilter = function(episodeGroup) {
       var diff = new Date(episodeGroup.last_aired) - new Date + (1000 * 60 * 60 * 24);
-      return (diff > 0) && (self.getUnaired(episodeGroup) !== 0);
+      return (diff > 0) && (self.getUnaired(episodeGroup) !== 0) && (self.getUnwatched(episodeGroup) === 0);
     };
 
     self.unwatchedGroupFilter = function(episodeGroup) {
