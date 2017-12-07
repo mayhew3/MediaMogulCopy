@@ -48,22 +48,20 @@
           <thead>
           <th>Title</th>
           <th>Avg</th>
-          <th>Max</th>
           <th>Last</th>
           <th ng-show="ctrl.showUnrated">Unrated</th>
           <th ng-show="ctrl.showUnwatched">Unwatched</th>
           <th ng-show="ctrl.showUnaired">Unaired</th>
           <th ng-show="ctrl.showNeeds">Needs</th>
           <th>Rating</th>
-          <th>RGB</th>
+          <th ng-show="ctrl.showRGB">RGB</th>
           </thead>
           <tr data-ng-repeat="episodeGroup in ctrl.episodeGroups |
                 filter:ctrl.episodeGroupFilter |
                 orderBy:[ctrl.seriesOrdering]">
             <td ng-bind="episodeGroup.title" ng-click="ctrl.openSeriesRating(episodeGroup)"></td>
             <td ng-style="ctrl.colorStyleFull(episodeGroup.avg_rating)"  ng-bind="episodeGroup.avg_rating|number: 1" width="70" align="center"></td>
-            <td ng-bind="episodeGroup.max_rating" align="center"></td>
-            <td ng-bind="episodeGroup.last_rating" align="center"></td>
+            <td ng-bind="episodeGroup.last_aired|date:ctrl.getDateFormat(episodeGroup.last_aired):'America/Los_Angeles'" align="center"></td>
             <td ng-show="ctrl.showUnrated">
                 <span class="label label-danger"
                       ng-hide="ctrl.getUnrated(episodeGroup) === 0"
@@ -108,7 +106,7 @@
                     title="Needs Review">Review</span>
             </td>
             <td ng-style="ctrl.getBestRatingColorStyle(episodeGroup)" ng-bind="ctrl.getBestRating(episodeGroup)|number: 1" width="70" align="center"></td>
-            <td><span ng-bind="ctrl.getBestRatingRGB(episodeGroup)"></span></td>
+            <td ng-show="ctrl.showRGB"><span ng-bind="ctrl.getBestRatingRGB(episodeGroup)"></span></td>
           </tr>
         </table>
       </div>

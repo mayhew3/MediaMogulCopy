@@ -15,6 +15,7 @@ angular.module('mediaMogulApp')
     self.showUnrated = true;
     self.showUnwatched = false;
     self.showUnaired = false;
+    self.showRGB = false;
 
     self.refreshEpisodeGroupList = function(year) {
       EpisodeService.updateEpisodeGroupRatings(year).then(function () {
@@ -64,6 +65,19 @@ angular.module('mediaMogulApp')
           'color': fontColor
         }
       }
+    };
+
+    self.getDateFormat = function(date) {
+      if (date !== null) {
+        var year = new Date(date).getFullYear();
+
+        if (year === self.year) {
+          return 'M/d';
+        } else {
+          return 'yyyy/M/d';
+        }
+      }
+      return 'yyyy/M/d';
     };
 
     self.rgbValue = function(scaledValue) {
@@ -165,6 +179,7 @@ angular.module('mediaMogulApp')
       self.showUnrated = false;
       self.showUnwatched = false;
       self.showUnaired = false;
+      self.showRGB = true;
     };
 
     self.filterWatched = function() {
@@ -177,6 +192,7 @@ angular.module('mediaMogulApp')
       self.showUnrated = true;
       self.showUnwatched = false;
       self.showUnaired = false;
+      self.showRGB = false;
     };
 
     self.filterToRate = function() {
@@ -189,6 +205,7 @@ angular.module('mediaMogulApp')
       self.showUnrated = true;
       self.showUnwatched = false;
       self.showUnaired = false;
+      self.showRGB = false;
     };
 
     self.filterToReview = function() {
@@ -201,6 +218,7 @@ angular.module('mediaMogulApp')
       self.showUnrated = true;
       self.showUnwatched = false;
       self.showUnaired = false;
+      self.showRGB = false;
     };
 
     self.filterToWatch = function() {
@@ -213,6 +231,7 @@ angular.module('mediaMogulApp')
       self.showUnrated = false;
       self.showUnwatched = true;
       self.showUnaired = false;
+      self.showRGB = false;
     };
 
     self.filterToAir = function() {
@@ -225,6 +244,7 @@ angular.module('mediaMogulApp')
       self.showUnrated = false;
       self.showUnwatched = false;
       self.showUnaired = true;
+      self.showRGB = false;
     };
 
     self.openSeriesRating = function(episodeGroup) {
