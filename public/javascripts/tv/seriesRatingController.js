@@ -179,6 +179,12 @@ angular.module('mediaMogulApp')
     };
 
     self.updateRating = function() {
+      if (episodeGroup.rating === null && self.interfaceFields.rating !== null) {
+        EpisodeService.decrementNumberOfShowsToRate();
+      } else if (episodeGroup.rating !== null && (self.interfaceFields.rating === null || self.interfaceFields.rating === '')) {
+        EpisodeService.incrementNumberOfShowsToRate();
+      }
+
       episodeGroup.rating = self.interfaceFields.rating;
       episodeGroup.review = self.interfaceFields.review;
 

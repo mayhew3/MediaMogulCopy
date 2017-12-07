@@ -132,6 +132,14 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     return numberOfShowsToRate;
   };
 
+  this.incrementNumberOfShowsToRate = function() {
+    numberOfShowsToRate++;
+  };
+
+  this.decrementNumberOfShowsToRate = function() {
+    numberOfShowsToRate--;
+  };
+
   this.getNumberOfPendingMatches = function() {
     return pendingMatches;
   };
