@@ -14,7 +14,12 @@
         <a>My Shows</a>
       </li>
       <li ui-sref="mytv.rate" ui-sref-active="active" ng-show="ctrl.auth.isAdmin()">
-        <a>Rate</a>
+        <a>
+          Rate
+          <span class="badge"
+                ng-show="ctrl.getNumberOfShowsToRate() > 0"
+                ng-bind="ctrl.getNumberOfShowsToRate()"></span>
+        </a>
       </li>
       <li ui-sref="mytv.addshows.main" ui-sref-active="active">
         <a>Add More</a>

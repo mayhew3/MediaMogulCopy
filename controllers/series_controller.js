@@ -29,6 +29,21 @@ exports.getSeriesWithPossibleMatchInfo = function(request, response) {
   return executeQueryWithResults(response, sql, [false, 'Match Completed', 0]);
 };
 
+exports.getNumberOfShowsToRate = function(request, response) {
+  var year = request.query.Year;
+
+  console.log("NumberOfShowsToRate called with year " + year);
+
+  var sql = 'select count(1) as num_shows ' +
+  'from episode_group_rating ' +
+  'where year = $1 ' +
+  "and (next_air_date is null or next_air_date > now() + interval '3 months') " +
+  'and (watched = aired or watched > $2) ' +
+  'and rating is null ';
+
+  return executeQueryWithResults(response, sql, [year, 4]);
+};
+
 exports.getNumberOfPendingMatches = function(request, response) {
   var sql = 'SELECT COUNT(1) AS num_matches ' +
     'FROM series ' +
@@ -36,7 +51,7 @@ exports.getNumberOfPendingMatches = function(request, response) {
     'AND retired = $2 ' +
     'AND tvdb_match_status IN ($3, $4) ';
 
-  return executeQueryWithResults(response, sql, [false, 0, 'Needs Confirmation', 'Duplicate'])
+  return executeQueryWithResults(response, sql, [false, 0, 'Needs Confirmation', 'Duplicate']);
 };
 
 exports.getEpisodeGroupRatings = function(request, response) {

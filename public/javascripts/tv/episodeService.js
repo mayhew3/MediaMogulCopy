@@ -10,6 +10,7 @@ function EpisodeService($log, $http, $q, $filter, auth) {
   var viewingLocations = [];
   var allPosters = [];
   var tvdbErrors = [];
+  var numberOfShowsToRate = 0;
   var pendingMatches = 0;
   var self = this;
 
@@ -114,10 +115,21 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     });
   };
 
+  this.updateNumberOfShowsToRate = function(year) {
+    return $http.get('/numShowsToRate', {params: {Year: year}}).then(function (response) {
+      numberOfShowsToRate = response.data[0].num_shows;
+      console.log('Number of shows to rate: ' + numberOfShowsToRate);
+    });
+  };
+
   this.updateNumberOfPendingMatches = function() {
     return $http.get('/numPendingMatches').then(function (response) {
       pendingMatches = response.data[0].num_matches;
     });
+  };
+
+  this.getNumberOfShowsToRate = function() {
+    return numberOfShowsToRate;
   };
 
   this.getNumberOfPendingMatches = function() {
