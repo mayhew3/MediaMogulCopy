@@ -901,7 +901,7 @@ function EpisodeService($log, $http, $q, $filter, auth) {
 
   this.averageFromNumbers = function(numberArray) {
     if (!numberArray.length) {
-      return 0;
+      return null;
     }
 
     var sum = _.reduce(numberArray, function(a, b) {
@@ -909,6 +909,10 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     });
     return sum / numberArray.length;
   };
+
+
+  // NOTE: This logic is duplicated by EpisodeGroupUpdater. At some point I might want to migrate them both to some shared
+  //       server call. Until then, just be sure to make any changes here in that method as well.
 
   this.updateEpisodeGroupRatingWithNewRating = function(series, episodes) {
     $http.get('/episodeGroupRating', {params: {Year: 2017, SeriesId: series.id}}).then(function (response) {
@@ -935,9 +939,13 @@ function EpisodeService($log, $http, $q, $filter, auth) {
       var rating_values = _.map(ratedEpisodes, function(episode) {
         return episode.rating_value;
       });
-      var avg_rating = self.averageFromNumbers(rating_values);
-      var last_rating = _.last(rating_values);
-      var max_rating = _.max(rating_values);
+
+      var avg_rating = _.isEmpty(rating_values) ? null : self.averageFromNumbers(rating_values);
+      var last_rating = _.isEmpty(rating_values) ? null : _.last(rating_values);
+      var max_rating = _.isEmpty(rating_values) ? null : _.max(rating_values);
+
+      var suggested_rating = _.isEmpty(rating_values) ? null :
+        ((avg_rating * 5) + (max_rating * 3) + (last_rating * 1)) / 9;
 
       var unwatchedEpisodes = _.filter(eligibleEpisodes, function(episode) {
         return !episode.watched;
@@ -948,6 +956,7 @@ function EpisodeService($log, $http, $q, $filter, auth) {
         avg_rating: parseFloat(episodeGroupRating.avg_rating),
         last_rating: parseInt(episodeGroupRating.last_rating),
         max_rating: parseInt(episodeGroupRating.max_rating),
+        suggested_rating: parseFloat(episodeGroupRating.suggested_rating),
         watched: episodeGroupRating.watched,
         rated: episodeGroupRating.rated,
         next_air_date: new Date(episodeGroupRating.next_air_date)
@@ -957,6 +966,7 @@ function EpisodeService($log, $http, $q, $filter, auth) {
         avg_rating: parseFloat(avg_rating.toFixed(1)),
         last_rating: last_rating,
         max_rating: max_rating,
+        suggested_rating: parseFloat(suggested_rating.toFixed(1)),
         watched: watchedEpisodes.length,
         rated: ratedEpisodes.length,
         next_air_date: new Date(nextUnwatched.air_date)
