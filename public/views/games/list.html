@@ -12,9 +12,9 @@
             <button type="button"
                     ng-repeat="platform in ctrl.platforms"
                     ng-class="ctrl.getButtonClass(ctrl.platformFilters[platform])"
-                    btn-checkbox
-                    btn-checkbox-true="true"
-                    btn-checkbox-false="false"
+                    uib-btn-checkbox
+                    uib-btn-checkbox-true="true"
+                    uib-btn-checkbox-false="false"
                     ng-model="ctrl.platformFilters[platform]"
                     ng-change="ctrl.updatePlatformFilter(platform)">
               <span ng-bind="platform"></span>
@@ -24,27 +24,27 @@
           <div class="btn-group" role="group">
             <button type="button"
                     ng-class="ctrl.getButtonClass(ctrl.consoleFilter)"
-                    btn-checkbox
-                    btn-checkbox-true="true"
-                    btn-checkbox-false="false"
+                    uib-btn-checkbox
+                    uib-btn-checkbox-true="true"
+                    uib-btn-checkbox-false="false"
                     ng-model="ctrl.consoleFilter"
                     ng-change="ctrl.updateConsoleFilter()">
               Console
             </button>
             <button type="button"
                     ng-class="ctrl.getButtonClass(ctrl.computerFilter)"
-                    btn-checkbox
-                    btn-checkbox-true="true"
-                    btn-checkbox-false="false"
+                    uib-btn-checkbox
+                    uib-btn-checkbox-true="true"
+                    uib-btn-checkbox-false="false"
                     ng-model="ctrl.computerFilter"
                     ng-change="ctrl.updateComputerFilter()">
               Computer
             </button>
             <button type="button"
                     ng-class="ctrl.getButtonClass(ctrl.noneFilter)"
-                    btn-checkbox
-                    btn-checkbox-true="true"
-                    btn-checkbox-false="false"
+                    uib-btn-checkbox
+                    uib-btn-checkbox-true="true"
+                    uib-btn-checkbox-false="false"
                     ng-model="ctrl.noneFilter"
                     ng-change="ctrl.updateNoneFilter()">
               None
@@ -54,70 +54,70 @@
           <!-- Steam Cloud filter -->
           <button type="button"
                   ng-class="ctrl.getButtonClass(ctrl.steamCloud)"
-                  btn-checkbox
-                  btn-checkbox-true="true"
-                  btn-checkbox-false="false"
+                  uib-btn-checkbox
+                  uib-btn-checkbox-true="true"
+                  uib-btn-checkbox-false="false"
                   ng-model="ctrl.steamCloud">Cloud</button>
 
           <!-- Many Hours Played filter -->
           <button type="button"
                   ng-class="ctrl.getButtonClass(ctrl.manyHours)"
-                  btn-checkbox
-                  btn-checkbox-true="true"
-                  btn-checkbox-false="false"
+                  uib-btn-checkbox
+                  uib-btn-checkbox-true="true"
+                  uib-btn-checkbox-false="false"
                   ng-model="ctrl.manyHours">Playtime</button>
 
           <!-- Nearly Done filter -->
           <button type="button"
                   ng-class="ctrl.getButtonClass(ctrl.nearlyDoneFilter)"
-                  btn-checkbox
-                  btn-checkbox-true="true"
-                  btn-checkbox-false="false"
+                  uib-btn-checkbox
+                  uib-btn-checkbox-true="true"
+                  uib-btn-checkbox-false="false"
                   ng-model="ctrl.nearlyDoneFilter">Nearly Done</button>
 
 
           <!-- Unplayed filter -->
           <button type="button"
                   ng-class="ctrl.getButtonClass(ctrl.unplayedFilter)"
-                  btn-checkbox
-                  btn-checkbox-true="true"
-                  btn-checkbox-false="false"
+                  uib-btn-checkbox
+                  uib-btn-checkbox-true="true"
+                  uib-btn-checkbox-false="false"
                   ng-model="ctrl.unplayedFilter">Unplayed</button>
 
 
           <!-- Newly Added filter -->
           <button type="button"
                   ng-class="ctrl.getButtonClass(ctrl.newlyAddedFilter)"
-                  btn-checkbox
-                  btn-checkbox-true="true"
-                  btn-checkbox-false="false"
+                  uib-btn-checkbox
+                  uib-btn-checkbox-true="true"
+                  uib-btn-checkbox-false="false"
                   ng-model="ctrl.newlyAddedFilter">Newly Added</button>
 
 
           <!-- HowLongToBeat Unmatched filter -->
           <button type="button"
                   ng-class="ctrl.getButtonClass(ctrl.howlongUnmatchedFilter)"
-                  btn-checkbox
-                  btn-checkbox-true="true"
-                  btn-checkbox-false="false"
+                  uib-btn-checkbox
+                  uib-btn-checkbox-true="true"
+                  uib-btn-checkbox-false="false"
                   ng-model="ctrl.howlongUnmatchedFilter">How Long</button>
 
 
           <!-- GiantBomb Unmatched filter -->
           <button type="button"
                   ng-class="ctrl.getButtonClass(ctrl.giantBombUnmatchedFilter)"
-                  btn-checkbox
-                  btn-checkbox-true="true"
-                  btn-checkbox-false="false"
+                  uib-btn-checkbox
+                  uib-btn-checkbox-true="true"
+                  uib-btn-checkbox-false="false"
                   ng-model="ctrl.giantBombUnmatchedFilter">Giant Bomb</button>
 
 
           <!-- HowLongToBeat Unmatched filter -->
           <button type="button"
                   ng-class="ctrl.getButtonClass(ctrl.metacriticUnmatchedFilter)"
-                  btn-checkbox
-                  btn-checkbox-true="true"
-                  btn-checkbox-false="false"
+                  uib-btn-checkbox
+                  uib-btn-checkbox-true="true"
+                  uib-btn-checkbox-false="false"
                   ng-model="ctrl.metacriticUnmatchedFilter">Metacritic</button>
 
 
