@@ -295,7 +295,10 @@ angular.module('mediaMogulApp')
           }
         }
       }).result.finally(function() {
-        EpisodeService.updateMySeriesDenorms(self.series, self.episodes);
+        if (auth.isAdmin()) {
+          EpisodeService.updateMySeriesDenorms(self.series, self.episodes);
+          EpisodeService.updateEpisodeGroupRatingWithNewRating(self.series, self.episodes);
+        }
         updateNextUp();
       });
     };

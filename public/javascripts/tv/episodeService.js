@@ -899,6 +899,79 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     return changedFields;
   };
 
+  this.averageFromNumbers = function(numberArray) {
+    if (!numberArray.length) {
+      return 0;
+    }
+
+    var sum = _.reduce(numberArray, function(a, b) {
+      return a + b;
+    });
+    return sum / numberArray.length;
+  };
+
+  this.updateEpisodeGroupRatingWithNewRating = function(series, episodes) {
+    $http.get('/episodeGroupRating', {params: {Year: 2017, SeriesId: series.id}}).then(function (response) {
+      var episodeGroupRating = response.data[0];
+      console.log("Got episode group rating: " + JSON.stringify(episodeGroupRating));
+
+      var startDate = new Date(episodeGroupRating.start_date);
+      var endDate = new Date(episodeGroupRating.end_date);
+
+      var eligibleEpisodes = _.sortBy(_.filter(episodes, function(episode) {
+        return episode.season !== 0 && episode.air_date !== null &&
+          new Date(episode.air_date) > startDate && new Date(episode.air_date) < endDate;
+      }), function(episode) {
+        return episode.absolute_number;
+      });
+
+      var watchedEpisodes = _.filter(eligibleEpisodes, function(episode) {
+        return episode.watched;
+      });
+
+      var ratedEpisodes = _.filter(eligibleEpisodes, function(episode) {
+        return episode.rating_value !== null;
+      });
+      var rating_values = _.map(ratedEpisodes, function(episode) {
+        return episode.rating_value;
+      });
+      var avg_rating = self.averageFromNumbers(rating_values);
+      var last_rating = _.last(rating_values);
+      var max_rating = _.max(rating_values);
+
+      var unwatchedEpisodes = _.filter(eligibleEpisodes, function(episode) {
+        return !episode.watched;
+      });
+      var nextUnwatched = _.first(unwatchedEpisodes);
+
+      var originalFields = {
+        avg_rating: parseFloat(episodeGroupRating.avg_rating),
+        last_rating: parseInt(episodeGroupRating.last_rating),
+        max_rating: parseInt(episodeGroupRating.max_rating),
+        watched: episodeGroupRating.watched,
+        rated: episodeGroupRating.rated,
+        next_air_date: new Date(episodeGroupRating.next_air_date)
+      };
+
+      var updatedFields = {
+        avg_rating: parseFloat(avg_rating.toFixed(1)),
+        last_rating: last_rating,
+        max_rating: max_rating,
+        watched: watchedEpisodes.length,
+        rated: ratedEpisodes.length,
+        next_air_date: new Date(nextUnwatched.air_date)
+      };
+
+      var changedFields = self.getChangedFields(originalFields, updatedFields);
+
+      if (Object.keys(changedFields).length > 0) {
+        return self.updateEpisodeGroupRating(episodeGroupRating.id, changedFields);
+      }
+    }, function(errResponse) {
+      console.error(errResponse);
+    });
+  };
+
   this.updateMySeriesDenorms = function(series, episodes) {
     var unwatchedEpisodes = 0;
     var lastUnwatched = null;

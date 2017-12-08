@@ -54,6 +54,21 @@ exports.getNumberOfPendingMatches = function(request, response) {
   return executeQueryWithResults(response, sql, [false, 0, 'Needs Confirmation', 'Duplicate']);
 };
 
+exports.getEpisodeGroupRating = function(request, response) {
+  var seriesId = request.query.SeriesId;
+  var year = request.query.Year;
+
+  console.log("Received call for episode group rating for series " + seriesId + ", year " + year);
+
+  var sql = 'SELECT * ' +
+    'FROM episode_group_rating ' +
+    'WHERE year = $1 ' +
+    'AND retired = $2 ' +
+    'AND series_id = $3 ';
+
+  return executeQueryWithResults(response, sql, [year, 0, seriesId]);
+};
+
 exports.getEpisodeGroupRatings = function(request, response) {
   var year = request.query.Year;
 
