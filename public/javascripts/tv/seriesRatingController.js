@@ -35,6 +35,10 @@ angular.module('mediaMogulApp')
       return episode.rating_value === null && (isTiVoAvailable(episode) || isStreamingAvailable(episode));
     };
 
+    self.toggleShowDetail = function() {
+      self.showDetail = !self.showDetail;
+    };
+
     self.getWatchedDateOrWatched = function(episode) {
       // $log.debug("In getWatchedDateOrWatched. WatchedDate: " + episode.watched_date);
       if (episode.watched_date === null) {
