@@ -99,12 +99,14 @@ angular.module('mediaMogulApp')
 
     self.originalFields = {
       rating: self.episodeGroup.rating,
-      review: self.episodeGroup.review
+      review: self.episodeGroup.review,
+      review_update_date: self.episodeGroup.review_update_date == null ? null : new Date(self.episodeGroup.review_update_date)
     };
 
     self.interfaceFields = {
       rating: self.episodeGroup.rating,
-      review: self.episodeGroup.review
+      review: self.episodeGroup.review,
+      review_update_date: self.episodeGroup.review_update_date == null ? null : new Date(self.episodeGroup.review_update_date)
     };
 
 
@@ -187,6 +189,11 @@ angular.module('mediaMogulApp')
         EpisodeService.decrementNumberOfShowsToRate();
       } else if (episodeGroup.rating !== null && (self.interfaceFields.rating === null || self.interfaceFields.rating === '')) {
         EpisodeService.incrementNumberOfShowsToRate();
+      }
+
+      if (episodeGroup.review !== self.interfaceFields.review) {
+        console.log("Review changed. Updating review_update_date")
+        self.interfaceFields.review_update_date = new Date;
       }
 
       episodeGroup.rating = self.interfaceFields.rating;
