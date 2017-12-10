@@ -31,6 +31,11 @@
             To Review <span class="badge" ng-show="ctrl.countWhere(ctrl.unreviewedGroupFilter) > 0" ng-bind="ctrl.countWhere(ctrl.unreviewedGroupFilter)"></span>
           </a>
         </li>
+        <li role="episodeGroup" ng-class="ctrl.isActive('To Review Again')">
+          <a href ng-click="ctrl.filterToReviewAgain()">
+            To Update <span class="badge" ng-show="ctrl.countWhere(ctrl.reviewOutOfDateGroupFilter) > 0" ng-bind="ctrl.countWhere(ctrl.reviewOutOfDateGroupFilter)"></span>
+          </a>
+        </li>
         <li role="episodeGroup" ng-class="ctrl.isActive('To Air')">
           <a href ng-click="ctrl.filterToAir()">
             To Air <span class="badge" ng-show="ctrl.countWhere(ctrl.unairedGroupFilter) > 0" ng-bind="ctrl.countWhere(ctrl.unairedGroupFilter)"></span>

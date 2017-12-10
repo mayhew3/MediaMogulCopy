@@ -133,6 +133,10 @@ angular.module('mediaMogulApp')
       return (episodeGroup.rating !== null && episodeGroup.review === null);
     };
 
+    self.reviewOutOfDateGroupFilter = function(episodeGroup) {
+      return (episodeGroup.review !== null && episodeGroup.post_update_episodes > 0) && (self.getUnwatched(episodeGroup) === 0 && self.getUnaired(episodeGroup) === 0);
+    };
+
     self.fullyWatchedGroupFilter = function(episodeGroup) {
       return (self.getUnwatched(episodeGroup) === 0);
     };
@@ -212,6 +216,19 @@ angular.module('mediaMogulApp')
       self.selectedPill = 'To Review';
 
       self.episodeGroupFilter = self.unreviewedGroupFilter;
+      self.seriesOrdering = self.orderByRating;
+
+      self.showNeeds = false;
+      self.showUnrated = true;
+      self.showUnwatched = false;
+      self.showUnaired = false;
+      self.showRGB = false;
+    };
+
+    self.filterToReviewAgain = function() {
+      self.selectedPill = 'To Review Again';
+
+      self.episodeGroupFilter = self.reviewOutOfDateGroupFilter;
       self.seriesOrdering = self.orderByRating;
 
       self.showNeeds = false;
