@@ -958,6 +958,14 @@ function EpisodeService($log, $http, $q, $filter, auth) {
         }).length :
         episodeGroupRating.aired;
 
+      var post_update_episodes = 0;
+      if (episodeGroupRating.review_update_date) {
+        var eparray = _.filter(eligibleEpisodes, function(episode) {
+          return new Date(episode.watched_date) > new Date(episodeGroupRating.review_update_date);
+        });
+        post_update_episodes = eparray.length;
+      }
+
       var originalFields = {
         avg_rating: parseFloat(episodeGroupRating.avg_rating),
         last_rating: parseInt(episodeGroupRating.last_rating),
@@ -966,7 +974,8 @@ function EpisodeService($log, $http, $q, $filter, auth) {
         watched: episodeGroupRating.watched,
         rated: episodeGroupRating.rated,
         next_air_date: new Date(episodeGroupRating.next_air_date),
-        aired: episodeGroupRating.aired
+        aired: episodeGroupRating.aired,
+        post_update_episodes: episodeGroupRating.post_update_episodes
       };
 
       var updatedFields = {
@@ -977,7 +986,8 @@ function EpisodeService($log, $http, $q, $filter, auth) {
         watched: watchedEpisodes.length,
         rated: ratedEpisodes.length,
         next_air_date: nextUnwatched == null ? null : new Date(nextUnwatched.air_date),
-        aired: aired
+        aired: aired,
+        post_update_episodes: post_update_episodes
       };
 
       var changedFields = self.getChangedFields(originalFields, updatedFields);
