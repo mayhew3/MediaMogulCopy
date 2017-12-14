@@ -161,43 +161,70 @@ h1 {
   border-bottom-right-radius: 30px;
 }
 
+.blogPostPoster {
+  width: 140px;
+  display: inline-block;
+  margin: 10px;
+}
+
 .blogPostHeader {
   background-color: #49515a;
   color: white;
-  vertical-align: middle;
+  padding: 0;
+}
+
+.blogPostLeftCard {
+  margin-top: 10px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.blogPostRightCard {
+  display: inline-block;
+  float: right;
+  text-align: right;
+  margin-right: 15px;
 }
 
 .blogPostHeaderRanking {
-  horiz-align: center;
+  display: block;
+  text-align: center;
   padding-left: 15px;
   padding-right: 15px;
-  line-height: 60px;
-  font-size: 32pt;
+  font-size: 36pt;
   font-weight: bold;
-  display: inline-block;
   vertical-align: middle;
   background-color: #2e3338;
   text-shadow: 1px 2px 3px black;
 }
 
-.blogPostHeaderTitle {
-  padding-left: 15px;
-  padding-right: 15px;
-  font-size: 20pt;
-  line-height: 60px;
-  display: inline;
-  vertical-align: middle;
+.blogPostHeaderRatingCaption {
+  font-size: 9pt;
+  text-align: right;
+  margin-top: 10px;
 }
 
 .blogPostHeaderRating {
-  padding-left: 15px;
-  padding-right: 15px;
-  line-height: 60px;
-  font-size: 26pt;
-  display: inline;
+  display: block;
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 22pt;
   vertical-align: middle;
-  float: right;
   background-color: #8da136;
+  width: 60px;
+  float: right;
+
+}
+
+.blogPostHeaderTitle {
+  font-size: 30pt;
+  vertical-align: middle;
+}
+
+.blogPostHeaderSeason {
+  font-size: 16pt;
+  vertical-align: middle;
 }
 
 .blogPostReview {
