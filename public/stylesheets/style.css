@@ -147,3 +147,60 @@ h1 {
 .confirmed {
   color: green;
 }
+
+
+/*
+  Styles for blog posts
+*/
+
+.blogPost {
+  margin: 15px;
+  border: 1px #62686d solid;
+  background-color: #32383e;
+  box-shadow: 4px 6px 8px #1e2023;
+  border-bottom-right-radius: 30px;
+}
+
+.blogPostHeader {
+  background-color: #49515a;
+  color: white;
+  vertical-align: middle;
+}
+
+.blogPostHeaderRanking {
+  horiz-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+  line-height: 60px;
+  font-size: 32pt;
+  font-weight: bold;
+  display: inline-block;
+  vertical-align: middle;
+  background-color: #2e3338;
+  text-shadow: 1px 2px 3px black;
+}
+
+.blogPostHeaderTitle {
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 20pt;
+  line-height: 60px;
+  display: inline;
+  vertical-align: middle;
+}
+
+.blogPostHeaderRating {
+  padding-left: 15px;
+  padding-right: 15px;
+  line-height: 60px;
+  font-size: 26pt;
+  display: inline;
+  vertical-align: middle;
+  float: right;
+  background-color: #8da136;
+}
+
+.blogPostReview {
+  padding: 10px;
+  font-weight: lighter;
+}
