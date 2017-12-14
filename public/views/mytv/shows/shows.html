@@ -25,6 +25,11 @@
               ng-bind="ctrl.countWhere(ctrl.hasInactiveUnmatched)"></span>
       </a>
     </li>
+    <li role="tv" ng-class="ctrl.isActive('BlogTest')">
+      <a href ui-sref="mytv.shows.blogtest" ng-click="ctrl.selectedPill='BlogTest'">
+        BlogTest
+      </a>
+    </li>
   </ul>
 
   <ul class="nav nav-pills nav-stacked btn-sm">

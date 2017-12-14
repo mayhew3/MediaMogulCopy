@@ -49,6 +49,10 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
           url: '/main',
           templateUrl: 'views/mytv/shows/main.html'
         })
+        .state('mytv.shows.blogtest', {
+          url: '/blogtest',
+          templateUrl: 'views/mytv/shows/blogtest.html'
+        })
         .state('mytv.shows.backlog', {
           url: '/backlog',
           templateUrl: 'views/mytv/shows/backlog.html'
