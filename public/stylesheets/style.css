@@ -161,16 +161,16 @@ h1 {
   border-bottom-right-radius: 30px;
 }
 
-.blogPostPoster {
-  width: 140px;
-  display: inline-block;
-  margin: 10px;
-}
-
 .blogPostHeader {
   background-color: #49515a;
   color: white;
   padding: 0;
+}
+
+.blogPostPoster {
+  width: 140px;
+  display: inline-block;
+  margin: 10px;
 }
 
 .blogPostLeftCard {
@@ -211,11 +211,13 @@ h1 {
   padding-right: 10px;
   font-size: 22pt;
   vertical-align: middle;
-  background-color: #8da136;
   width: 60px;
   float: right;
 
 }
+
+
+/* TITLE */
 
 .blogPostHeaderTitle {
   font-size: 30pt;
@@ -226,6 +228,65 @@ h1 {
   font-size: 16pt;
   vertical-align: middle;
 }
+
+
+/* EPISODES */
+
+.blogPostHeaderEpisodesRow {
+  display: block;
+  margin-top: 10px
+}
+
+.blogPostHeaderEpisodesText {
+  display: inline-block;
+  font-size: 10pt;
+}
+
+.blogPostHeaderEpisodesNumber {
+  display: inline-block;
+  font-size: 14pt;
+  background-color: darkgoldenrod;
+  padding: 0 5px;
+}
+
+
+/* FEATURED */
+
+.blogPostHeaderFeaturedLabel {
+  font-size: 9pt;
+  display: block;
+  margin-top: 10px;
+}
+
+.blogPostHeaderFeaturedRow {
+  display: block;
+  vertical-align: middle;
+}
+
+.blogPostHeaderFeaturedScore {
+  display: inline-block;
+  padding: 0 5px;
+  font-size: 14pt;
+  vertical-align: middle;
+}
+
+.blogPostHeaderFeaturedEpNum {
+  display: inline-block;
+  padding: 5px;
+  font-size: 10pt;
+  vertical-align: middle;
+}
+
+.blogPostHeaderFeaturedEpTitle {
+  display: inline-block;
+  padding: 5px 7px;
+  font-size: 10pt;
+  vertical-align: middle;
+  background-color: #32383e;
+}
+
+
+/* REVIEW */
 
 .blogPostReview {
   padding: 10px;
