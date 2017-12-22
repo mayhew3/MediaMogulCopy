@@ -164,26 +164,31 @@ h1 {
 .blogPostHeader {
   background-color: #49515a;
   color: white;
-  padding: 0;
+  padding: 0 0 10px;
+  /*overflow: auto;*/
 }
 
 .blogPostPoster {
   width: 140px;
-  display: inline-block;
   margin: 10px;
+
+  display: block;
+  float: right;
 }
 
 .blogPostLeftCard {
-  margin-top: 10px;
-  display: inline-block;
+  margin-right: 15px;
+  /*display: inline-block;*/
   vertical-align: top;
+  height: 100%;
+  float: left;
 }
 
 .blogPostRightCard {
-  display: inline-block;
-  float: right;
-  text-align: right;
-  margin-right: 15px;
+  /*display: inline-block;*/
+  /*width: 100%;*/
+  /*margin-bottom: 10px;*/
+  overflow: hidden;
 }
 
 .blogPostHeaderRanking {
@@ -221,12 +226,15 @@ h1 {
 
 .blogPostHeaderTitle {
   font-size: 30pt;
-  vertical-align: middle;
+  line-height: 0.9;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  /*vertical-align: middle;*/
 }
 
 .blogPostHeaderSeason {
   font-size: 16pt;
-  vertical-align: middle;
+  /*vertical-align: middle;*/
 }
 
 
@@ -234,7 +242,7 @@ h1 {
 
 .blogPostHeaderEpisodesRow {
   display: block;
-  margin-top: 10px
+  margin-top: 15px
 }
 
 .blogPostHeaderEpisodesText {
