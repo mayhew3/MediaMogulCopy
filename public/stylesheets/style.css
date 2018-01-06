@@ -256,6 +256,7 @@ h1 {
 .blogPostHeaderEpisodesNumber {
   display: inline-block;
   font-size: 14pt;
+  color: white;
   background-color: darkgoldenrod;
   padding: 0 5px;
 }
@@ -303,4 +304,56 @@ h1 {
   padding: 10px;
   font-weight: lighter;
   color: #a2aab4;
+}
+
+
+/* TOP 20 */
+
+
+.top20Header {
+  background-color: #49515a;
+  color: white;
+  padding: 0;
+  background-size: cover;
+  height: 400px;
+  /*overflow: auto;*/
+}
+
+.top20TitleSection {
+  margin-right: 5%;
+  float: right;
+  text-align: right;
+}
+
+
+.top20HeaderTitle {
+  font-size: 36pt;
+  line-height: 0.9;
+  margin-bottom: 0;
+  text-shadow: 1px 2px 3px black;
+  font-weight: bold;
+  /*vertical-align: middle;*/
+}
+
+.top20HeaderSeason {
+  font-size: 20pt;
+  text-shadow: 1px 2px 3px black;
+  /*vertical-align: middle;*/
+}
+
+.top20HeaderBottomSection {
+  background-color: #1e2023;
+  color: white;
+  width: 100%;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.top20FeaturedSection {
+  float: right;
+}
+
+.top20FeaturedLabel {
+  font-size: 9pt;
+  display: block;
 }
