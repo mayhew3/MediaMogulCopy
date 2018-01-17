@@ -9,6 +9,9 @@ module.exports = function(app) {
     audience: process.env.AUTH0_CLIENT_ID
   });
 
+  // SYSTEM VARS
+  app.get('/systemVars', authCheck, persons.getSystemVars);
+
   // GAMES
   app.get('/api/games', authCheck, games.getGames);
 

@@ -427,6 +427,12 @@ exports.markAllPastEpisodesAsWatched = function(request, response) {
   });
 };
 
+exports.getSystemVars = function(request, response) {
+  console.log("Getting system vars.");
+
+  var sql = "SELECT * FROM system_vars";
+  return executeQueryWithResults(response, sql, []);
+};
 
 // utility methods
 

@@ -12,6 +12,8 @@ function EpisodeService($log, $http, $q, $filter, auth) {
   var tvdbErrors = [];
   var numberOfShowsToRate = 0;
   var pendingMatches = 0;
+  var ratingYear;
+  var ratingEndDate;
   var self = this;
 
   this.getSeriesWithTitle = function(SeriesTitle) {
@@ -20,6 +22,23 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     });
     return filtered[0];
   };
+
+  this.updateSystemVars = function() {
+    return $http.get('/systemVars').then(function (response) {
+      var numberOfRows = response.data.length;
+      if (numberOfRows !== 1) {
+        $log.debug(numberOfRows + " rows found in system_vars.");
+        return;
+      }
+
+      var systemVars = response.data[0];
+      ratingYear = systemVars.rating_year;
+      ratingEndDate = systemVars.rating_end_date;
+      $log.debug("System vars: Year " + ratingYear + ", End Date " + ratingEndDate);
+    });
+  };
+
+
 
   this.updateSeriesList = function() {
     return $http.get('/seriesList').then(function (showresponse) {
@@ -150,6 +169,10 @@ function EpisodeService($log, $http, $q, $filter, auth) {
 
   this.decrementPendingMatches = function() {
     pendingMatches--;
+  };
+
+  this.getRatingYear = function() {
+    return ratingYear;
   };
 
   this.updateEpisodeGroupRatings = function(year) {

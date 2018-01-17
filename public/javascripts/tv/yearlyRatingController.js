@@ -7,7 +7,7 @@ angular.module('mediaMogulApp')
 
     self.episodeGroups = [];
 
-    self.year = 2017;
+    self.year = null;
 
     self.selectedPill = 'Watched';
 
@@ -17,13 +17,16 @@ angular.module('mediaMogulApp')
     self.showUnaired = false;
     self.showRGB = false;
 
-    self.refreshEpisodeGroupList = function(year) {
-      EpisodeService.updateEpisodeGroupRatings(year).then(function () {
-        self.episodeGroups = EpisodeService.getEpisodeGroupRatings();
-        $log.debug("Controller has " + self.episodeGroups.length + " shows.");
+    self.refreshEpisodeGroupList = function() {
+      EpisodeService.updateSystemVars().then(function () {
+        self.year = EpisodeService.getRatingYear();
+        EpisodeService.updateEpisodeGroupRatings(self.year).then(function () {
+          self.episodeGroups = EpisodeService.getEpisodeGroupRatings();
+          $log.debug("Controller has " + self.episodeGroups.length + " shows.");
+        });
       });
     };
-    self.refreshEpisodeGroupList(self.year);
+    self.refreshEpisodeGroupList();
 
     function HSVtoRGB(h, s, v) {
       var r, g, b, i, f, p, q, t;
