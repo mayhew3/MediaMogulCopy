@@ -231,7 +231,7 @@ exports.getMyEpisodes = function(request, response) {
     'AND te.retired = $3 ' +
     'ORDER BY e.season, e.episode_number';
 
-  return updateWithJSON(sql, [seriesId, 0, 0]).then(function (episodeResult) {
+  return selectWithJSON(sql, [seriesId, 0, 0]).then(function (episodeResult) {
 
     var sql =
       'SELECT er.episode_id, ' +
@@ -250,7 +250,7 @@ exports.getMyEpisodes = function(request, response) {
       'AND e.retired = $2 ' +
       'AND er.person_id = $3 ';
 
-    return updateWithJSON(sql, [seriesId, 0, personId]).then(function (ratingResult) {
+    return selectWithJSON(sql, [seriesId, 0, personId]).then(function (ratingResult) {
 
       ratingResult.forEach(function (episodeRating) {
         var episodeMatch = _.find(episodeResult, function (episode) {
@@ -434,6 +434,28 @@ exports.getSystemVars = function(request, response) {
   return executeQueryWithResults(response, sql, []);
 };
 
+exports.increaseYear = function(request, response) {
+  console.log("Incrementing rating year.");
+
+  var sql = "SELECT rating_year FROM system_vars";
+  return selectWithJSON(sql, []).then(function (result) {
+    var system_vars = result[0];
+    var ratingYear = system_vars.rating_year;
+    console.log("Current year: " + ratingYear);
+
+    if (_.isNaN(ratingYear)) {
+      return response.send("Error rating year found that is not numeric: " + ratingYear);
+    } else {
+      var nextYear = ratingYear + 1;
+      var sql = "UPDATE system_vars " +
+        "SET rating_year = $1, " +
+        "    rating_end_date = NULL ";
+      return executeQueryNoResults(response, sql, [nextYear]);
+    }
+
+  });
+};
+
 // utility methods
 
 
@@ -473,7 +495,7 @@ function executeQueryWithResults(response, sql, values) {
   })
 }
 
-function updateWithJSON(sql, values) {
+function selectWithJSON(sql, values) {
   return new Promise(function(resolve, reject) {
 
     var results = [];

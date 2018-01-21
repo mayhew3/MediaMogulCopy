@@ -71,6 +71,7 @@ module.exports = function(app) {
   app.post('/rateMyShow', authCheck, persons.rateMyShow);
   app.post('/rateMyEpisode', authCheck, persons.rateMyEpisode);
   app.post('/markMyPastWatched', authCheck, persons.markAllPastEpisodesAsWatched);
+  app.post('/increaseYear', authCheck, persons.increaseYear);
 
   // error handlers
 

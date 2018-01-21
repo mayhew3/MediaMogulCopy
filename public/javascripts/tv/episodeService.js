@@ -926,6 +926,10 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     return changedFields;
   };
 
+  self.increaseYear = function() {
+    return $http.post('/increaseYear');
+  };
+
   this.averageFromNumbers = function(numberArray) {
     if (!numberArray.length) {
       return null;

@@ -28,6 +28,12 @@ angular.module('mediaMogulApp')
     };
     self.refreshEpisodeGroupList();
 
+    self.increaseYear = function() {
+      EpisodeService.increaseYear().then(function () {
+        self.year++;
+      });
+    };
+
     function HSVtoRGB(h, s, v) {
       var r, g, b, i, f, p, q, t;
       if (arguments.length === 1) {

@@ -45,6 +45,19 @@
           <a href ng-click="ctrl.filterToWatch()">To Watch</a>
         </li>
       </ul>
+
+
+      <ul class="nav nav-pills nav-stacked btn-sm nav-pills-success">
+        <li role="yearMethods">
+          <a href
+             ng-click="ctrl.increaseYear()"
+             ng-show="ctrl.auth.isAdmin()"
+             ng-disabled="!ctrl.auth.isAuthenticated">
+            Update Year
+          </a>
+        </li>
+      </ul>
+
     </div>
     <div class="col-lg-10">
 
