@@ -47,6 +47,18 @@ angular.module('mediaMogulApp')
       });
     };
 
+    self.lockRatings = function() {
+      EpisodeService.lockRatings();
+    };
+
+    self.unlockRatings = function() {
+      EpisodeService.unlockRatings();
+    };
+
+    self.isRatingLocked = function() {
+      return EpisodeService.getRatingEndDate() !== null;
+    };
+
     self.readyToChangeYear = function() {
       if (self.year === null) {
         return false;

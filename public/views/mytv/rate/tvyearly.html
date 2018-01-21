@@ -50,6 +50,22 @@
       <ul class="nav nav-pills nav-stacked btn-sm">
         <li role="yearMethods">
           <a href
+             ng-click="ctrl.lockRatings()"
+             ng-show="ctrl.auth.isAdmin() && !ctrl.isRatingLocked()"
+             ng-disabled="!ctrl.auth.isAuthenticated">
+            Lock Ratings
+          </a>
+        </li>
+        <li role="yearMethods">
+          <a href
+             ng-click="ctrl.unlockRatings()"
+             ng-show="ctrl.auth.isAdmin() && ctrl.isRatingLocked()"
+             ng-disabled="!ctrl.auth.isAuthenticated">
+            Unlock Ratings
+          </a>
+        </li>
+        <li role="yearMethods">
+          <a href
              ng-click="ctrl.increaseYear()"
              ng-show="ctrl.auth.isAdmin() && ctrl.readyToChangeYear()"
              ng-disabled="!ctrl.auth.isAuthenticated">

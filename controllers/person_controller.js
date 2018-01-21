@@ -479,6 +479,14 @@ exports.revertYear = function(request, response) {
   });
 };
 
+exports.setRatingEndDate = function(request, response) {
+  var ratingEndDate = request.body.RatingEndDate;
+  console.log("Changing rating end date to " + ratingEndDate);
+
+  var sql = "UPDATE system_vars SET rating_end_date = $1 ";
+  return executeQueryNoResults(response, sql, [ratingEndDate]);
+};
+
 // utility methods
 
 

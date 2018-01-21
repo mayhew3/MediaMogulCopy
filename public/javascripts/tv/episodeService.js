@@ -944,6 +944,19 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     });
   };
 
+  self.lockRatings = function() {
+    var todaysDate = new Date;
+    $http.post('setRatingEndDate', {RatingEndDate: todaysDate}).then(function () {
+      ratingEndDate = todaysDate;
+    });
+  };
+
+  self.unlockRatings = function() {
+    $http.post('setRatingEndDate', {RatingEndDate: null}).then(function () {
+      ratingEndDate = null;
+    });
+  };
+
   this.averageFromNumbers = function(numberArray) {
     if (!numberArray.length) {
       return null;
