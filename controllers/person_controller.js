@@ -456,6 +456,29 @@ exports.increaseYear = function(request, response) {
   });
 };
 
+exports.revertYear = function(request, response) {
+  var endDate = request.body.EndDate;
+  console.log("Reverting rating year increase with end date: " + endDate);
+
+  var sql = "SELECT rating_year FROM system_vars";
+  return selectWithJSON(sql, []).then(function (result) {
+    var system_vars = result[0];
+    var ratingYear = system_vars.rating_year;
+    console.log("Current year: " + ratingYear);
+
+    if (_.isNaN(ratingYear)) {
+      return response.send("Error rating year found that is not numeric: " + ratingYear);
+    } else {
+      var nextYear = ratingYear - 1;
+      var sql = "UPDATE system_vars " +
+        "SET rating_year = $1, " +
+        "    rating_end_date = $2 ";
+      return executeQueryNoResults(response, sql, [nextYear, endDate]);
+    }
+
+  });
+};
+
 // utility methods
 
 

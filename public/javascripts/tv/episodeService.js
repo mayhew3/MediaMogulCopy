@@ -179,6 +179,10 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     return ratingYear;
   };
 
+  this.getRatingEndDate = function() {
+    return ratingEndDate;
+  };
+
   this.updateEpisodeGroupRatings = function(year) {
     return $http.get('/episodeGroupRatings', {params: {Year: year}}).then(function (groupResponse) {
       var tempShows = groupResponse.data;
@@ -927,7 +931,17 @@ function EpisodeService($log, $http, $q, $filter, auth) {
   };
 
   self.increaseYear = function() {
-    return $http.post('/increaseYear');
+    return $http.post('/increaseYear').then(function () {
+      ratingYear++;
+      ratingEndDate = null;
+    });
+  };
+
+  self.revertYear = function(endDate) {
+    return $http.post('/revertYear', {EndDate: endDate}).then(function () {
+      ratingYear--;
+      ratingEndDate = endDate;
+    });
   };
 
   this.averageFromNumbers = function(numberArray) {

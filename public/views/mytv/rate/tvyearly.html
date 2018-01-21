@@ -47,13 +47,21 @@
       </ul>
 
 
-      <ul class="nav nav-pills nav-stacked btn-sm nav-pills-success">
+      <ul class="nav nav-pills nav-stacked btn-sm">
         <li role="yearMethods">
           <a href
              ng-click="ctrl.increaseYear()"
-             ng-show="ctrl.auth.isAdmin()"
+             ng-show="ctrl.auth.isAdmin() && ctrl.readyToChangeYear()"
              ng-disabled="!ctrl.auth.isAuthenticated">
             Update Year
+          </a>
+        </li>
+        <li role="yearMethods">
+          <a href
+             ng-click="ctrl.revertYear()"
+             ng-show="ctrl.auth.isAdmin() && ctrl.initialYear !== null && ctrl.year !== ctrl.initialYear"
+             ng-disabled="!ctrl.auth.isAuthenticated">
+            Revert Year
           </a>
         </li>
       </ul>
