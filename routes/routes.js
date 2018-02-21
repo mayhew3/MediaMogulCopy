@@ -49,6 +49,7 @@ module.exports = function(app) {
   app.post('/addSeries', authCheck, series.addSeries);
   app.post('/updateSeries', authCheck, series.updateSeries);
   app.post('/updateEpisodeGroupRating', authCheck, series.updateEpisodeGroupRating);
+  app.post('/addEpisodeGroupRating', authCheck, series.addEpisodeGroupRating);
   app.post('/addViewingLocation', authCheck, series.addViewingLocation);
   app.post('/removeViewingLocation', authCheck, series.removeViewingLocation);
   app.post('/changeEpisodesStreaming', authCheck, series.changeEpisodesStreaming);

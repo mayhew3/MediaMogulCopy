@@ -414,6 +414,70 @@ exports.updateEpisodeGroupRating = function(req, response) {
   return executeQueryNoResults(response, queryConfig.text, queryConfig.values);
 };
 
+exports.addEpisodeGroupRating = function(request, response) {
+  var episodeGroupRating = request.body.EpisodeGroupRating;
+  console.log("Add new EpisodeGroupoRating: " + JSON.stringify(episodeGroupRating));
+
+  var sql = "INSERT INTO episode_group_rating (series_id, year, start_date, end_date, avg_rating, max_rating, last_rating, " +
+    "suggested_rating, num_episodes, watched, rated, last_aired, avg_funny, avg_story, avg_character, aired, next_air_date, " +
+    "post_update_episodes) " +
+    "VALUES " +
+    "($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) " +
+    "RETURNING id ";
+
+  var values = [
+    episodeGroupRating.series_id,
+    episodeGroupRating.year,
+    episodeGroupRating.start_date,
+    episodeGroupRating.end_date,
+    episodeGroupRating.avg_rating,
+    episodeGroupRating.max_rating,
+    episodeGroupRating.last_rating,
+    episodeGroupRating.suggested_rating,
+    episodeGroupRating.num_episodes,
+    episodeGroupRating.watched,
+    episodeGroupRating.rated,
+    episodeGroupRating.last_aired,
+    episodeGroupRating.avg_funny,
+    episodeGroupRating.avg_story,
+    episodeGroupRating.avg_character,
+    episodeGroupRating.aired,
+    episodeGroupRating.nextAirDate,
+    episodeGroupRating.post_update_episodes
+  ];
+
+  var queryConfig = {
+    text: sql,
+    values: values
+  };
+
+  var client = new pg.Client(config);
+  if (client === null) {
+    return console.error('null client');
+  }
+
+  client.connect(function(err) {
+    if (err) {
+      return console.error('could not connect to postgres', err);
+    }
+
+    client.query(queryConfig, function(err, result) {
+      if (err) {
+        console.error(err);
+        response.send("Error " + err);
+      }
+      console.log("episode group rating insert successful.");
+
+      // NOTE: This only works because the query has "RETURNING id" at the end.
+      var rating_id = result.rows[0].id;
+
+      console.log("rating id found: " + rating_id);
+      return response.json({RatingId: rating_id});
+    });
+
+  });
+};
+
 exports.markAllEpisodesAsWatched = function(req, res) {
   var seriesId = req.body.SeriesId;
   var lastWatched = req.body.LastWatched;
