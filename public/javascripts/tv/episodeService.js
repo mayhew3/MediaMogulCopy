@@ -204,6 +204,9 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     if (show.tier !== null) {
       show.tier = parseInt(show.tier);
     }
+    if (show.my_tier !== null) {
+      show.my_tier = parseInt(show.my_tier);
+    }
     if (show.metacritic !== null) {
       show.metacritic = parseInt(show.metacritic);
     }
@@ -591,6 +594,12 @@ function EpisodeService($log, $http, $q, $filter, auth) {
   this.changeTier = function(SeriesId, Tier) {
     $http.post('/changeTier', {SeriesId: SeriesId, tier: Tier});
     // todo: add some error handling.
+  };
+  this.changeMyTier = function(SeriesId, Tier) {
+    var changedFields = {
+      tier: Tier
+    };
+    $http.post('/updateMyShow', {SeriesId: SeriesId, PersonId: auth.person_id, ChangedFields: changedFields});
   };
   this.updateSeries = function(SeriesId, ChangedFields) {
     $log.debug('Received update for Series ' + SeriesId + " with data " + JSON.stringify(ChangedFields));

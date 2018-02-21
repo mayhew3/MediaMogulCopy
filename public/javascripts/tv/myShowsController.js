@@ -29,13 +29,13 @@ angular.module('mediaMogulApp')
     };
 
     self.firstTier = function(series) {
-      return series.tier === 1
+      return series.my_tier === 1
          && hasUnwatchedEpisodes(series)
         ;
     };
 
     self.secondTier = function(series) {
-      return series.tier === 2
+      return series.my_tier === 2
          && hasUnwatchedEpisodes(series)
         ;
     };
@@ -54,7 +54,7 @@ angular.module('mediaMogulApp')
     };
 
     self.newlyAdded = function(series) {
-      return series.tier === null;
+      return series.my_tier === null;
     };
 
     self.hasInactiveUnmatched = function(series) {
@@ -78,11 +78,11 @@ angular.module('mediaMogulApp')
     }
 
     function hasInactiveUnmatchedEpisodes(series) {
-      return series.unmatched_episodes > 0 && series.tier !== 1;
+      return series.unmatched_episodes > 0 && series.my_tier !== 1;
     }
 
     function hasImportantUnmatchedEpisodes(series) {
-      return series.unmatched_episodes > 0 && series.tier === 1;
+      return series.unmatched_episodes > 0 && series.my_tier === 1;
     }
 
     function airedInLastDays(airDate, days) {
@@ -145,7 +145,7 @@ angular.module('mediaMogulApp')
     // $interval(self.refreshSeriesList, 60*1000*5);
 
     self.getButtonClass = function(tier, series) {
-      return series.tier === tier ? "btn btn-success" : "btn btn-primary";
+      return series.my_tier === tier ? "btn btn-success" : "btn btn-primary";
     };
 
     self.changeTier = function(series) {

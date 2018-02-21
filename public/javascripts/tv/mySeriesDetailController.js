@@ -8,7 +8,7 @@ angular.module('mediaMogulApp')
     self.series = series;
     self.episodes = [];
 
-    self.tiers = [1, 2, 3, 4, 5];
+    self.tiers = [1, 2];
 
     self.seasonLabels = [];
     self.selectedSeason = null;
@@ -64,6 +64,14 @@ angular.module('mediaMogulApp')
         }
       }
     }
+
+    self.getTierButtonClass = function(tier) {
+      return self.series.my_tier === tier ? "btn btn-success" : "btn btn-primary";
+    };
+
+    self.changeTier = function() {
+      EpisodeService.changeMyTier(self.series.id, self.series.my_tier);
+    };
 
     function updateSeasonLabels() {
       self.episodes.forEach(function (episode) {

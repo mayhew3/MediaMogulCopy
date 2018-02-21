@@ -28,6 +28,15 @@
                   ng-show="ctrl.auth.isAdmin()"
                   ng-disabled="!ctrl.auth.isAuthenticated">Edit Details</button>
         </div>
+        <div class="col-lg-4">
+          <label ng-repeat="tier in ctrl.tiers"
+                 ng-class="ctrl.getTierButtonClass(tier)"
+                 ng-model="ctrl.series.my_tier"
+                 uib-btn-radio="tier"
+                 ng-change="ctrl.changeTier()">
+            <span ng-bind="tier"></span>
+          </label>
+        </div>
       </div>
 
       <div id="MyRating" class="col-lg-12" style="vertical-align: bottom; margin-top: 25px">

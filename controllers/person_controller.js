@@ -81,7 +81,8 @@ exports.getMyShows = function(request, response) {
     "ps.unwatched_episodes, " +
     "ps.unwatched_streaming, " +
     "ps.last_unwatched, " +
-    "ps.first_unwatched " +
+    "ps.first_unwatched, " +
+    "ps.tier AS my_tier " +
     "FROM series s " +
     "INNER JOIN person_series ps " +
     "  ON ps.series_id = s.id " +
