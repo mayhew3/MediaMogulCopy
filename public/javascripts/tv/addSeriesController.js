@@ -36,6 +36,7 @@ angular.module('mediaMogulApp')
     self.ok = function() {
       self.series.ViewingLocations = [self.selectedLocation];
       self.series.date_added = new Date;
+      self.series.person_id = auth.person_id;
       var errorResponse = EpisodeService.addSeries(self.series);
       if (errorResponse) {
         $log.debug("Error adding series. Response: " + errorResponse);

@@ -281,8 +281,8 @@ var insertSeries = function(series, response) {
   console.log("Inserting series.");
 
   var sql = "INSERT INTO series (" +
-      "title, tier, metacritic, mayhew_rating, date_added, tvdb_new, metacritic_new, tvdb_match_status) " +
-      "VALUES ($1, $2, $3, $4, $5, $6, $7, $8) " +
+      "title, tier, metacritic, mayhew_rating, date_added, tvdb_new, metacritic_new, tvdb_match_status, person_id) " +
+      "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) " +
       "RETURNING id ";
   var values = [
     series.title,
@@ -292,7 +292,8 @@ var insertSeries = function(series, response) {
     new Date,
     true,
     true,
-    'Match First Pass'
+    'Match First Pass',
+    series.person_id
   ];
 
   var queryConfig = {
