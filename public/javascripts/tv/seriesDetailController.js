@@ -280,7 +280,7 @@ angular.module('mediaMogulApp')
 
     self.openEditSeries = function() {
       $uibModal.open({
-        templateUrl: 'views/tv/editSeries.html',
+        templateUrl: 'views/mytv/editSeries.html',
         controller: 'editSeriesController',
         controllerAs: 'ctrl',
         size: 'lg',
