@@ -316,7 +316,7 @@ angular.module('mediaMogulApp')
     self.openChangePoster = function () {
       if (self.auth.isAdmin()) {
         $uibModal.open({
-          templateUrl: 'views/tv/shows/changePoster.html',
+          templateUrl: 'views/mytv/shows/changePoster.html',
           controller: 'changePosterController',
           controllerAs: 'ctrl',
           size: 'lg',
