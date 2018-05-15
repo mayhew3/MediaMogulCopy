@@ -171,16 +171,6 @@ angular.module('mediaMogulApp')
       };
       self.refreshSeriesList();
 
-      // $interval(self.refreshSeriesList, 60*1000*5);
-
-      self.getButtonClass = function(tier, series) {
-        return series.tier === tier ? "btn btn-success" : "btn btn-primary";
-      };
-
-      self.changeTier = function(series) {
-        EpisodeService.changeTier(series.id, series.tier);
-      };
-
       self.posterStyle = function(series) {
         if (series.recordingNow === true) {
           return {"border": "solid red"};
@@ -189,31 +179,6 @@ angular.module('mediaMogulApp')
         } else {
           return {};
         }
-      };
-
-      self.markAllWatched = function(series) {
-
-        EpisodeService.markAllWatched(series.id).then(function() {
-          $log.debug("Finished update, adjusting denorms.");
-          series.unwatched_episodes = 0;
-          series.unwatched_streaming = 0;
-          series.unwatched_all = 0;
-          series.last_unwatched = null;
-          series.first_unwatched = null;
-
-          var changedFields = {
-            unwatched_episodes: 0,
-            unwatched_streaming: 0,
-            last_unwatched: null,
-            first_unwatched: null
-          };
-
-          EpisodeService.updateSeries(series.id, changedFields).then(function() {
-            $log.debug("Finished updating series unwatched to 0.");
-          });
-        });
-
-        $log.debug("Series '" + series.title + "' " + series.id);
       };
 
       self.open = function(series) {

@@ -19,7 +19,6 @@ module.exports = function(app) {
   app.post('/api/addgame', authCheck, games.addGame);
 
   // TV
-  app.get('/seriesList', authCheck, series.getSeries);
   app.get('/seriesMatchList', authCheck, series.getSeriesWithPossibleMatchInfo);
   app.get('/episodeGroupRating', authCheck, series.getEpisodeGroupRating);
   app.get('/episodeGroupRatings', authCheck, series.getEpisodeGroupRatings);
@@ -35,12 +34,11 @@ module.exports = function(app) {
   app.get('/upcomingEpisodes', authCheck, series.getUpcomingEpisodes);
   app.get('/tvdbErrors', authCheck, series.getTVDBErrors);
 
-  // special app-only test endpoint. No authentication required, gets minimal series info to keep payload size down.
+  // API for iOS app
   app.get('/primeTV', authCheck, series.getPrimeTV);
   app.get('/primeSeriesInfo', authCheck, series.getPrimeSeriesInfo);
 
   app.post('/updateEpisode', authCheck, series.updateEpisode);
-  app.post('/markAllWatched', authCheck, series.markAllEpisodesAsWatched);
   app.post('/matchTiVoEpisodes', authCheck, series.matchTiVoEpisodes);
   app.post('/unlinkEpisode', authCheck, series.unlinkEpisode);
   app.post('/retireTiVoEpisode', authCheck, series.retireTiVoEpisode);

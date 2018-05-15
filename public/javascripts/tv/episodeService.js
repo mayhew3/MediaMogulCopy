@@ -675,15 +675,6 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     });
   }
 
-
-  this.markAllWatched = function(SeriesId, lastWatched) {
-    return $http.post('/markAllWatched', {SeriesId: SeriesId, LastWatched: lastWatched}).then(function() {
-      $log.debug("Success?")
-    }, function(errResponse) {
-      $log.debug("Error calling the method: " + errResponse);
-    });
-  };
-
   this.markMyPastWatched = function(SeriesId, lastWatched) {
     return $http.post('/markMyPastWatched', {SeriesId: SeriesId, LastWatched: lastWatched, PersonId: auth.person_id}).then(function() {
       $log.debug("Success?")

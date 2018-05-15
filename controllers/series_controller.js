@@ -1,19 +1,6 @@
 var pg = require('pg');
 var config = process.env.DATABASE_URL;
 
-exports.getSeries = function(request, response) {
-  console.log("Series call received.");
-
-  var sql = 'SELECT s.* ' +
-      'FROM series s ' +
-      'WHERE s.suggestion = $1 ' +
-      'AND s.tvdb_match_status = $2 ' +
-      'AND s.retired = $3 ' +
-      'ORDER BY s.title';
-
-  return executeQueryWithResults(response, sql, [false, 'Match Completed', 0]);
-};
-
 exports.getSeriesWithPossibleMatchInfo = function(request, response) {
   console.log("Series with Matches call received.");
 
@@ -478,72 +465,6 @@ exports.addEpisodeGroupRating = function(request, response) {
 
   });
 };
-
-exports.markAllEpisodesAsWatched = function(req, res) {
-  var seriesId = req.body.SeriesId;
-  var lastWatched = req.body.LastWatched;
-
-  if (lastWatched === null) {
-    return markAllWatched(res, seriesId);
-  } else {
-    return markPastWatched(res, seriesId, lastWatched);
-  }
-};
-
-function markAllWatched(response, seriesId) {
-  console.log("Updating all episodes as Watched");
-
-  var sql = 'UPDATE episode ' +
-      'SET watched = $1 ' +
-      'WHERE series_id = $2 ' +
-      'AND on_tivo = $3 ' +
-      'AND watched <> $4 ' +
-      'AND season <> $5 ' +
-      'AND retired = $6 ';
-
-  var values = [true, // watched
-    seriesId, // series_id
-    true,     // on_tivo
-    true,     // !watched
-    0,        // !season
-    0         // retired
-  ];
-
-  return executeQueryNoResults(response, sql, values)
-      // todo: do both updates in a single server call (MM-134)
-      /*
-       .then(function() {
-       var sql = 'UPDATE series ' +
-       'SET unwatched_episodes = $1, last_unwatched = $2 ' +
-       'WHERE id = $3';
-
-       executeQueryNoResults(res, sql, [0, null, seriesId]);
-       })
-       */
-
-      ;
-}
-
-function markPastWatched(response, seriesId, lastWatched) {
-  console.log("Updating episodes as Watched, before episode " + lastWatched);
-
-  var sql = 'UPDATE episode ' +
-      'SET watched = $1 ' +
-      'WHERE series_id = $2 ' +
-      'AND absolute_number IS NOT NULL ' +
-      'AND absolute_number < $3 ' +
-      'AND watched <> $4 ' +
-      'AND retired = $5 ';
-
-  var values = [true, // watched
-    seriesId,         // series_id
-    lastWatched,      // absolute_number <
-    true,             // !watched
-    0                 // retired
-  ];
-
-  return executeQueryNoResults(response, sql, values);
-}
 
 exports.retireTiVoEpisode = function(req, response) {
   console.log("Retiring tivo_episode with id " + req.body.TiVoEpisodeId);
