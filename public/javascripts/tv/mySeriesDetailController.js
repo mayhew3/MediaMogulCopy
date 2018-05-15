@@ -1,11 +1,13 @@
 angular.module('mediaMogulApp')
-  .controller('mySeriesDetailController', ['$log', 'EpisodeService', '$uibModalInstance', 'series', '$uibModal', '$filter', 'auth',
-  function($log, EpisodeService, $uibModalInstance, series, $uibModal, $filter, auth) {
+  .controller('mySeriesDetailController', ['$log', 'EpisodeService', '$uibModalInstance', 'series', 'owned', '$uibModal', '$filter', 'auth',
+  function($log, EpisodeService, $uibModalInstance, series, owned, $uibModal, $filter, auth) {
     var self = this;
 
     self.auth = auth;
 
     self.series = series;
+    self.owned = owned;
+
     self.episodes = [];
 
     self.tiers = [1, 2];

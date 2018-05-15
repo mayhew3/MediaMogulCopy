@@ -193,6 +193,9 @@ angular.module('mediaMogulApp')
         resolve: {
           series: function() {
             return series;
+          },
+          owned: function() {
+            return true;
           }
         }
       }).result.finally(function() {

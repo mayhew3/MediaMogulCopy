@@ -166,24 +166,6 @@ angular.module('mediaMogulApp')
       return 'yyyy.M.d';
     };
 
-    self.openEpisodeDetail = function(episode) {
-      $uibModal.open({
-        templateUrl: 'views/tv/episodeDetail.html',
-        controller: 'episodeDetailController as ctrl',
-        size: 'lg',
-        resolve: {
-          episode: function() {
-            return episode;
-          },
-          previousEpisodes: function() {
-            return getPreviousEpisodes(episode);
-          }
-        }
-      }).result.finally(function() {
-        EpisodeService.updateDenorms(self.episodeGroup, self.episodes);
-      });
-    };
-
     self.updateRating = function() {
       if (episodeGroup.rating === null && self.interfaceFields.rating !== null) {
         EpisodeService.decrementNumberOfShowsToRate();
