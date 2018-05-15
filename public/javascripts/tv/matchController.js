@@ -121,7 +121,7 @@ angular.module('mediaMogulApp')
 
       self.open = function(series) {
         $uibModal.open({
-          templateUrl: 'views/mytv/match/matchConfirmation.html',
+          templateUrl: 'views/tv/match/matchConfirmation.html',
           controller: 'matchConfirmationController as ctrl',
           size: 'lg',
           resolve: {

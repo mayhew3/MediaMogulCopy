@@ -10,10 +10,10 @@
 
   <div class="container col-lg-12">
     <ul class="nav nav-tabs">
-      <li ui-sref="mytv.shows.main" ui-sref-active="active">
+      <li ui-sref="tv.shows.main" ui-sref-active="active">
         <a>My Shows</a>
       </li>
-      <li ui-sref="mytv.rate" ui-sref-active="active" ng-show="ctrl.auth.isAdmin()">
+      <li ui-sref="tv.rate" ui-sref-active="active" ng-show="ctrl.auth.isAdmin()">
         <a>
           Rate
           <span class="badge"
@@ -21,10 +21,10 @@
                 ng-bind="ctrl.getNumberOfShowsToRate()"></span>
         </a>
       </li>
-      <li ui-sref="mytv.addshows.main" ui-sref-active="active">
+      <li ui-sref="tv.addshows.main" ui-sref-active="active">
         <a>Add More</a>
       </li>
-      <li ui-sref="mytv.match.seriesmatching" ui-sref-active="active" ng-show="ctrl.auth.isAdmin()">
+      <li ui-sref="tv.match.seriesmatching" ui-sref-active="active" ng-show="ctrl.auth.isAdmin()">
         <a>
           Match
           <span class="badge pillTabRed"

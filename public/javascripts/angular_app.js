@@ -7,59 +7,59 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
           url: '/',
           templateUrl: 'views/home.html'
         })
-        .state('mytv', {
-          url: '/mytv',
+        .state('tv', {
+          url: '/tv',
           controller: 'mytvTopController',
           controllerAs: 'ctrl',
-          templateUrl: 'views/mytv/mytv.html'
+          templateUrl: 'views/tv/tv.html'
         })
-        .state('mytv.shows', {
+        .state('tv.shows', {
           url: '/shows',
           controller: 'myShowsController',
           controllerAs: 'ctrl',
-          templateUrl: 'views/mytv/shows/shows.html'
+          templateUrl: 'views/tv/shows/shows.html'
         })
-        .state('mytv.shows.main', {
+        .state('tv.shows.main', {
           url: '/main',
-          templateUrl: 'views/mytv/shows/main.html'
+          templateUrl: 'views/tv/shows/main.html'
         })
-        .state('mytv.shows.blogtest', {
+        .state('tv.shows.blogtest', {
           url: '/blogtest',
-          templateUrl: 'views/mytv/shows/blogtest.html'
+          templateUrl: 'views/tv/shows/blogtest.html'
         })
-        .state('mytv.shows.backlog', {
+        .state('tv.shows.backlog', {
           url: '/backlog',
-          templateUrl: 'views/mytv/shows/backlog.html'
+          templateUrl: 'views/tv/shows/backlog.html'
         })
-        .state('mytv.shows.unmatched', {
+        .state('tv.shows.unmatched', {
           url: '/unmatched',
-          templateUrl: 'views/mytv/shows/unmatched.html'
+          templateUrl: 'views/tv/shows/unmatched.html'
         })
-        .state('mytv.rate', {
-          url: '/mytv/rate/yearly',
+        .state('tv.rate', {
+          url: '/tv/rate/yearly',
           controller: 'yearlyRatingController',
           controllerAs: 'ctrl',
-          templateUrl: 'views/mytv/rate/tvyearly.html'
+          templateUrl: 'views/tv/rate/tvyearly.html'
         })
-        .state('mytv.addshows', {
+        .state('tv.addshows', {
           url: '/addshows',
           controller: 'addShowsController',
           controllerAs: 'ctrl',
-          templateUrl: 'views/mytv/shows/addShows.html'
+          templateUrl: 'views/tv/shows/addShows.html'
         })
-        .state('mytv.addshows.main', {
+        .state('tv.addshows.main', {
           url: '/main',
-          templateUrl: 'views/mytv/shows/addMain.html'
+          templateUrl: 'views/tv/shows/addMain.html'
         })
-        .state('mytv.match', {
+        .state('tv.match', {
           url: '/match',
           controller: 'matchController',
           controllerAs: 'ctrl',
-          templateUrl: 'views/mytv/match/match.html'
+          templateUrl: 'views/tv/match/match.html'
         })
-        .state('mytv.match.seriesmatching', {
+        .state('tv.match.seriesmatching', {
           url: '/seriesmatching',
-          templateUrl: 'views/mytv/match/seriesMatching.html'
+          templateUrl: 'views/tv/match/seriesMatching.html'
         })
         .state('games', {
           url: '/games',

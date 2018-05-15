@@ -78,7 +78,7 @@
         self.auth.isUser = function () {
           return this.isAuthenticated && _.contains(this.roles, 'user');
         };
-        $location.path('/mytv/shows/main');
+        $location.path('/tv/shows/main');
       });
     }
 

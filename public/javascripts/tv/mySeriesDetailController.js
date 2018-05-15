@@ -290,7 +290,7 @@ angular.module('mediaMogulApp')
 
     self.openEpisodeDetail = function(episode) {
       $uibModal.open({
-        templateUrl: 'views/mytv/episodeDetail.html',
+        templateUrl: 'views/tv/episodeDetail.html',
         controller: 'myEpisodeDetailController as ctrl',
         size: 'lg',
         resolve: {
@@ -316,7 +316,7 @@ angular.module('mediaMogulApp')
     self.openChangePoster = function () {
       if (self.auth.isAdmin()) {
         $uibModal.open({
-          templateUrl: 'views/mytv/shows/changePoster.html',
+          templateUrl: 'views/tv/shows/changePoster.html',
           controller: 'changePosterController',
           controllerAs: 'ctrl',
           size: 'lg',
@@ -331,7 +331,7 @@ angular.module('mediaMogulApp')
 
     self.openEditSeries = function() {
       $uibModal.open({
-        templateUrl: 'views/mytv/editSeries.html',
+        templateUrl: 'views/tv/editSeries.html',
         controller: 'editSeriesController',
         controllerAs: 'ctrl',
         size: 'lg',
