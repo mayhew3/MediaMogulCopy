@@ -2,7 +2,6 @@ function EpisodeService($log, $http, $q, $filter, auth) {
   var shows = [];
   var myShows = [];
   var notMyShows = [];
-  var allShowInfo = [];
   var episodes = [];
   var episodeGroupRatings = [];
   var unmatchedEpisodes = [];
@@ -43,30 +42,6 @@ function EpisodeService($log, $http, $q, $filter, auth) {
   };
 
 
-
-  this.updateSeriesList = function() {
-    return $http.get('/seriesList').then(function (showresponse) {
-      $log.debug("Shows returned " + showresponse.data.length + " items.");
-      var tempShows = showresponse.data;
-      tempShows.forEach(function (show) {
-        self.updateNumericFields(show);
-      });
-      $log.debug("Finished updating.");
-      shows = tempShows;
-
-      $http.get('/viewingLocations').then(function (viewingResponse) {
-        $log.debug("Found " + viewingResponse.data.length + " viewing locations.");
-        viewingLocations = viewingResponse.data;
-
-        self.updateNextUp().then(self.updateRecordingNow);
-      }, function (errViewing) {
-        console.error('Error while fetching viewing location list: ' + errViewing);
-      });
-
-    }, function (errResponse) {
-      console.error('Error while fetching series list: ' + errResponse);
-    });
-  };
 
   this.updateMyShowsList = function() {
     return $http.get('/myShows', {params: {PersonId: auth.person_id}}).then(function (response) {
@@ -439,21 +414,6 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     return deferred.promise;
   };
 
-  this.updateAllShowsWithBasicInfo = function() {
-    return $http.get('/showBasicInfo').then(function (response) {
-      $log.debug("Shows returned " + response.data.length + " items.");
-      var tempShows = response.data;
-      tempShows.forEach(function (show) {
-        updatePosterLocation(show);
-      });
-      $log.debug("Finished updating.");
-      allShowInfo = tempShows;
-
-    }, function (errResponse) {
-      console.error('Error while fetching series list: ' + errResponse);
-    });
-  };
-
   this.findEpisodeWithId = function(id) {
     var matching = episodes.filter(function(episode) {
       return episode.id === id;
@@ -557,10 +517,6 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     return notMyShows;
   };
 
-  this.getAllShowInfo = function() {
-    return allShowInfo;
-  };
-
   this.getEpisodeGroupRatings = function() {
     return episodeGroupRatings;
   };
@@ -582,12 +538,6 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     return !(streamingPlatform === undefined);
   };
 
-  this.markWatched = function(seriesId, episodeId, watched, watchedDate) {
-    var changedFields = {"watched": watched, "watched_date": watchedDate};
-
-    return $http.post('/updateEpisode', {EpisodeId: episodeId, ChangedFields: changedFields});
-    // todo: add some error handling.
-  };
   this.updateEpisode = function(episodeId, changedFields) {
     return $http.post('/updateEpisode', {EpisodeId: episodeId, ChangedFields: changedFields});
   };

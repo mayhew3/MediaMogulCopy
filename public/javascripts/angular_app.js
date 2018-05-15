@@ -7,32 +7,6 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
           url: '/',
           templateUrl: 'views/home.html'
         })
-        .state('tv', {
-          url: '/tv',
-          templateUrl: 'views/tv/tv.html'
-        })
-        .state('tv.shows', {
-          url: '/shows',
-          controller: 'seriesController',
-          controllerAs: 'ctrl',
-          templateUrl: 'views/tv/shows/shows.html'
-        })
-        .state('tv.shows.main', {
-          url: '/main',
-          templateUrl: 'views/tv/shows/main.html'
-        })
-        .state('tv.shows.backlog', {
-          url: '/backlog',
-          templateUrl: 'views/tv/shows/backlog.html'
-        })
-        .state('tv.shows.new', {
-          url: '/new',
-          templateUrl: 'views/tv/shows/new.html'
-        })
-        .state('tv.shows.unmatched', {
-          url: '/unmatched',
-          templateUrl: 'views/tv/shows/unmatched.html'
-        })
         .state('mytv', {
           url: '/mytv',
           controller: 'mytvTopController',
@@ -86,26 +60,6 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
         .state('mytv.match.seriesmatching', {
           url: '/seriesmatching',
           templateUrl: 'views/mytv/match/seriesMatching.html'
-        })
-        .state('tv_list', {
-          url: '/tvbacklog',
-          templateUrl: 'views/tv/tvbacklog.html'
-        })
-        .state('tv.rate', {
-          url: '/tv/rate/yearly',
-          controller: 'yearlyRatingController',
-          controllerAs: 'ctrl',
-          templateUrl: 'views/tv/rate/tvyearly.html'
-        })
-        .state('tv.match', {
-          url: '/match',
-          controller: 'matchController',
-          controllerAs: 'ctrl',
-          templateUrl: 'views/tv/match/match.html'
-        })
-        .state('tv.match.seriesmatching', {
-          url: '/seriesmatching',
-          templateUrl: 'views/tv/match/seriesMatching.html'
         })
         .state('games', {
           url: '/games',
