@@ -5,10 +5,10 @@
         <li ng-show="toolbar.auth.isUser()">
           <a ui-sref="mytv.shows.main">My TV</a>
         </li>
-        <li ng-show="toolbar.auth.isAuthenticated">
+        <li ng-show="toolbar.auth.isAdmin()">
           <a ui-sref="tv_list">TV List</a>
         </li>
-        <li ng-show="toolbar.auth.isAuthenticated">
+        <li ng-show="toolbar.auth.isAdmin()">
           <a ui-sref="games.list">Games</a>
         </li>
         <li ng-show="toolbar.auth.isAdmin()">
