@@ -46,11 +46,27 @@ angular.module('mediaMogulApp')
 
     self.showInQueue = function(series) {
       return self.firstTier(series) &&
-        airedInLastDays(series.first_unwatched, 8);
+        dateIsWithinLastDays(series.first_unwatched, 8);
+    };
+
+    self.recentlyWatched = function(series) {
+      return self.firstTier(series) &&
+        dateIsWithinLastDays(series.last_watched, 14) &&
+        !self.showInQueue(series);
     };
 
     self.otherActive = function(series) {
-      return self.firstTier(series) && !self.showInQueue(series);
+      return self.firstTier(series) &&
+        !self.showInQueue(series) &&
+        !self.recentlyWatched(series) &&
+        series.last_watched !== null;
+    };
+
+    self.toStart = function(series) {
+      return self.firstTier(series) &&
+      !self.showInQueue(series) &&
+      !self.recentlyWatched(series) &&
+      series.last_watched === null;
     };
 
     self.newlyAdded = function(series) {
@@ -85,12 +101,10 @@ angular.module('mediaMogulApp')
       return series.unmatched_episodes > 0 && series.my_tier === 1;
     }
 
-    function airedInLastDays(airDate, days) {
-      var notNull = airDate !== null;
-      var diff = (new Date(airDate) - new Date() + (1000 * 60 * 60 * 24 * days));
+    function dateIsWithinLastDays(referenceDate, daysAgo) {
+      var notNull = referenceDate !== null;
+      var diff = (new Date(referenceDate) - new Date() + (1000 * 60 * 60 * 24 * daysAgo));
       var withinDiff = (diff > 0);
-
-      // $log.debug("AirDate: " + airDate + ", diff: " + diff);
 
       return notNull && withinDiff;
     }

@@ -82,7 +82,14 @@ exports.getMyShows = function(request, response) {
     "ps.unwatched_streaming, " +
     "ps.last_unwatched, " +
     "ps.first_unwatched, " +
-    "ps.tier AS my_tier " +
+    "ps.tier AS my_tier, " +
+    "(SELECT MAX(er.watched_date) " +
+    "  from episode_rating er " +
+    "  inner join episode e " +
+    "   on er.episode_id = e.id " +
+    "  where e.series_id = s.id " +
+    "  and er.retired = $5 " +
+    "  and e.retired = $6) as last_watched " +
     "FROM series s " +
     "INNER JOIN person_series ps " +
     "  ON ps.series_id = s.id " +
@@ -91,7 +98,7 @@ exports.getMyShows = function(request, response) {
     "AND s.tvdb_match_status = $3 " +
     "AND s.retired = $4 ";
   var values = [
-    personId, false, 'Match Completed', 0
+    personId, false, 'Match Completed', 0, 0, 0
   ];
 
   return executeQueryWithResults(response, sql, values);
