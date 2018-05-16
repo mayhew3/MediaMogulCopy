@@ -159,6 +159,10 @@ angular.module('mediaMogulApp')
       return (self.getUnwatched(episodeGroup) === 0);
     };
 
+    self.allGroupFilter = function(episodeGroup) {
+      return true;
+    };
+
     self.unairedGroupFilter = function(episodeGroup) {
       var diff = new Date(episodeGroup.last_aired) - new Date + (1000 * 60 * 60 * 24);
       return (diff > 0) && (self.getUnaired(episodeGroup) !== 0) && (self.getUnwatched(episodeGroup) === 0);
@@ -202,6 +206,19 @@ angular.module('mediaMogulApp')
       self.showUnwatched = false;
       self.showUnaired = false;
       self.showRGB = true;
+    };
+
+    self.filterAll = function() {
+      self.selectedPill = 'All';
+
+      self.episodeGroupFilter = self.allGroupFilter;
+      self.seriesOrdering = self.orderByRating;
+
+      self.showNeeds = true;
+      self.showUnrated = true;
+      self.showUnwatched = false;
+      self.showUnaired = false;
+      self.showRGB = false;
     };
 
     self.filterWatched = function() {

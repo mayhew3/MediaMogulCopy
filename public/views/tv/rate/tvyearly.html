@@ -11,6 +11,11 @@
   <div class="bs-docs-section clearfix">
     <div class="container col-lg-2">
       <ul class="nav nav-pills nav-stacked btn-sm">
+        <li role="episodeGroup" ng-class="ctrl.isActive('All')">
+          <a href ng-click="ctrl.filterAll()">
+            All <span class="badge" ng-show="ctrl.countWhere(ctrl.allGroupFilter) > 0" ng-bind="ctrl.countWhere(ctrl.allGroupFilter)"></span>
+          </a>
+        </li>
         <li role="episodeGroup" ng-class="ctrl.isActive('Watched')">
           <a href ng-click="ctrl.filterWatched()">
             Watched <span class="badge" ng-show="ctrl.countWhere(ctrl.fullyWatchedGroupFilter) > 0" ng-bind="ctrl.countWhere(ctrl.fullyWatchedGroupFilter)"></span>
@@ -141,11 +146,17 @@
 
             <td ng-show="ctrl.showNeeds">
                 <span class="label label-danger"
-                      ng-show="episodeGroup.rating === null"
+                      ng-show="ctrl.unratedGroupFilter(episodeGroup)"
                       title="Needs Rating">Rating</span>
               <span class="label label-warning"
-                    ng-show="episodeGroup.rating !== null && episodeGroup.review === null"
+                    ng-show="ctrl.unreviewedGroupFilter(episodeGroup)"
                     title="Needs Review">Review</span>
+              <span class="label label-info"
+                    ng-show="ctrl.unairedGroupFilter(episodeGroup)"
+                    title="Needs Airing">Air</span>
+              <span class="label label-success"
+                    ng-show="ctrl.unwatchedGroupFilter(episodeGroup)"
+                    title="Needs Watching">Watch</span>
             </td>
             <td ng-style="ctrl.getBestRatingColorStyle(episodeGroup)" ng-bind="ctrl.getBestRating(episodeGroup)|number: 1" width="70" align="center"></td>
             <td ng-show="ctrl.showRGB" align="right"><span ng-bind="ctrl.getBestRatingRGB(episodeGroup)"></span></td>
