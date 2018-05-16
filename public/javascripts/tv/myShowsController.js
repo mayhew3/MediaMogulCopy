@@ -41,7 +41,7 @@ angular.module('mediaMogulApp')
     };
 
     self.upcomingSoon = function(series) {
-      return airingInNextDays(series.nextAirDate, 7);
+      return dateIsInNextDays(series.nextAirDate, 7);
     };
 
     function airedRecently(series) {
@@ -102,21 +102,19 @@ angular.module('mediaMogulApp')
     }
 
     function dateIsWithinLastDays(referenceDate, daysAgo) {
-      var notNull = referenceDate !== null;
-      var diff = (new Date(referenceDate) - new Date() + (1000 * 60 * 60 * 24 * daysAgo));
-      var withinDiff = (diff > 0);
+      if (referenceDate === null || _.isUndefined(referenceDate)) {
+        return false;
+      }
 
-      return notNull && withinDiff;
+      return moment().subtract(daysAgo, 'day').isBefore(moment(referenceDate));
     }
 
-    function airingInNextDays(airDate, days) {
-      var notNull = airDate !== null;
-      var diff = (new Date() - new Date(airDate) + (1000 * 60 * 60 * 24 * days));
-      var withinDiff = (diff > 0);
+    function dateIsInNextDays(referenceDate, days) {
+      if (referenceDate === null || _.isUndefined(referenceDate)) {
+        return false;
+      }
 
-      // $log.debug("AirDate: " + airDate + ", diff: " + diff);
-
-      return notNull && withinDiff;
+      return moment().add(days, 'day').isAfter(moment(referenceDate));
     }
 
     function updateFullRating(series) {
