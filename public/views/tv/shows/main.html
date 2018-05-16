@@ -1,6 +1,6 @@
 
 <!-- QUEUE section -->
-<div class="panel panel-default">
+<div class="panel panel-default" ng-show="ctrl.countWhere(ctrl.showInQueue) > 0">
   <div class="panel-heading">
     <h3>Queue</h3>
   </div>
@@ -27,7 +27,7 @@
 </div>
 
 <!-- OTHER ACTIVE section -->
-<div class="panel panel-default">
+<div class="panel panel-default" ng-show="ctrl.countWhere(ctrl.otherActive) > 0">
   <div class="panel-heading">
     <h3>Active</h3>
   </div>
@@ -55,7 +55,7 @@
 </div>
 
 <!-- TO START section -->
-<div class="panel panel-default">
+<div class="panel panel-default" ng-show="ctrl.countWhere(ctrl.toStart) > 0">
   <div class="panel-heading">
     <h3>To Start</h3>
   </div>
