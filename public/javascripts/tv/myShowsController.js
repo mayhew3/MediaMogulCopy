@@ -44,28 +44,28 @@ angular.module('mediaMogulApp')
       return airingInNextDays(series.nextAirDate, 7);
     };
 
+    function airedRecently(series) {
+      return dateIsWithinLastDays(series.first_unwatched, 8);
+    }
+
+    function watchedRecently(series) {
+      return dateIsWithinLastDays(series.last_watched, 14);
+    }
+
     self.showInQueue = function(series) {
       return self.firstTier(series) &&
-        dateIsWithinLastDays(series.first_unwatched, 8);
-    };
-
-    self.recentlyWatched = function(series) {
-      return self.firstTier(series) &&
-        dateIsWithinLastDays(series.last_watched, 14) &&
-        !self.showInQueue(series);
+        (airedRecently(series) || watchedRecently(series));
     };
 
     self.otherActive = function(series) {
       return self.firstTier(series) &&
         !self.showInQueue(series) &&
-        !self.recentlyWatched(series) &&
         series.last_watched !== null;
     };
 
     self.toStart = function(series) {
       return self.firstTier(series) &&
       !self.showInQueue(series) &&
-      !self.recentlyWatched(series) &&
       series.last_watched === null;
     };
 
