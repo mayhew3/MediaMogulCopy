@@ -19,23 +19,32 @@ angular.module('mediaMogulApp')
     self.showUnaired = false;
     self.showRGB = false;
 
-    self.refreshEpisodeGroupList = function() {
+    self.viewedYear = null;
+    self.possibleYears = [2017, 2018];
+
+    function updateGroupRatings(year) {
+      EpisodeService.updateEpisodeGroupRatings(year).then(function () {
+        self.episodeGroups = EpisodeService.getEpisodeGroupRatings();
+        $log.debug("Controller has " + self.episodeGroups.length + " shows.");
+      });
+    }
+
+    self.initializeEpisodeGroupList = function() {
       EpisodeService.updateSystemVars().then(function () {
         self.year = EpisodeService.getRatingYear();
-        EpisodeService.updateEpisodeGroupRatings(self.year).then(function () {
-          self.episodeGroups = EpisodeService.getEpisodeGroupRatings();
-          $log.debug("Controller has " + self.episodeGroups.length + " shows.");
-        });
+        self.viewedYear = self.year;
+        updateGroupRatings(self.year);
       });
     };
-    self.refreshEpisodeGroupList();
+
+    self.initializeEpisodeGroupList();
 
     self.increaseYear = function() {
       self.endDateToRevert = EpisodeService.getRatingEndDate();
       self.initialYear = self.year;
       EpisodeService.increaseYear().then(function () {
         self.year++;
-        self.refreshEpisodeGroupList();
+        self.initializeEpisodeGroupList();
       });
     };
 
@@ -43,8 +52,12 @@ angular.module('mediaMogulApp')
       EpisodeService.revertYear(self.endDateToRevert).then(function() {
         self.endDateToRevert = null;
         self.year--;
-        self.refreshEpisodeGroupList();
+        self.initializeEpisodeGroupList();
       });
+    };
+
+    self.changeViewedYear = function() {
+      updateGroupRatings(self.viewedYear);
     };
 
     self.lockRatings = function() {

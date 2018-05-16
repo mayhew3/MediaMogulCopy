@@ -123,6 +123,10 @@ h1 {
   color: gray;
 }
 
+.headerDropdown {
+  background-color: #1c1e22;
+}
+
 /*
   Don't love this approach, but I couldn't find a way to have btn-success override the background-image tag in nav-pills.
   There aren't any styling class options on nav-pills. So I have to replicate some of the existing btn-success CSS code
