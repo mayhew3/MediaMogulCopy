@@ -1,5 +1,5 @@
 var pg = require('pg');
-var config = process.env.DATABASE_URL;
+const config = process.env.DATABASE_URL;
 
 exports.getSeriesWithPossibleMatchInfo = function(request, response) {
   console.log("Series with Matches call received.");
@@ -67,6 +67,15 @@ exports.getEpisodeGroupRatings = function(request, response) {
     'AND s.retired = $2 ';
 
   return executeQueryWithResults(response, sql, [year, 0]);
+};
+
+exports.getAllRatingYears = function(request, response) {
+  var sql = 'SELECT DISTINCT year ' +
+    'FROM episode_group_rating ' +
+    'WHERE retired = $1 ' +
+    'ORDER BY year DESC ';
+
+  return executeQueryWithResults(response, sql, [0]);
 };
 
 exports.getEpisodes = function(req, response) {

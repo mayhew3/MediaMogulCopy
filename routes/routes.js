@@ -33,6 +33,7 @@ module.exports = function(app) {
   app.get('/unmatchedEpisodes', authCheck, series.getUnmatchedEpisodes);
   app.get('/upcomingEpisodes', authCheck, series.getUpcomingEpisodes);
   app.get('/tvdbErrors', authCheck, series.getTVDBErrors);
+  app.get('/ratingYears', authCheck, series.getAllRatingYears);
 
   // API for iOS app
   app.get('/primeTV', authCheck, series.getPrimeTV);

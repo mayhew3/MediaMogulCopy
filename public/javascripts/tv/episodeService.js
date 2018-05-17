@@ -13,6 +13,7 @@ function EpisodeService($log, $http, $q, $filter, auth) {
   var pendingMatches = 0;
   var ratingYear;
   var ratingEndDate;
+  var allRatingYears = [];
   var self = this;
 
   this.getSeriesWithTitle = function(SeriesTitle) {
@@ -41,7 +42,13 @@ function EpisodeService($log, $http, $q, $filter, auth) {
     }
   };
 
-
+  this.updateRatingYears = function() {
+    return $http.get('/ratingYears').then(function (response) {
+      response.data.forEach(function(row) {
+        allRatingYears.push(row.year);
+      });
+    })
+  };
 
   this.updateMyShowsList = function() {
     return $http.get('/myShows', {params: {PersonId: auth.person_id}}).then(function (response) {
@@ -156,6 +163,10 @@ function EpisodeService($log, $http, $q, $filter, auth) {
 
   this.getRatingEndDate = function() {
     return ratingEndDate;
+  };
+
+  this.getAllRatingYears = function() {
+    return allRatingYears;
   };
 
   this.updateEpisodeGroupRatings = function(year) {
