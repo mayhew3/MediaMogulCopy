@@ -10,7 +10,7 @@ exports.getGames = function (request, response) {
                                       'steam_cloud, last_played, natural_end, metacritic_matched, ' +
                                       'giantbomb_small_url, giantbomb_thumb_url, giantbomb_medium_url, howlong_extras, ' +
                                       'howlong_id, giantbomb_id, giantbomb_manual_guess ' +
-                              'FROM games ' +
+                              'FROM game ' +
                               'WHERE owned IN (\'owned\', \'borrowed\') ' +
                               'ORDER BY metacritic DESC, playtime DESC, date_added DESC');
 
@@ -34,7 +34,7 @@ exports.updateGame = function(request, response) {
   console.log("Updating game with " + JSON.stringify(request.body.ChangedFields));
   console.log("User: " + request.user);
 
-  var sql = "UPDATE games SET ";
+  var sql = "UPDATE game SET ";
   var values = [];
   var i = 1;
   var changedFields = request.body.ChangedFields;
@@ -85,7 +85,7 @@ exports.addGame = function(request, response) {
   console.log("Adding game with " + JSON.stringify(game));
   console.log("User: " + request.user);
 
-  var sql = "INSERT INTO games (title, platform, mayhew, owned, date_added) VALUES ($1, $2, $3, $4, $5)";
+  var sql = "INSERT INTO game (title, platform, mayhew, owned, date_added) VALUES ($1, $2, $3, $4, $5)";
   var values =
     [game.title,
     game.platform,
