@@ -20,8 +20,7 @@
     "underscore": "1.9.0"
   },
   "engines": {
-    "node": "8.11.2",
-    "npm": "6.0.1"
+    "node": "8.11.2"
   },
   "keywords": [
     "node",
