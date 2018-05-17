@@ -35,6 +35,9 @@ angular.module('mediaMogulApp')
           self.year = EpisodeService.getRatingYear();
           self.viewedYear = self.year;
           self.possibleYears = EpisodeService.getAllRatingYears();
+          if (!_.contains(self.possibleYears, self.year)) {
+            self.possibleYears.unshift(self.year);
+          }
           updateGroupRatings(self.year);
         });
       });

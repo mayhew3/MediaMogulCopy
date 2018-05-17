@@ -45,7 +45,9 @@ function EpisodeService($log, $http, $q, $filter, auth) {
   this.updateRatingYears = function() {
     return $http.get('/ratingYears').then(function (response) {
       response.data.forEach(function(row) {
-        allRatingYears.push(row.year);
+        if (!_.contains(allRatingYears, row.year)) {
+          allRatingYears.push(row.year);
+        }
       });
     })
   };
