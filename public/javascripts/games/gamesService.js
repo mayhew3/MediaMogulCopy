@@ -36,6 +36,9 @@ function GamesService($log, $http) {
     if (game.timeplayed !== null) {
       game.timeplayed = parseFloat(game.timeplayed);
     }
+    if (game.playtime !== null) {
+      game.playtime = parseInt(game.playtime);
+    }
     if (game.timetotal !== null) {
       game.timetotal = parseFloat(game.timetotal);
     }
@@ -83,6 +86,10 @@ function GamesService($log, $http) {
     });
   };
 
+  this.addGameplaySession = function(gameplaySession) {
+    $log.debug("Adding gameplay " + JSON.stringify(gameplaySession));
+    return $http.post('/api/addgameplay', {gameplaySession: gameplaySession});
+  };
 
   this.updateGame = function(GameId, ChangedFields) {
     $log.debug('Received update for Game ' + GameId + " with data " + JSON.stringify(ChangedFields));

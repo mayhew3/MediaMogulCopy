@@ -17,6 +17,7 @@ module.exports = function(app) {
 
   app.post('/api/updategame', authCheck, games.updateGame);
   app.post('/api/addgame', authCheck, games.addGame);
+  app.post('/api/addgameplay', authCheck, games.addGameplaySession);
 
   // TV
   app.get('/seriesMatchList', authCheck, series.getSeriesWithPossibleMatchInfo);

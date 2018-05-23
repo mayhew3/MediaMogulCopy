@@ -114,3 +114,55 @@ exports.addGame = function(request, response) {
     }
   });
 };
+
+exports.addGameplaySession = function(request, response) {
+  var gameplaySession = request.body.gameplaySession;
+  console.log("Adding gameplay_session with " + JSON.stringify(gameplaySession));
+
+  var sql = "INSERT INTO gameplay_session (game_id, start_time, minutes, rating) VALUES ($1, $2, $3, $4)";
+  var values =
+    [gameplaySession.game_id,
+    gameplaySession.start_time,
+    gameplaySession.minutes,
+    gameplaySession.rating];
+
+  console.log("SQL: " + sql);
+  console.log("Values: " + values);
+
+  executeQueryNoResults(response, sql, values);
+};
+
+
+function executeQueryNoResults(response, sql, values) {
+
+  var queryConfig = {
+    text: sql,
+    values: values
+  };
+
+  var client = new pg.Client(config);
+  if (client === null) {
+    return console.error('null client');
+  }
+
+  client.connect(function(err) {
+    if (err) {
+      return console.error('could not connect to postgres', err);
+    }
+
+    var query = client.query(queryConfig);
+
+    query.on('error', function(err) {
+      if (err) {
+        console.error(err.stack);
+        return response.send("Error " + err);
+      }
+    });
+
+    query.on('end', function() {
+      client.end();
+      return response.json({msg: "Success"});
+    });
+
+  });
+}
