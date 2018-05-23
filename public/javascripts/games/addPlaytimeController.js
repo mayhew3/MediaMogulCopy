@@ -138,9 +138,12 @@ angular.module('mediaMogulApp')
       if (Object.getOwnPropertyNames(changedFields).length > 0) {
         $log.debug("Changed fields has a length!");
 
+        let lastPlayed = new Date;
+        changedFields.last_played = lastPlayed;
+
         GamesService.addGameplaySession({
           game_id: self.game.id,
-          start_time: new Date,
+          start_time: lastPlayed,
           minutes: self.added_duration.asMinutes(),
           rating: self.session_rating
         }).then(function() {
@@ -150,6 +153,7 @@ angular.module('mediaMogulApp')
             // self.game.timetotal = self.interfaceFields.timetotal;
             self.game.finalscore = self.interfaceFields.finalscore;
             self.game.replay = self.interfaceFields.replay;
+            self.game.last_played = lastPlayed;
 
             self.originalFields.playtime = self.interfaceFields.playtime;
             // self.originalFields.timetotal = self.interfaceFields.timetotal;
