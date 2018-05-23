@@ -134,10 +134,10 @@ function GamesService($log, $http) {
   };
 
   this.updatePlaytimes = function(game) {
-    var timeplayed = game.timeplayed;
+    // var timeplayed = game.timeplayed;
     var playtime = game.playtime;
 
-    game.aggPlaytime = playtime === null ? timeplayed : playtime / 60;
+    game.aggPlaytime = playtime === null ? null : playtime / 60;
 
     var timetotal = game.timetotal;
     var howlong_time = game.howlong_extras;

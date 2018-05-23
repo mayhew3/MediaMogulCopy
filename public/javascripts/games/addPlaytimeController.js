@@ -39,15 +39,59 @@ angular.module('mediaMogulApp')
 
     // FIELDS
 
-    self.original_hours = null;
-    self.original_minutes = null;
+
+    // original
+    self.original_duration = moment.duration(parseInt(self.game.playtime), 'minutes');
+
+    self.original_hours = Math.floor(self.original_duration.asHours());
+    self.original_minutes = self.original_duration.minutes();
+
+
+    // new
+    self.new_duration = null;
+
     self.new_hours = null;
     self.new_minutes = null;
+
+
+    // added
+    self.added_duration = null;
+
     self.added_hours = null;
     self.added_minutes = null;
+
+
     self.session_rating = null;
     self.finished = false;
 
+
+    self.updateUIFieldsWithNewDurations = function() {
+      self.added_hours = Math.floor(self.added_duration.asHours());
+      self.added_minutes = self.added_duration.minutes();
+
+      self.new_hours = Math.floor(self.new_duration.asHours());
+      self.new_minutes = self.new_duration.minutes();
+    };
+
+    self.newChanged = function() {
+      var hoursDuration = moment.duration(self.new_hours === null ? 0 : self.new_hours, 'hours');
+      var minutesDuration = moment.duration(self.new_minutes === null ? 0 : self.new_minutes, 'minutes');
+
+      self.new_duration = hoursDuration.add(minutesDuration);
+      self.added_duration = self.new_duration.clone().subtract(self.original_duration);
+
+      self.updateUIFieldsWithNewDurations();
+    };
+
+    self.addedChanged = function() {
+      var hoursDuration = moment.duration(self.added_hours === null ? 0 : self.added_hours, 'hours');
+      var minutesDuration = moment.duration(self.added_minutes === null ? 0 : self.added_minutes, 'minutes');
+
+      self.added_duration = hoursDuration.add(minutesDuration);
+      self.new_duration = self.added_duration.clone().add(self.original_duration);
+
+      self.updateUIFieldsWithNewDurations();
+    };
 
     self.originalFields = {
       timeplayed: self.game.timeplayed,
