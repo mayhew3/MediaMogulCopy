@@ -69,12 +69,12 @@
     </div>
 
     <div class="form-group col-lg-3">
-      <label class="control-label" for="timePlayedInput">Time Played</label><br>
+      <label class="control-label" for="playtimeInput">Time Played</label><br>
       <div class="col-lg-1">
-        <span id="timePlayedInput" ng-bind="ctrl.interfaceFields.timeplayed"></span>
+        <span id="playtimeInput" ng-bind="ctrl.interfaceFields.playtime"></span>
       </div>
 
-      <div class="form-group col-lg-2">
+      <div class="form-group col-lg-2" ng-hide="ctrl.game.platform === 'Steam'">
         <button type="button"
                 class="btn btn-success"
                 ng-click="ctrl.openAddPlaytime(ctrl.game)">
