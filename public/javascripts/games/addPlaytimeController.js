@@ -64,6 +64,8 @@ angular.module('mediaMogulApp')
     self.session_rating = null;
     self.finished = false;
 
+    self.session_date = new Date().toLocaleDateString("en-US", options);
+
 
     self.updateUIFieldsWithNewDurations = function() {
       self.added_hours = Math.floor(self.added_duration.asHours());
@@ -99,25 +101,19 @@ angular.module('mediaMogulApp')
       playtime: self.game.playtime,
       // timetotal: self.game.timetotal,
       finalscore: self.game.finalscore,
-      replay: self.game.replay,
-      finished: self.game.finished === null ? null : new Date(self.game.finished).toLocaleDateString("en-US", options)
+      replay: self.game.replay
     };
 
     self.interfaceFields = {
       playtime: self.game.playtime,
       // timetotal: self.game.timetotal,
       finalscore: self.game.finalscore,
-      replay: self.game.replay,
-      finished: self.game.finished === null ? null : new Date(self.game.finished).toLocaleDateString("en-US", options)
+      replay: self.game.replay
     };
 
     $log.debug("Game opened: " + game.title + ", Finished: " + self.game.finished);
 
     self.changeValues = function() {
-
-      if (!dateHasChanged(self.originalFields.finished, self.interfaceFields.finished)) {
-        self.interfaceFields.finished = self.originalFields.finished;
-      }
 
       var changedFields = {};
       for (var key in self.interfaceFields) {
@@ -138,8 +134,11 @@ angular.module('mediaMogulApp')
       if (Object.getOwnPropertyNames(changedFields).length > 0) {
         $log.debug("Changed fields has a length!");
 
-        let lastPlayed = new Date;
+        let lastPlayed = new Date(self.session_date);
         changedFields.last_played = lastPlayed;
+        if (self.finished) {
+          changedFields.finished = lastPlayed;
+        }
 
         GamesService.addGameplaySession({
           game_id: self.game.id,
