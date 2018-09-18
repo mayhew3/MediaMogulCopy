@@ -1,6 +1,6 @@
-angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngRoute', 'ui.bootstrap', 'ui.router'])
-  .config(['authProvider', '$httpProvider', '$locationProvider', 'jwtInterceptorProvider', '$provide', '$stateProvider',
-    function(authProvider, $httpProvider, $locationProvider, jwtInterceptorProvider, $provide, $stateProvider) {
+angular.module('mediaMogulApp', ['auth0.lock', 'angular-storage', 'angular-jwt', 'ngRoute', 'ui.bootstrap', 'ui.router'])
+  .config(['lockProvider', '$httpProvider', '$locationProvider', 'jwtInterceptorProvider', '$provide', '$stateProvider',
+    function(lockProvider, $httpProvider, $locationProvider, jwtInterceptorProvider, $provide, $stateProvider) {
 
       $stateProvider
         .state('home', {
@@ -99,15 +99,26 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
         })
       ;
 
-      authProvider.init({
+      $locationProvider.hashPrefix('');
+      $locationProvider.html5Mode(true);
+
+      lockProvider.init({
         domain: 'mayhew3.auth0.com',
-        clientID: 'QdwQv7LcXgmiUpYhXnTYyGQsXie2UQNb'
+        clientID: 'QdwQv7LcXgmiUpYhXnTYyGQsXie2UQNb',
+        options: {
+          auth: {
+            responseType: 'token id_token',
+            params: {
+              scope: 'openid offline_access'
+            }
+          }
+        }
       });
 
       function redirect($q, $injector, $timeout, store, $location) {
         var auth;
         $timeout(function() {
-          auth = $injector.get('auth');
+          auth = $injector.get('lock');
         });
 
         return {
@@ -131,8 +142,8 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
 
       //Angular HTTP Interceptor function
       jwtInterceptorProvider.tokenGetter =
-        ['store', '$http', 'jwtHelper', 'auth',
-          function(store, $http, jwtHelper, auth) {
+        ['store', '$http', 'jwtHelper', 'lock',
+          function(store, $http, jwtHelper, lock) {
             var token = store.get('token');
             var refreshToken = store.get('refreshToken');
             if (token) {
@@ -142,7 +153,7 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
                 console.log("RefreshToken: " + refreshToken);
                 if (refreshingToken === null) {
                   if (refreshToken !== null) {
-                    refreshingToken = auth.refreshIdToken(refreshToken).then(function (idToken) {
+                    refreshingToken = lock.refreshIdToken(refreshToken).then(function (idToken) {
                       store.set('token', idToken);
                       return idToken;
                     }, function(err) {
@@ -164,11 +175,10 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
       $httpProvider.interceptors.push('jwtInterceptor');
 
     }])
-  .run(['$rootScope', 'auth', 'store', 'jwtHelper', '$location',
-    function($rootScope, auth, store, jwtHelper, $location) {
+  .run(['$rootScope', 'lock', 'store', 'jwtHelper', '$location',
+    function($rootScope, lock, store, jwtHelper, $location) {
 
       var refreshingToken = null;
-      auth.hookEvents();
       $rootScope.$on('$locationChangeStart', function() {
         // Get the JWT that is saved in local storage
         // and if it is there, check whether it is expired.
@@ -178,20 +188,20 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
         var profile = store.get('profile');
         var person_id = store.get('person_id');
 
-        console.log("On Refresh: Store PersonID: " + person_id + ", Auth PersonID: " + auth.person_id);
+        console.log("On Refresh: Store PersonID: " + person_id + ", Auth PersonID: " + lock.person_id);
 
         if (token) {
           if (!jwtHelper.isTokenExpired(token)) {
-            if (!auth.isAuthenticated) {
-              auth.authenticate(profile, token);
+            if (!lock.isAuthenticated) {
+              lock.authenticate(profile, token);
               updateAuthObjectFromStore(profile);
             }
           } else {
             if (refreshToken) {
               if (refreshingToken === null) {
-                refreshingToken = auth.refreshIdToken(refreshToken).then(function(idToken) {
+                refreshingToken = lock.refreshIdToken(refreshToken).then(function(idToken) {
                   store.set('token', idToken);
-                  auth.authenticate(profile, idToken);
+                  lock.authenticate(profile, idToken);
                   updateAuthObjectFromStore(profile);
                 }, function(err) {
                   console.log(err);
@@ -217,17 +227,17 @@ angular.module('mediaMogulApp', ['auth0', 'angular-storage', 'angular-jwt', 'ngR
       });
 
       function updateAuthObjectFromStore(profile) {
-        if (isNaN(auth.person_id)) {
+        if (isNaN(lock.person_id)) {
           console.log("Setting auth person id to: " + store.get('person_id'));
-          auth.person_id = store.get('person_id');
+          lock.person_id = store.get('person_id');
         }
 
-        auth.roles = profile.app_metadata.roles;
-        auth.isAdmin = function () {
-          return auth.isAuthenticated && _.contains(auth.roles, 'admin');
+        lock.roles = profile.app_metadata.roles;
+        lock.isAdmin = function () {
+          return lock.isAuthenticated && _.contains(lock.roles, 'admin');
         };
-        auth.isUser = function () {
-          return auth.isAuthenticated && _.contains(auth.roles, 'user');
+        lock.isUser = function () {
+          return lock.isAuthenticated && _.contains(lock.roles, 'user');
         };
       }
 

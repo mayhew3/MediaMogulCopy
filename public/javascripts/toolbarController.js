@@ -12,32 +12,14 @@
     }
   }
 
-  function toolbarController(auth, store, $location, $http) {
+  function toolbarController(lock, store, $location, $http) {
     var self = this;
     self.login = login;
     self.logout = logout;
-    self.auth = auth;
+    self.auth = lock;
 
     function login() {
-      // The auth service has a signin method that
-      // makes use of Auth0Lock. If authentication
-      // is successful, the user's profile and token
-      // are saved in local storage with the store service
-      auth.signin({
-        authParams: {
-          scope: 'openid offline_access'
-        }
-      }, function(profile, idToken, accessToken, state, refreshToken) {
-        store.set('profile', profile);
-        store.set('token', idToken);
-        store.set('accessToken', accessToken);
-        store.set('refreshToken', refreshToken);
-        syncPersonWithDB(profile);
-
-
-      }, function(error) {
-        console.log(error);
-      })
+      lock.show();
     }
 
     function logout() {
@@ -54,6 +36,37 @@
       $location.path('/');
     }
 
+    function handleAuthentication() {
+      console.log("Listeners being added.");
+      self.auth.on('authenticated', function(authResult) {
+        console.log("Authenticated event detected.");
+        if (authResult && authResult.accessToken && authResult.idToken) {
+          console.log('Authenticated!', authResult);
+          _setSession(authResult);
+        }
+      });
+      self.auth.on('authorization_error', function(err) {
+        console.log(err);
+        alert('Error: ' + err.error + ". Check the console for further details.");
+      });
+    }
+
+    handleAuthentication();
+
+    function _setSession(authResult) {
+      // Set the time that the Access Token will expire
+      var expiresAt = JSON.stringify(
+        authResult.expiresIn * 1000 + new Date().getTime()
+      );
+      // Save tokens and expiration to localStorage
+      store.set('profile', authResult.profile);
+      store.set('access_token', authResult.accessToken);
+      store.set('token', authResult.idToken);
+      store.set('refresh_token', authResult.refreshToken);
+      store.set('expires_at', expiresAt);
+
+      syncPersonWithDB(authResult.profile);
+    }
 
     // user management functions
 
