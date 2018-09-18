@@ -108,8 +108,9 @@ angular.module('mediaMogulApp', ['auth0.lock', 'angular-storage', 'angular-jwt',
         options: {
           auth: {
             responseType: 'token id_token',
+            audience: 'https://mayhew3.auth0.com/userinfo',
             params: {
-              scope: 'openid offline_access'
+              scope: 'openid profile email'
             }
           }
         }
