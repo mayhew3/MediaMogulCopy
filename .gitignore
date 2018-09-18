@@ -4,3 +4,4 @@ Dockerfile
 docker-compose.yml
 .idea
 sh.exe.stackdump
+bower_components

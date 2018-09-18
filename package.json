@@ -4,7 +4,8 @@
   "description": "Tame your media",
   "main": "index.js",
   "scripts": {
-    "start": "node bin/www.js"
+    "start": "node bin/www.js",
+    "postinstall": "bower install"
   },
   "dependencies": {
     "pg": "5.2.1",
@@ -17,7 +18,8 @@
     "request": "2.86.0",
     "cors": "2.8.4",
     "express-jwt": "5.3.1",
-    "underscore": "1.9.0"
+    "underscore": "1.9.0",
+    "bower": "1.8.4"
   },
   "engines": {
     "node": "8.11.2",
