@@ -1,9 +1,0 @@
-{
-  "name": "media-mogul-public",
-  "version": "0.2.0",
-  "description": "Tame your media",
-  "main": "index.html",
-  "dependencies": {
-  },
-  "license": "UNLICENSED"
-}
