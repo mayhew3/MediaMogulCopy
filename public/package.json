@@ -4,7 +4,6 @@
   "description": "Tame your media",
   "main": "index.html",
   "dependencies": {
-    "angular-lock": "3.0.0"
   },
   "license": "UNLICENSED"
 }
