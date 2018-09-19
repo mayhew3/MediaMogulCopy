@@ -102,35 +102,17 @@ angular.module('mediaMogulApp', ['auth0.lock', 'angular-storage', 'angular-jwt',
       $locationProvider.hashPrefix('');
       $locationProvider.html5Mode(true);
 
-      lockProvider.init({
-        domain: 'mayhew3.auth0.com',
-        clientID: 'QdwQv7LcXgmiUpYhXnTYyGQsXie2UQNb',
-        options: {
-          auth: {
-            responseType: 'token id_token',
-            audience: 'https://mayhew3.auth0.com/userinfo',
-            params: {
-              scope: 'openid profile email'
-            }
-          }
-        }
-      });
-
-      function redirect($q, $injector, $timeout, store, $location) {
-        var auth;
+      function redirect($q, $injector, $timeout) {
+        var lockService;
         $timeout(function() {
-          auth = $injector.get('lock');
+          lockService = $injector.get('LockService');
         });
 
         return {
-          responseError: function(rejection) {
+          function(rejection) {
 
             if (rejection.status === 401) {
-              auth.signout();
-              store.remove('profile');
-              store.remove('token');
-              store.remove('public_id');
-              $location.path('/');
+              lockService.signout();
             }
             return $q.reject(rejection);
           }
@@ -143,8 +125,8 @@ angular.module('mediaMogulApp', ['auth0.lock', 'angular-storage', 'angular-jwt',
 
       //Angular HTTP Interceptor function
       jwtInterceptorProvider.tokenGetter =
-        ['store', '$http', 'jwtHelper', 'lock',
-          function(store, $http, jwtHelper, lock) {
+        ['store', '$http', 'jwtHelper', 'LockService',
+          function(store, $http, jwtHelper, LockService) {
             var token = store.get('token');
             var refreshToken = store.get('refreshToken');
             if (token) {
@@ -154,7 +136,7 @@ angular.module('mediaMogulApp', ['auth0.lock', 'angular-storage', 'angular-jwt',
                 console.log("RefreshToken: " + refreshToken);
                 if (refreshingToken === null) {
                   if (refreshToken !== null) {
-                    refreshingToken = lock.refreshIdToken(refreshToken).then(function (idToken) {
+                    refreshingToken = LockService.lock.refreshIdToken(refreshToken).then(function (idToken) {
                       store.set('token', idToken);
                       return idToken;
                     }, function(err) {
@@ -176,9 +158,10 @@ angular.module('mediaMogulApp', ['auth0.lock', 'angular-storage', 'angular-jwt',
       $httpProvider.interceptors.push('jwtInterceptor');
 
     }])
-  .run(['$rootScope', 'lock', 'store', 'jwtHelper', '$location',
-    function($rootScope, lock, store, jwtHelper, $location) {
+  .run(['$rootScope', 'LockService', 'store', 'jwtHelper', '$location',
+    function($rootScope, LockService, store, jwtHelper, $location) {
 
+      var lock = LockService.lock;
       var refreshingToken = null;
       $rootScope.$on('$locationChangeStart', function() {
         // Get the JWT that is saved in local storage
@@ -247,7 +230,7 @@ angular.module('mediaMogulApp', ['auth0.lock', 'angular-storage', 'angular-jwt',
     return {
       link: function(scope, element, attrs) {
         element.bind('error', function() {
-          if (attrs.src != attrs.errSrc) {
+          if (attrs.src !== attrs.errSrc) {
             attrs.$set('src', attrs.errSrc);
             if (scope.show) {
               console.log("Error reading image for series '" + scope.show.title + "'.");
